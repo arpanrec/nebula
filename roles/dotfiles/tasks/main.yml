@@ -1,0 +1,40 @@
+---
+- name: Dotfiles | Prerequisites
+  ansible.builtin.import_tasks: prerequisites.yml
+
+- name: Dotfiles | Cloning git bare
+  ansible.builtin.git:
+    single_branch: true
+    repo: "{{ rv_dotfiles_git_remote }}"
+    dest: "{{ rv_dotfiles_user_home_dir }}/{{ rv_dotfiles_bare_relative_dir }}"
+    bare: true
+    version: "{{ rv_dotfiles_git_version }}"
+  register: pv_ua_dotrepo_update
+
+- name: Dotfiles | Set git config
+  ansible.builtin.template:
+    src: templates/dotfiles.gitconfig.j2
+    dest: "{{ rv_dotfiles_user_home_dir }}/{{ rv_dotfiles_bare_relative_dir }}/config"
+    mode: "0600"
+
+- name: Dotfiles | Check if ~/.aliasrc is present
+  ansible.builtin.stat:
+    path: "{{ rv_dotfiles_user_home_dir }}/.aliasrc"
+  register: rv_dotfiles_tmp_aliasrc_stat
+
+- name: Dotfiles | Ensure config alias is set in ~/.aliasrc
+  when: rv_dotfiles_tmp_aliasrc_stat.stat.exists
+  ansible.builtin.lineinfile:
+    path: "{{ rv_dotfiles_user_home_dir }}/.aliasrc"
+    line: 'alias config=''git --git-dir="$HOME/{{ rv_dotfiles_bare_relative_dir }}" --work-tree=$HOME'''
+
+- name: Dotfiles | Ensure config alias is set in ~/.bashrc and ~/.zshrc
+  ansible.builtin.lineinfile:
+    path: "{{ item }}"
+    line: 'alias config=''git --git-dir="$HOME/{{ rv_dotfiles_bare_relative_dir }}" --work-tree=$HOME'''
+    create: true
+    mode: "0700"
+  loop:
+    - "{{ rv_dotfiles_user_home_dir }}/.bashrc"
+    - "{{ rv_dotfiles_user_home_dir }}/.zshrc"
+  when: not rv_dotfiles_tmp_aliasrc_stat.stat.exists

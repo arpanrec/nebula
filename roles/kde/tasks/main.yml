@@ -1,0 +1,16 @@
+---
+- name: KDE | Prerequisites
+  ansible.builtin.import_tasks: prerequisites.yml
+
+- name: KDE | Create Konsave Profiles Directory
+  ansible.builtin.file:
+    path: "{{ ansible_facts.user_dir }}/.config/konsave/profiles"
+    state: directory
+    mode: "0700"
+
+- name: KDE | Upload Konsave Profiles
+  ansible.builtin.unarchive:
+    src: files/konsave.tar.gz
+    dest: "{{ ansible_facts.user_dir }}/.config/konsave/profiles"
+    remote_src: false
+  notify: KDE | Install konsave

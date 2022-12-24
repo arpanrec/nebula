@@ -1,0 +1,13 @@
+# Managed by Ansible
+[Desktop Entry]
+Name=Bitwarden - Userapps
+Exec="{{  rv_bitwarden_desktop_install_path  }}/{{  pv_ua_bitwarden_download_url_map[ansible_facts.architecture] | basename  }}"
+Icon=com.bitwarden.desktop
+Version=1.0
+Terminal=false
+Type=Application
+StartupWMClass=Bitwarden
+GenericName=Password Manager
+Comment=A secure and free password manager for all of your devices.
+MimeType=x-scheme-handler/bitwarden;
+Categories=Utility;

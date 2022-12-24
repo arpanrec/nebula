@@ -1,0 +1,8 @@
+---
+- name: Bitwarden Desktop | Molecule | Converge
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Bitwarden Desktop | Molecule | Converge | Include Bitwarden Desktop
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.bitwarden_desktop

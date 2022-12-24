@@ -1,0 +1,22 @@
+---
+- name: Vault Post Install Steps | Get Vault Health Status
+  ansible.builtin.uri:
+    url: "{{ rv_hashicorp_vault_post_install_action_api_addr }}/v1/sys/health"
+    method: GET
+    return_content: true
+    body_format: json
+    validate_certs: false
+    status_code: [501, 503, 200]
+  register: pv_vault_health_status
+  retries: 3
+  delay: 5
+  until:
+    - pv_vault_health_status.status in [501, 503, 200]
+
+- name: Vault Post Install Steps | Include Initialize Tasks
+  ansible.builtin.include_tasks: initialize.yml
+  when: rv_hashicorp_vault_post_install_action_initialize
+
+- name: Vault Post Install Steps | Setup Cron Job
+  ansible.builtin.include_tasks: cron.yml
+  when: rv_hashicorp_vault_post_install_action_setup_auto_unseal_cron

@@ -1,0 +1,83 @@
+---
+- name: Visual Studio Code | Prerequisites
+  ansible.builtin.import_tasks: prerequisites.yml
+
+- name: Visual Studio Code | Set Fact for code bin environment
+  ansible.builtin.set_fact:
+    rv_code_tmp_bin_env:
+      DONT_PROMPT_WSL_INSTALL: true
+      PATH: "{{ rv_code_bin_dir }}:{{ ansible_env.PATH }}"
+
+- name: Visual Studio Code | Set Version
+  when: rv_code_version is undefined
+  block:
+    - name: Visual Studio Code | Set Version | Get latest releases from github
+      ansible.builtin.uri:
+        url: "https://api.github.com/repos/microsoft/vscode/releases/latest"
+        method: GET
+        return_content: true
+        headers:
+          Accept: "application/vnd.github.v3+json"
+        status_code: 200
+      register: rv_code_tmp_latest_release
+
+    - name: Visual Studio Code | Set Version | Set Version Number
+      ansible.builtin.set_fact:
+        rv_code_version: "{{ rv_code_tmp_latest_release.json.tag_name }}"
+
+- name: Visual Studio Code | Get downloaded file stat
+  ansible.builtin.stat:
+    path: "{{ rv_code_tarball_download_path }}"
+  register: pv_ua_code_tmp_downloaded_file_stat
+
+- name: Visual Studio Code | Install
+  when: not pv_ua_code_tmp_downloaded_file_stat.stat.exists
+  block:
+    - name: Visual Studio Code | Install | Create install directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0700"
+      with_items:
+        - "{{ rv_code_tmp_dir }}"
+        - "{{ rv_code_bin_dir }}"
+        - "{{ rv_code_xdg_icon_dir }}"
+        - "{{ rv_code_install_path }}"
+
+    - name: Visual Studio Code | Install | Download tarball
+      ansible.builtin.get_url:
+        url: "{{ rv_code_download_url_map[ansible_facts.architecture] }}"
+        dest: "{{ rv_code_tarball_download_path }}"
+        mode: "0700"
+
+    - name: Visual Studio Code | Install | Unarchive the tarball
+      ansible.builtin.unarchive:
+        src: "{{ rv_code_tarball_download_path }}"
+        dest: "{{ rv_code_install_path }}"
+        extra_opts: [--strip-components=1]
+        remote_src: true
+
+    - name: Visual Studio Code | Install | Create symlink to bin
+      ansible.builtin.file:
+        src: "{{ rv_code_install_path }}/bin/code"
+        dest: "{{ rv_code_bin_dir }}/code"
+        state: link
+
+    - name: Visual Studio Code | Install | Create desktop icon
+      ansible.builtin.template:
+        src: templates/code-userapps.desktop.j2
+        dest: "{{ rv_code_xdg_icon_path }}"
+        mode: "0600"
+
+    - name: Visual Studio Code | Install | Create URL handler
+      ansible.builtin.template:
+        src: templates/code-url-handler-userapps.desktop.j2
+        dest: "{{ rv_code_xdg_uri_handler_path }}"
+        mode: "0600"
+
+- name: Visual Studio Code | Install Extensions
+  ansible.builtin.include_tasks: code_extensions.yml
+  with_items: "{{ rv_code_ext_to_be_installed }}"
+
+- name: Visual Studio Code | Copy Config
+  ansible.builtin.import_tasks: code_config.yml

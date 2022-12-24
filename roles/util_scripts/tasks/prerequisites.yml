@@ -1,0 +1,24 @@
+---
+- name: Scripts | Prerequisites | Fail if Root User
+  ansible.builtin.command: whoami
+  register: rl_sw_current_shelluser_shell_result
+  failed_when: rl_sw_current_shelluser_shell_result.stdout == "root"
+  changed_when: false
+
+- name: Scripts | Prerequisites | Packages are present
+  ansible.builtin.shell: "command -v {{ item }} >/dev/null 2>&1"
+  changed_when: false
+  with_items:
+    - git
+
+- name: Scripts | Prerequisites | Gather Facts
+  ansible.builtin.setup:
+
+- name: Scripts | Prerequisites | Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0700"
+  with_items:
+    - "{{ rv_util_scripts_tmp_dir }}"
+    - "{{ rv_util_scripts_bin_dir }}"

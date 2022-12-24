@@ -1,0 +1,38 @@
+---
+dependency:
+  name: galaxy
+  enabled: true
+  options:
+    ignore-certs: false
+    ignore-errors: false
+    role-file: requirements.yml
+    requirements-file: requirements.yml
+driver:
+  name: docker
+platforms:
+  - name: debian_role_mattermost_desktop
+    image: debian
+    hostname: debian_role_mattermost_desktop
+    dockerfile: Dockerfile.j2
+    pre_build_image: false
+provisioner:
+  name: ansible
+  playbooks:
+    converge: converge.yml
+scenario:
+  converge_sequence:
+    - converge
+  test_sequence:
+    - lint
+    - syntax
+    - create
+    - converge
+    - idempotence
+    - destroy
+verifier:
+  name: ansible
+lint: |
+  set -e
+  yamllint roles/mattermost_desktop
+  ansible-lint roles/mattermost_desktop
+  flake8 roles/mattermost_desktop

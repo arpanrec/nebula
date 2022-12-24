@@ -1,0 +1,6 @@
+---
+rv_postman_download_url_map:
+  x86_64: "https://dl.pstmn.io/download/latest/linux64"
+rv_postman_url_head_content_disposition: "{{ pv_ua_postman_url_head_run.content_disposition | split('=') }}"
+rv_postman_url_head_filename: "{{ rv_postman_url_head_content_disposition[1] }}"
+rv_postman_tarball_download_path: "{{ rv_postman_user_tmp_dir }}/{{ rv_postman_url_head_filename }}"

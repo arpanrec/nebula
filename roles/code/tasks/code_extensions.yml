@@ -1,0 +1,20 @@
+---
+- name: Visual Studio Code | Extension | Get currently installed | {{ item }}
+  ansible.builtin.command: code --list-extensions
+  register: pv_ua_code_tmp_ext_installed_list_shell
+  environment: "{{ rv_code_tmp_bin_env }}"
+  changed_when: false
+
+- name: Visual Studio Code | Extension | Installed extentsion | {{ item }}
+  ansible.builtin.debug:
+    var: pv_ua_code_tmp_ext_installed_list_shell
+
+- name: Visual Studio Code | Extension | Install | {{ item }}
+  ansible.builtin.command: "code --install-extension {{ item }}"
+  register: pv_ua_code_tmp_ext_install_result
+  when: item | lower not in pv_ua_code_tmp_ext_installed_list_shell | lower
+  environment: "{{ rv_code_tmp_bin_env }}"
+
+- name: Visual Studio Code | Extension | Install result | {{ item }}
+  ansible.builtin.debug:
+    var: pv_ua_code_tmp_ext_install_result

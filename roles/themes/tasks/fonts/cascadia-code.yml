@@ -1,0 +1,45 @@
+---
+- name: Themes | Fonts | Cascadia Code | Get latest releases
+  ansible.builtin.uri:
+    url: "https://api.github.com/repos/microsoft/cascadia-code/releases/latest"
+    method: GET
+    return_content: true
+    headers:
+      Accept: "application/vnd.github.v3+json"
+    status_code: 200
+  register: pv_ua_fonts_cascadia_latest_release
+
+- name: Themes | Fonts | Cascadia Code | Get downloaded file stat
+  ansible.builtin.stat:
+    path: "{{ rv_themes_fonts_cascadia_download_path }}"
+  register: pv_ua_fonts_cascadia_tmp_downloaded_file_stat
+
+- name: Themes | Fonts | Cascadia Code | Install
+  when: not pv_ua_fonts_cascadia_tmp_downloaded_file_stat.stat.exists
+  block:
+    - name: Themes | Fonts | Cascadia Code | Install | Download bin
+      ansible.builtin.get_url:
+        url: "{{ rv_themes_fonts_cascadia_download_url }}"
+        dest: "{{ rv_themes_fonts_cascadia_download_path }}"
+        mode: "0700"
+
+    - name: Themes | Fonts | Cascadia Code | Install | Create Directory
+      ansible.builtin.file:
+        path: "{{ rv_themes_user_share_dir }}/fonts/cascadia-code"
+        state: directory
+        mode: "0700"
+
+    - name: Themes | Fonts | Cascadia Code | Install | Copy to Fonts Directory
+      ansible.builtin.unarchive:
+        src: "{{ rv_themes_fonts_cascadia_download_path }}"
+        dest: "{{ rv_themes_user_share_dir }}/fonts/cascadia-code"
+        remote_src: true
+
+    - name: Themes | Fonts | Cascadia Code | Install | Update font cache
+      ansible.builtin.command: "fc-cache -f -v {{ rv_themes_user_share_dir }}/fonts/cascadia-code"
+      register: pv_ua_fonts_cascadia_update_cache_result
+      changed_when: true
+
+    - name: Themes | Fonts | Cascadia Code | Install | Update Result
+      ansible.builtin.debug:
+        var: pv_ua_fonts_cascadia_update_cache_result

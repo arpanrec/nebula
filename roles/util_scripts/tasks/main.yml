@@ -1,0 +1,12 @@
+---
+- name: Scripts | Prerequisites
+  ansible.builtin.import_tasks: prerequisites.yml
+
+- name: Scripts | Git Clone
+  ansible.builtin.git:
+    single_branch: true
+    repo: "https://github.com/arpanrec/util_scripts.git"
+    dest: "{{ rv_util_scripts_tmp_git_clone_dir }}"
+    depth: 1
+    version: main
+  notify: Scripts | Copy Resources

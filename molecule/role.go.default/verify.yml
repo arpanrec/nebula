@@ -1,0 +1,26 @@
+---
+- name: Golang | Molecule | Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Golang | Molecule | Verify | Import Roles for variables
+      ansible.builtin.import_role:
+        name: arpanrec.utilities.go
+        tasks_from: prerequisites
+
+    - name: Golang | Molecule | Verify | Get go version from shell
+      ansible.builtin.command: go version
+      environment:
+        PATH: "{{ rv_golang_install_path }}/bin:{{ ansible_env.PATH }}"
+      register: rv_golang_tmp_version_shell_result
+      changed_when: false
+
+    - name: Golang | Molecule | Verify | go version from shell result
+      ansible.builtin.debug:
+        var: rv_golang_tmp_version_shell_result
+
+    - name: Golang | Molecule | Verify | Fail if Go version is not present
+      ansible.builtin.assert:
+        that: rv_golang_tmp_version_shell_result.stdout is match("go version go{{ rv_golang_version }}.*")
+        success_msg: Go Version {{ rv_golang_version }} is installed
+        fail_msg: Go Version {{ rv_golang_version }} is not installed, Shell result {{ rv_golang_tmp_version_shell_result.stdout }}

@@ -1,0 +1,109 @@
+---
+- name: Terraform Cloud Management | Workspaces | Mandatory variable check | workspace name
+  ansible.builtin.fail:
+    msg: rl_tef_workspace_name is not defined
+  when: workspaces.rl_tef_workspace_name is not defined
+
+- name: Terraform Cloud Management | Workspaces | Mandatory variable check | execution_mode | {{ workspaces.rl_tef_workspace_name }}
+  ansible.builtin.fail:
+    msg: "execution_mode: {{ workspaces.execution_mode }} is not in - remote, local or agent"
+  when: >
+    workspaces.execution_mode is defined and workspaces.execution_mode | length > 1 and
+    workspaces.execution_mode not in ["remote", "local", "agent"]
+
+- name: Terraform Cloud Management | Workspaces | Reset new Workspace stat | {{ workspaces.rl_tef_workspace_name }}
+  ansible.builtin.set_fact:
+    rl_tef_workspace_is_newly_created: false
+
+- name: Terraform Cloud Management | Workspaces | Get Workspaces | {{ workspaces.rl_tef_workspace_name }}
+  no_log: "{{ rl_tef_api_debug_no_log }}"
+  ansible.builtin.uri:
+    url: "{{ rl_tef_api_endpoint }}/organizations/{{ rl_tef_org_name }}/workspaces/{{ workspaces.rl_tef_workspace_name }}"
+    headers:
+      Authorization: "Bearer {{ rl_tef_api_token }}"
+      content-type: "application/vnd.api+json"
+    status_code: 200,404
+  register: rl_tef_workspace_response
+
+- name: Terraform Cloud Management | Workspaces | Create workspace | {{ workspaces.rl_tef_workspace_name }}
+  when: rl_tef_workspace_response.status == 404
+  block:
+    - name: Terraform Cloud Management | Workspaces | Create workspace | Create new workspace | {{ workspaces.rl_tef_workspace_name }}
+      no_log: "{{ rl_tef_api_debug_no_log }}"
+      ansible.builtin.uri:
+        method: POST
+        url: "{{ rl_tef_api_endpoint }}/organizations/{{ rl_tef_org_name }}/workspaces"
+        body_format: json
+        body:
+          data:
+            type: "workspaces"
+            attributes:
+              name: "{{ workspaces.rl_tef_workspace_name }}"
+              auto-apply: "{{ auto_apply | default(omit) | bool }}"
+              execution-mode: "{{ workspaces.execution_mode | default(omit) }}"
+        status_code: 201
+        headers:
+          Authorization: "Bearer {{ rl_tef_api_token }}"
+          content-type: "application/vnd.api+json"
+      register: rl_tef_workspace_create_response
+      changed_when: rl_tef_workspace_create_response.status == 201
+      failed_when: rl_tef_workspace_create_response.status != 201
+
+    - name: Terraform Cloud Management | Workspaces | Create workspace | Get new Workspace details | {{ workspaces.rl_tef_workspace_name }}
+      no_log: "{{ rl_tef_api_debug_no_log }}"
+      ansible.builtin.uri:
+        url: "{{ rl_tef_api_endpoint }}/organizations/{{ rl_tef_org_name }}/workspaces/{{ workspaces.rl_tef_workspace_name }}"
+        headers:
+          Authorization: "Bearer {{ rl_tef_api_token }}"
+          content-type: "application/vnd.api+json"
+        status_code: 200
+      register: rl_tef_workspace_deatils_create_response
+
+    - name: Terraform Cloud Management | Workspaces | Create workspace | Reset fact with new | {{ workspaces.rl_tef_workspace_name }}
+      ansible.builtin.set_fact:
+        rl_tef_workspace_response: "{{ rl_tef_workspace_deatils_create_response }}"
+        rl_tef_workspace_is_newly_created: true
+      when: rl_tef_workspace_create_response.changed
+
+- name: Terraform Cloud Management | Workspaces | Update Workspace | {{ workspaces.rl_tef_workspace_name }}
+  when: not rl_tef_workspace_is_newly_created
+  block:
+    - name: Terraform Cloud Management | Workspaces | Update Workspace | auto-apply | {{ workspaces.rl_tef_workspace_name }}
+      no_log: "{{ rl_tef_api_debug_no_log }}"
+      when: (rl_tef_workspace_response.json.data.attributes["auto-apply"] | bool) != (workspaces.auto_apply | bool)
+      ansible.builtin.uri:
+        method: PATCH
+        url: "{{ rl_tef_api_endpoint }}/organizations/{{ rl_tef_org_name }}/workspaces/{{ workspaces.rl_tef_workspace_name }}"
+        body_format: json
+        body:
+          data:
+            type: "workspaces"
+            attributes:
+              auto-apply: "{{ workspaces.auto_apply | default(omit) | bool }}"
+        status_code: 200
+        headers:
+          Authorization: "Bearer {{ rl_tef_api_token }}"
+          content-type: "application/vnd.api+json"
+      register: rl_tef_workspace_update_auto_apply_response
+      changed_when: rl_tef_workspace_update_auto_apply_response.status == 200
+
+    - name: Terraform Cloud Management | Workspaces | Update Workspace | execution-mode | {{ workspaces.rl_tef_workspace_name }}
+      no_log: "{{ rl_tef_api_debug_no_log }}"
+      when: >
+        workspaces.execution_mode is defined and workspaces.execution_mode | length > 1 and
+        (rl_tef_workspace_response.json.data.attributes["execution-mode"]) != (workspaces.execution_mode)
+      ansible.builtin.uri:
+        method: PATCH
+        url: "{{ rl_tef_api_endpoint }}/organizations/{{ rl_tef_org_name }}/workspaces/{{ workspaces.rl_tef_workspace_name }}"
+        body_format: json
+        body:
+          data:
+            type: "workspaces"
+            attributes:
+              execution-mode: "{{ workspaces.execution_mode }}"
+        status_code: 200
+        headers:
+          Authorization: "Bearer {{ rl_tef_api_token }}"
+          content-type: "application/vnd.api+json"
+      register: rl_tef_workspace_update_auto_apply_response
+      changed_when: rl_tef_workspace_update_auto_apply_response.status == 200

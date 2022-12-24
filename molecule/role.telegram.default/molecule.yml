@@ -1,0 +1,45 @@
+---
+dependency:
+  name: galaxy
+  enabled: true
+  options:
+    ignore-certs: false
+    ignore-errors: false
+    role-file: requirements.yml
+    requirements-file: requirements.yml
+driver:
+  name: docker
+platforms:
+  - name: debian_role_telegram_default
+    hostname: debian_role_telegram_default
+    image: debian
+    dockerfile: Dockerfile.j2
+    pre_build_image: false
+provisioner:
+  name: ansible
+  playbooks:
+    converge: converge.yml
+scenario:
+  name: role.telegram.default
+  create_sequence:
+    - dependency
+    - create
+  destroy_sequence:
+    - destroy
+  converge_sequence:
+    - converge
+  test_sequence:
+    - lint
+    - syntax
+    - dependency
+    - create
+    - converge
+    - idempotence
+    - destroy
+verifier:
+  name: ansible
+lint: |
+  set -e
+  yamllint roles/telegram
+  ansible-lint roles/telegram
+  flake8 roles/telegram

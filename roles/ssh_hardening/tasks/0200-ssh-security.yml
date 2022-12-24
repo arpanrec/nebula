@@ -1,0 +1,74 @@
+---
+- name: SSHD Hardening | Enable/Disable Password Authentication
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^PasswordAuthentication"
+    line: "PasswordAuthentication {{ rv_sshd_hardening_ssh_security_password_authentication | ternary('yes', 'no') }}"
+    state: present
+  when: rv_sshd_hardening_ssh_security_password_authentication is defined and rv_sshd_hardening_ssh_security_password_authentication != None
+  notify:
+    - "SSH Hardening | Restart openssh server"
+
+- name: SSHD Hardening | Enable/Disable Root Login
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^PermitRootLogin"
+    line: "PermitRootLogin {{ rv_sshd_hardening_ssh_security_permit_root_login | ternary('yes', 'no') }}"
+    state: present
+  when: >
+    rv_sshd_hardening_ssh_security_permit_root_login is defined
+    and rv_sshd_hardening_ssh_security_permit_root_login != None
+  notify:
+    - "SSH Hardening | Restart openssh server"
+
+- name: SSHD Hardening | Enable/Disable Permit Empty Passwords
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^PermitEmptyPasswords"
+    line: "PermitEmptyPasswords {{ rv_sshd_hardening_ssh_security_permit_empty_passwords | ternary('yes', 'no') }}"
+    state: present
+  when: >
+    rv_sshd_hardening_ssh_security_permit_empty_passwords is defined
+    and rv_sshd_hardening_ssh_security_permit_empty_passwords != None
+  notify:
+    - "SSH Hardening | Restart openssh server"
+
+- name: SSHD Hardening | MAX authentication retry
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^MaxAuthTries"
+    line: "MaxAuthTries {{ rv_sshd_hardening_ssh_security_max_auth_tries }}"
+    state: present
+  when: rv_sshd_hardening_ssh_security_max_auth_tries is defined and rv_sshd_hardening_ssh_security_max_auth_tries != None
+  notify:
+    - "SSH Hardening | Restart openssh server"
+
+- name: SSHD Hardening | Enable/Disable X11Forwarding
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^X11Forwarding"
+    line: "X11Forwarding {{ rv_sshd_hardening_ssh_security_x11_forwarding | ternary('yes', 'no') }}"
+    state: present
+  when: rv_sshd_hardening_ssh_security_x11_forwarding is defined and rv_sshd_hardening_ssh_security_x11_forwarding != None
+  notify:
+    - "SSH Hardening | Restart openssh server"
+
+- name: SSHD Hardening | Client Alive Interval
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^ClientAliveInterval"
+    line: "ClientAliveInterval {{ rv_sshd_hardening_ssh_security_client_alive_interval }}"
+    state: present
+  when: rv_sshd_hardening_ssh_security_client_alive_interval is defined and rv_sshd_hardening_ssh_security_client_alive_interval != None
+  notify:
+    - "SSH Hardening | Restart openssh server"
+
+- name: SSHD Hardening | Client Alive Count Max
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^ClientAliveCountMax"
+    line: "ClientAliveCountMax {{ rv_sshd_hardening_ssh_security_client_alive_count_max }}"
+    state: present
+  when: rv_sshd_hardening_ssh_security_client_alive_count_max is defined and rv_sshd_hardening_ssh_security_client_alive_count_max != None
+  notify:
+    - "SSH Hardening | Restart openssh server"

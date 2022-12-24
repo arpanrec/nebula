@@ -1,0 +1,36 @@
+---
+- name: Golang | Prerequisites
+  ansible.builtin.import_tasks: prerequisites.yml
+
+- name: Golang | Create install directory
+  ansible.builtin.file:
+    path: "{{ rv_golang_install_path }}"
+    state: directory
+    mode: "0700"
+
+- name: Golang | Get downloaded file stat
+  ansible.builtin.stat:
+    path: "{{ rv_golang_tarball_download_path }}"
+  register: pv_ua_golang_downloaded_file_stat
+
+- name: Golang | Newly downloaded
+  when: not pv_ua_golang_downloaded_file_stat.stat.exists
+  block:
+    - name: Golang | Newly downloaded | Create Download Directory
+      ansible.builtin.file:
+        path: "{{ rv_golang_tmp_dir }}"
+        state: directory
+        mode: "0700"
+
+    - name: Golang | Newly downloaded | Download tarball
+      ansible.builtin.get_url:
+        url: "{{ rv_golang_download_url_arch_map[ansible_facts.architecture] }}"
+        dest: "{{ rv_golang_tarball_download_path }}"
+        mode: "0700"
+
+    - name: Golang | Newly downloaded | Unarchive the tarball
+      ansible.builtin.unarchive:
+        src: "{{ rv_golang_tarball_download_path }}"
+        dest: "{{ rv_golang_install_path }}"
+        extra_opts: [--strip-components=1]
+        remote_src: true

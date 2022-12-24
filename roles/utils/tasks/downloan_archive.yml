@@ -1,0 +1,50 @@
+---
+#  rv_common_Download_archive_url :: Download URL
+#  rv_common_download_archive_url_headers :: Download URL headers
+#  rv_common_Download_archive_location :: where to download the archive
+#  rv_common_Download_archive_directory_location :: Where to extract the downloaded archive
+#  rv_common_download_archive_unarchive_extra_opts :: extra options while unarchiving
+- name: Common | Download Archive | Mandatory Checks
+  ansible.builtin.assert:
+    that:
+      - "{{ item }} is defined"
+      - "{{ item }} != None"
+    fail_msg: "{{ item }} is not defined, it should be present"
+    success_msg: "{{ item }} is defined"
+  with_items:
+    - rv_common_Download_archive_url
+    - rv_common_Download_archive_location
+    - rv_common_Download_archive_directory_location
+
+- name: Common | Download Archive | Downloading the archive
+  ansible.builtin.get_url:
+    url: "{{ rv_common_Download_archive_url }}"
+    headers: "{{ rv_common_download_archive_url_headers | default(omit) }}"
+    dest: "{{ rv_common_Download_archive_location }}"
+    mode: "0777"
+
+- name: Common | Download Archive | Creating destination directory
+  ansible.builtin.file:
+    path: "{{ rv_common_Download_archive_directory_location }}"
+    state: directory
+    mode: "0750"
+
+- name: Common | Download Archive | Extracting the zip in {{ rv_common_Download_archive_directory_location }}
+  ansible.builtin.unarchive:
+    src: "{{ rv_common_Download_archive_location }}"
+    dest: "{{ rv_common_Download_archive_directory_location }}"
+    remote_src: true
+    extra_opts: "{{ rv_common_download_archive_unarchive_extra_opts | default(omit) }}"
+
+- name: Common | Download Archive | Removing downloaded archive files
+  ansible.builtin.file:
+    path: "{{ rv_common_Download_archive_location }}"
+    state: absent
+
+- name: Common | Download Archive | Set dummy variables for rv_common_download_archive_url_headers post download
+  ansible.builtin.set_fact:
+    rv_common_download_archive_url_headers: {}
+
+- name: Common | Download Archive | Set dummy variables for rv_common_download_archive_unarchive_extra_opts post download
+  ansible.builtin.set_fact:
+    rv_common_download_archive_unarchive_extra_opts: []

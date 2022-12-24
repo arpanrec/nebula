@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  platforms:
+    - name: Debian
+      versions:
+        - bullseye
+    - name: ArchLinux
+      versions:
+        - "all"
+  role_name: ssh_hardening
+  author: arpan m
+  namespace: arpanrec
+  description: SSH Harding
+  license: MIT
+  min_ansible_version: "2.1"

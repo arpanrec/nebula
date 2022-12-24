@@ -1,0 +1,36 @@
+---
+- name: Oracle JDK | Prerequisites
+  ansible.builtin.import_tasks: prerequisites.yml
+
+- name: Oracle JDK | Create install directory
+  ansible.builtin.file:
+    path: "{{ rv_jdk_install_path }}"
+    state: directory
+    mode: "0700"
+
+- name: Oracle JDK | Get downloaded file stat
+  ansible.builtin.stat:
+    path: "{{ rv_jdk_tarball_download_path }}"
+  register: pv_ua_jdk_downloaded_file_stat
+
+- name: Oracle JDK | Newly Downloaded
+  when: not pv_ua_jdk_downloaded_file_stat.stat.exists
+  block:
+    - name: Oracle JDK | Download tarball
+      ansible.builtin.get_url:
+        url: "{{ rv_jdk_download_url_map[rv_jdk_version][ansible_facts.architecture] }}"
+        dest: "{{ rv_jdk_tarball_download_path }}"
+        mode: "0700"
+
+    - name: Oracle JDK | Unarchive the tarball
+      ansible.builtin.unarchive:
+        src: "{{ rv_jdk_tarball_download_path }}"
+        dest: "{{ rv_jdk_install_path }}"
+        extra_opts: [--strip-components=1]
+        remote_src: true
+
+- name: Oracle JDK | Maven
+  ansible.builtin.import_tasks: mvn.yml
+
+- name: Oracle JDK | Gradle
+  ansible.builtin.import_tasks: gradle.yml

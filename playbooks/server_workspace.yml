@@ -1,0 +1,167 @@
+---
+- name: Installing apps in user $HOME directory
+  hosts: all
+  become: false
+  gather_facts: true
+  tasks:
+    - name: USERAPPS | Dotfiles
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.dotfiles
+      args:
+        apply:
+          tags:
+            - dotfiles
+      tags:
+        - dotfiles
+
+    - name: USERAPPS | Util Scripts
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.util_scripts
+      args:
+        apply:
+          tags:
+            - scripts
+      tags:
+        - scripts
+
+    - name: USERAPPS | Install Bitwarden
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.bitwarden_desktop
+      args:
+        apply:
+          tags:
+            - bitwarden_desktop
+            - never
+      tags:
+        - bitwarden_desktop
+        - never
+
+    - name: USERAPPS | Bitwarden CLI
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.bw
+      args:
+        apply:
+          tags:
+            - bw
+      tags:
+        - bw
+
+    - name: USERAPPS | Mattermost
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.mattermost_desktop
+      args:
+        apply:
+          tags:
+            - mattermost_desktop
+            - never
+      tags:
+        - mattermost_desktop
+        - never
+
+    - name: USERAPPS | Telegram
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.telegram
+      args:
+        apply:
+          tags:
+            - telegram
+            - never
+      tags:
+        - telegram
+        - never
+
+    - name: USERAPPS | NodeJS
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.nodejs
+      tags:
+        - nodejs
+      args:
+        apply:
+          tags:
+            - nodejs
+
+    - name: USERAPPS | NeoVIM
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.nvim
+      tags:
+        - nvim
+      args:
+        apply:
+          tags:
+            - nvim
+
+    - name: USERAPPS | Postman
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.postman
+      tags:
+        - postman
+        - never
+      args:
+        apply:
+          tags:
+            - postman
+            - never
+
+    - name: USERAPPS | Go Language
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.go
+      tags:
+        - go
+      args:
+        apply:
+          tags:
+            - go
+
+    - name: USERAPPS | Oracle Java
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.java
+      tags:
+        - java
+      args:
+        apply:
+          tags:
+            - java
+
+    - name: USERAPPS | Visual Studio Code
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.code
+      tags:
+        - code
+        - never
+      args:
+        apply:
+          tags:
+            - code
+            - never
+
+    - name: USERAPPS | Themes
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.themes
+      tags:
+        - themes
+      args:
+        apply:
+          tags:
+            - themes
+
+    - name: USERAPPS | KDE
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.kde
+      tags:
+        - kde
+      args:
+        apply:
+          tags:
+            - kde
+
+    - name: USERAPPS | Gnome Setup
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.gnome
+      tags:
+        - gnome
+        - never
+      args:
+        apply:
+          tags:
+            - gnome
+            - never

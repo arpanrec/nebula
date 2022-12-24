@@ -1,0 +1,8 @@
+---
+- name: Gnome | Molecule | Converge
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Gnome | Molecule | Converge | Include Gnome
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.gnome

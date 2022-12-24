@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  role_name: linux_patching
+  author: arpan m
+  license: MIT
+  description: Install basic packages in linux
+  min_ansible_version: "2"
+  platforms:
+    - name: Debian
+      versions:
+        - bullseye
+        - buster
+  galaxy_tags:
+    - system
+    - packages
+  namespace: arpanrec

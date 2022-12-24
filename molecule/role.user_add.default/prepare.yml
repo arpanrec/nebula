@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Bootstrap a host without python installed
+      ansible.builtin.raw: apt update && apt install python3 -y
+      changed_when: true

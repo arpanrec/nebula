@@ -1,0 +1,8 @@
+---
+- name: KDE | Molecule | Converge
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: KDE | Molecule | Converge | Include KDE
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.kde

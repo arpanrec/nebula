@@ -1,0 +1,10 @@
+---
+- name: Dotfiles | Molecule | Converge
+  hosts: all
+  gather_facts: false
+  become: false
+  any_errors_fatal: true
+  tasks:
+    - name: Dotfiles | Molecule | Converge | Role
+      ansible.builtin.import_role:
+        name: arpanrec.utilities.dotfiles

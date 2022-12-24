@@ -1,0 +1,55 @@
+---
+dependency:
+  name: galaxy
+  enabled: true
+  options:
+    ignore-certs: false
+    ignore-errors: false
+    role-file: requirements.yml
+    requirements-file: requirements.yml
+driver:
+  name: docker
+platforms:
+  - name: debian_role_code_default
+    image: debian
+    hostname: debian_role_code_default
+    privileged: false
+    dockerfile: Dockerfile.j2
+    pre_build_image: false
+provisioner:
+  name: ansible
+  playbooks:
+    converge: converge.yml
+    verify: verify.yml
+  inventory:
+    group_vars:
+      all:
+        rv_code_ext_to_be_installed:
+          - "akamud.vscode-theme-onedark"
+scenario:
+  name: role.code.default
+  converge_sequence:
+    - dependency
+    - converge
+  destroy_sequence:
+    - destroy
+  create_sequence:
+    - dependency
+    - create
+  test_sequence:
+    - lint
+    - syntax
+    - destroy
+    - dependency
+    - create
+    - converge
+    - verify
+    - idempotence
+    - destroy
+verifier:
+  name: ansible
+lint: |
+  set -e
+  yamllint roles/code
+  ansible-lint roles/code
+  flake8 roles/code

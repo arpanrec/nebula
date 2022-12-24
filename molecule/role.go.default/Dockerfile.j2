@@ -1,0 +1,14 @@
+# trunk-ignore(hadolint/DL1000)
+FROM "{{ item.image }}"
+
+USER root
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get upgrade -y && apt-get install -y python3-pip git wget tar
+
+RUN useradd -m -s /bin/bash -d /home/molecule-user molecule-user
+
+WORKDIR /home/molecule-user
+
+USER molecule-user

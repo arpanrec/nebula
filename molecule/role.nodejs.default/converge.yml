@@ -1,0 +1,10 @@
+---
+- name: NodeJS | Molecule | Converge
+  hosts: all
+  gather_facts: false
+  any_errors_fatal: true
+  become: false
+  tasks:
+    - name: NodeJS | Molecule | Converge | Include NodeJS role
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.nodejs

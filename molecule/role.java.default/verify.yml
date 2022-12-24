@@ -1,0 +1,60 @@
+---
+- name: Oracle JDK | Molecule | Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Oracle JDK | Molecule | Verify | Import Roles for variables
+      ansible.builtin.import_role:
+        name: arpanrec.utilities.java
+        tasks_from: prerequisites
+
+    - name: Oracle JDK | Molecule | Verify | Get javac version from shell
+      ansible.builtin.command: javac --version
+      environment:
+        PATH: "{{ rv_jdk_install_path }}/bin:{{ ansible_env.PATH }}"
+      register: rv_jdk_tmp_version_shell_result
+      changed_when: false
+
+    - name: Oracle JDK | Molecule | Verify | javac version from shell result
+      ansible.builtin.debug:
+        var: rv_jdk_tmp_version_shell_result
+
+    - name: Oracle JDK | Molecule | Verify | Fail if javac version is not present
+      ansible.builtin.assert:
+        that: rv_jdk_tmp_version_shell_result.stdout is match("javac {{ rv_jdk_version }}.*")
+        success_msg: Java Version {{ rv_jdk_version }} is installed
+        fail_msg: Java Version {{ rv_jdk_version }} is not installed, Shell result {{ rv_jdk_tmp_version_shell_result.stdout }}
+
+    - name: Oracle JDK | Apache Maven | Molecule | Verify | Get mvn version from shell
+      ansible.builtin.command: mvn --version
+      environment:
+        PATH: "{{ rv_jdk_mvn_install_path }}/bin:{{ rv_jdk_install_path }}/bin:{{ ansible_env.PATH }}"
+      register: rv_jdk_maven_tmp_version_shell_result
+      changed_when: false
+
+    - name: Oracle JDK | Apache Maven | Molecule | Verify | mvn version from shell result
+      ansible.builtin.debug:
+        var: rv_jdk_maven_tmp_version_shell_result
+
+    - name: Oracle JDK | Apache Maven | Molecule | Verify | Fail if mvn version is not present
+      ansible.builtin.assert:
+        that: rv_jdk_maven_tmp_version_shell_result.stdout_lines[0] is match("Apache Maven {{ rv_jdk_mvn_version }}.*")
+        success_msg: Apache Maven {{ rv_jdk_mvn_version }} is installed
+        fail_msg: Apache Maven {{ rv_jdk_mvn_version }} is not installed, Shell result {{ rv_jdk_maven_tmp_version_shell_result.stdout }}
+
+    - name: Oracle JDK | Gradle | Molecule | Verify | Get Gradle version from shell
+      ansible.builtin.command: gradle --version
+      environment:
+        PATH: "{{ rv_jdk_gradle_install_path }}/bin:{{ rv_jdk_install_path }}/bin:{{ ansible_env.PATH }}"
+      register: rv_jdk_gradle_tmp_version_shell_result
+      changed_when: false
+
+    - name: Oracle JDK | Gradle | Molecule | Verify | Gradle version from shell result
+      ansible.builtin.debug:
+        var: rv_jdk_gradle_tmp_version_shell_result
+
+    - name: Oracle JDK | Gradle | Molecule | Verify | Fail if Gradle version is not present
+      ansible.builtin.assert:
+        that: '"Gradle {{ rv_jdk_gradle_version }}" in rv_jdk_gradle_tmp_version_shell_result.stdout'
+        success_msg: Gradle Version {{ rv_jdk_gradle_version }} is installed
+        fail_msg: Gradle Version {{ rv_jdk_gradle_version }} is not installed, Shell result {{ rv_jdk_gradle_tmp_version_shell_result.stdout }}

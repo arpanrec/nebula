@@ -1,0 +1,67 @@
+---
+- name: Common | Add Ansible Host | Fail if secret vault endpoint is not set.
+  ansible.builtin.fail:
+    msg: "ss_secret_vault_endpoint is not set"
+  when:
+    - ss_secret_vault_endpoint is undefined
+    - ss_secret_vault_endpoint | length < 1
+
+- name: Common | Add Ansible Host | Fail if secret vault token is not set.
+  ansible.builtin.fail:
+    msg: "ss_vault_secret_vault_token is not set"
+  when:
+    - ss_vault_secret_vault_token is undefined
+    - ss_vault_secret_vault_token | length < 1
+
+- name: Common | Add Ansible Host | Fail if hostname is not set. rv_common_add_host_hostname
+  ansible.builtin.fail:
+    msg: "rv_common_add_host_hostname is not set"
+  when:
+    - rv_common_add_host_hostname is undefined
+    - rv_common_add_host_hostname | length < 1
+
+- name: Common | Add Ansible Host | Setfact vault string
+  ansible.builtin.set_fact:
+    rv_common_add_host_tmp_vault_string:
+      "secret=secret/data/ansible/inventory/{{ rv_common_add_host_hostname }} \
+      token={{ ss_vault_secret_vault_token }} url={{ ss_secret_vault_endpoint }}"
+
+- name: Common | Add Ansible Host | Checking for hostname
+  ansible.builtin.set_fact:
+    rv_common_add_host_vault_data: "{{ lookup('community.hashi_vault.hashi_vault', rv_common_add_host_tmp_vault_string) }}"
+
+- name: Common | Add Ansible Host | Gather Ansible facts
+  ansible.builtin.setup:
+
+- name: Common | Add Ansible Host | Private key to file
+  when:
+    - rv_common_add_host_vault_data.ansible_ssh_private_key_file is defined
+    - rv_common_add_host_vault_data.ansible_ssh_private_key_file | length > 0
+  block:
+    - name: Common | Add Ansible Host | Set Private Key file name
+      ansible.builtin.set_fact:
+        rv_common_add_host_ansible_ssh_private_key_file: "{{ ansible_env.HOME }}/.ssh/tmp/{{ rv_common_add_host_hostname }}_{{ ansible_date_time.epoch }}"
+
+    - name: Common | Add Ansible Host | Make directory for ssh key
+      ansible.builtin.file:
+        path: "{{ rv_common_add_host_ansible_ssh_private_key_file | dirname }}"
+        state: directory
+        mode: "0700"
+
+    - name: Common | Add Ansible Host | Creating a file with content
+      ansible.builtin.copy:
+        dest: "{{ rv_common_add_host_ansible_ssh_private_key_file }}"
+        content: "{{ rv_common_add_host_vault_data.ansible_ssh_private_key_file }}"
+        mode: "0600"
+
+- name: Common | Add Ansible Host | Add vault host to inventory in order to avoid accidental deletion
+  ansible.builtin.add_host:
+    hostname: "{{ rv_common_add_host_hostname }}"
+    ansible_python_interpreter: "{{ rv_common_add_host_vault_data.ansible_python_interpreter | default(omit) }}"
+    ansible_connection: "{{ rv_common_add_host_vault_data.ansible_connection | default('ssh') }}"
+    ansible_host: "{{ rv_common_add_host_vault_data.ansible_host | default('localhost') }}"
+    ansible_port: "{{ rv_common_add_host_vault_data.ansible_port | default('22') }}"
+    ansible_user: "{{ rv_common_add_host_vault_data.ansible_user | default('root') }}"
+    ansible_password: "{{ rv_common_add_host_vault_data.ansible_password | default(omit) }}"
+    ansible_sudo_pass: "{{ rv_common_add_host_vault_data.ansible_sudo_pass | default(omit) }}"
+    ansible_ssh_private_key_file: "{{ rv_common_add_host_ansible_ssh_private_key_file | default(omit) }}"

@@ -1,0 +1,8 @@
+---
+rv_code_tarball_download_path: "{{ rv_code_tmp_dir }}/vscode-{{ rv_code_version }}.linux.tar.gz"
+rv_code_download_url_map:
+  x86_64: "https://update.code.visualstudio.com/{{ rv_code_version }}/linux-x64/stable"
+  aarch64: "https://update.code.visualstudio.com/{{ rv_code_version }}/linux-arm64/stable"
+rv_code_xdg_icon_path: "{{ rv_code_xdg_icon_dir }}/code-userapps.desktop"
+rv_code_xdg_uri_handler_path: "{{ rv_code_xdg_icon_dir }}/code-url-handler-userapps.desktop"
+rv_code_user_config_dir: "{{ ansible_facts.user_dir }}/.config/Code/User"

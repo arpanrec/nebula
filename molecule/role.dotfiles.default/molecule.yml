@@ -1,0 +1,47 @@
+---
+dependency:
+  name: galaxy
+  enabled: true
+  options:
+    ignore-certs: false
+    ignore-errors: false
+    role-file: requirements.yml
+    requirements-file: requirements.yml
+driver:
+  name: docker
+platforms:
+  - name: debian_role_dotfiles_default
+    image: debian
+    hostname: debian_role_dotfiles_default
+    dockerfile: Dockerfile.j2
+    pre_build_image: false
+provisioner:
+  name: ansible
+  playbooks:
+    converge: converge.yml
+scenario:
+  name: role.dotfiles.default
+  converge_sequence:
+    - dependency
+    - converge
+  destroy_sequence:
+    - destroy
+  create_sequence:
+    - dependency
+    - create
+  test_sequence:
+    - lint
+    - syntax
+    - destroy
+    - dependency
+    - create
+    - converge
+    - idempotence
+    - destroy
+verifier:
+  name: ansible
+lint: |
+  set -e
+  yamllint roles/dotfiles
+  ansible-lint roles/dotfiles
+  flake8 roles/dotfiles

@@ -1,0 +1,23 @@
+# Managed by Ansible
+[Desktop Entry]
+Version=1.0
+Name=Telegram Desktop - Userapps
+Comment=Official desktop version of Telegram messaging app
+TryExec={{ rv_telegram_desktop_install_path }}/Telegram
+Exec={{ rv_telegram_desktop_install_path }}/Telegram -workdir {{ rv_telegram_desktop_work_directory }}/ -- %u
+Icon=telegram
+Terminal=false
+StartupWMClass=TelegramDesktop
+Type=Application
+Categories=Chat;Network;InstantMessaging;Qt;
+MimeType=x-scheme-handler/tg;
+Keywords=tg;chat;im;messaging;messenger;sms;tdesktop;
+Actions=Quit;
+SingleMainWindow=true
+X-GNOME-UsesNotifications=true
+X-GNOME-SingleWindow=true
+
+[Desktop Action Quit]
+Exec={{ rv_telegram_desktop_install_path }}/Telegram -workdir {{ rv_telegram_desktop_work_directory }}/ -quit
+Name=Quit Telegram - Userapps
+Icon=application-exit

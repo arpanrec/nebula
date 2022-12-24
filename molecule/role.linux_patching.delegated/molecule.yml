@@ -1,0 +1,51 @@
+---
+dependency:
+  name: galaxy
+  enabled: true
+  options:
+    ignore-certs: false
+    ignore-errors: false
+    role-file: requirements.yml
+    requirements-file: requirements.yml
+driver:
+  name: delegated
+  provider:
+    managed: false
+    ansible_connection_options:
+      ansible_python_interpreter: /usr/bin/python3
+      ansible_connection: ssh
+platforms:
+  - name: debian11
+provisioner:
+  name: ansible
+  vvv: true
+  playbooks:
+    converge: converge.yml
+  inventory:
+    host_vars:
+      debian11:
+        ansible_host: 172.16.253.129
+        ansible_port: 22
+        ansible_user: user
+        # ansible_ssh_private_key_file: ~/.ssh/id_rsa
+        ansible_password: password
+        ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+        ansible_become_method: su
+        ansible_become_user: root
+        ansible_become_password: root
+        # rv_linux_patching_hostname: rb4-m1
+scenario:
+  name: role.linux_patching.delegated
+  converge_sequence:
+    - converge
+  test_sequence:
+    - dependency
+    - converge
+    - idempotence
+verifier:
+  name: ansible
+lint: |
+  set -e
+  yamllint roles/linux_patching
+  ansible-lint roles/linux_patching
+  flake8 roles/linux_patching

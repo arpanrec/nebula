@@ -1,0 +1,44 @@
+---
+dependency:
+  name: galaxy
+  options:
+    ignore-certs: false
+    ignore-errors: false
+    # role-file: requirements.yml
+driver:
+  name: delegated
+  provider:
+    managed: false
+    ansible_connection_options:
+      ansible_python_interpreter: /usr/bin/python3
+      ansible_connection: ssh
+platforms:
+  - name: debian11
+provisioner:
+  name: ansible
+  vvv: true
+  playbooks:
+    converge: converge.yml
+  inventory:
+    host_vars:
+      debian11:
+        ansible_host: 192.168.77.143
+        ansible_port: 22
+        ansible_user: vmuser
+        ansible_password: password
+        ansible_become_password: password
+        ansible_become_method: sudo
+        ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+        rv_hashicorp_vault_os_user: vault
+scenario:
+  converge_sequence:
+    - converge
+
+#   test_sequence:
+#     - lint
+#     - syntax
+#     - converge
+#     - idempotence
+#     - side_effect
+verifier:
+  name: ansible

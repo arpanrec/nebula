@@ -1,0 +1,14 @@
+---
+- name: Bitwarden CLI | Install NodeJS
+  ansible.builtin.import_role:
+    name: arpanrec.utilities.nodejs
+
+- name: Bitwarden CLI | Install from npm
+  community.general.npm:
+    name: "@bitwarden/cli"
+    global: true
+    state: present
+    version: "{{ rv_bw_cli_version }}"
+    executable: "{{ rv_bw_cli_node_dependency_bin_dir }}/npm"
+  environment:
+    PATH: "{{ rv_bw_cli_node_dependency_bin_dir }}:{{ ansible_env.PATH }}"

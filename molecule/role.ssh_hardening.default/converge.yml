@@ -1,0 +1,8 @@
+---
+- name: SSHD Hardening | Molecule | Converge
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: SSHD Hardening | Molecule | Converge | Include arpanrec.ssh_hardening
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.ssh_hardening

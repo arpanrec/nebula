@@ -1,0 +1,8 @@
+---
+- name: Themes | Molecule | Converge
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Themes | Molecule | Converge | Include Code role
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.themes

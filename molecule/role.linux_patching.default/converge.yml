@@ -1,0 +1,13 @@
+---
+- name: Linux Patching | Molecule | Converge
+  hosts: all
+  become: false
+  gather_facts: false
+  any_errors_fatal: false
+  tasks:
+    - name: Dotfiles | Molecule | Converge | Role
+      become: true
+      become_method: su
+      any_errors_fatal: true
+      ansible.builtin.import_role:
+        name: arpanrec.utilities.linux_patching

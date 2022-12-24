@@ -1,0 +1,30 @@
+- name: Converge
+  hosts: all
+  become: true
+  tasks:
+    - name: Patch linux system
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.linux_patching
+
+    - name: SSH
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.ssh_hardening
+
+    - name: Add vault user
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.user_add
+      vars:
+        rv_user_add_username: "{{ rv_hashicorp_vault_os_user }}"
+        rv_user_add_user_nopasswd_commands: ["ALL"]
+
+    - name: Install docker
+      ansible.builtin.include_role:
+        name: geerlingguy.docker
+      vars:
+        docker_users: ["{{ rv_hashicorp_vault_os_user }}"]
+        docker_package_state: present
+        docker_install_compose: false
+
+    - name: Setup user profile
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.server_workspace

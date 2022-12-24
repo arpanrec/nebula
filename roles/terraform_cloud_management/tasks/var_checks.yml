@@ -1,0 +1,5 @@
+---
+- name: Terraform Cloud Management | Terraform API Key is not defined
+  ansible.builtin.fail:
+    msg: Terraform API Key is not defined
+  when: rl_tef_api_token is not defined or rl_tef_api_token | length < 1

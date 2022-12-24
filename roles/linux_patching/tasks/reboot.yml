@@ -1,0 +1,6 @@
+---
+- name: Linux Patching | Reboot | Reboot
+  ansible.builtin.reboot:
+
+- name: Linux Patching | Reboot | Gather Facts
+  ansible.builtin.setup:

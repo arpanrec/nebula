@@ -1,0 +1,18 @@
+---
+- name: Application User | Checking essential variables
+  ansible.builtin.assert:
+    that:
+      - "{{ item }} is defined"
+      - "{{ item }} != None"
+    fail_msg: "{{ item }} is not defined, it should be present"
+    success_msg: "{{ item }} is defined"
+  with_items:
+    - rv_user_add_username
+
+- name: Application User | Setting Group Name
+  ansible.builtin.set_fact:
+    rv_user_add_user_primary_group: "{{ rv_user_add_username }}"
+  when: >
+    rv_user_add_user_primary_group is not defined
+    or
+    rv_user_add_user_primary_group | length < 1

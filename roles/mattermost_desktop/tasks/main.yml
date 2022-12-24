@@ -1,0 +1,58 @@
+---
+- name: Mattermost Desktop | Prerequisites
+  ansible.builtin.import_tasks: prerequisites.yml
+
+- name: Mattermost Desktop | Create install directory
+  ansible.builtin.file:
+    path: "{{ rv_mattermost_desktop_install_path }}"
+    state: directory
+    mode: "0700"
+
+- name: Mattermost Desktop | Get latest releases
+  when: pv_ua_mm_release_version is undefined
+  block:
+    - name: Mattermost Desktop | Get latest releases | github api call
+      ansible.builtin.uri:
+        url: "https://api.github.com/repos/mattermost/desktop/releases/latest"
+        method: GET
+        return_content: true
+        headers:
+          Accept: "application/vnd.github.v3+json"
+        status_code: 200
+      register: pv_ua_tmp_mm_latest_release
+
+    - name: Mattermost Desktop | Get Release Version | set version info
+      ansible.builtin.set_fact:
+        pv_ua_mm_release_version: "{{ pv_ua_tmp_mm_latest_release.json.tag_name }}"
+
+- name: Mattermost Desktop | Prerequisites | Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ rv_mattermost_desktop_user_tmp_dir }}"
+    state: directory
+    mode: "0700"
+
+- name: Mattermost Desktop | Download in tmp path
+  ansible.builtin.get_url:
+    url: "{{ rv_mattermost_desktop_download_url_appimage_map[ansible_facts.architecture] }}"
+    dest: "{{ rv_mattermost_desktop_archive_download_path }}"
+    mode: "0700"
+
+- name: Mattermost Desktop | Unarchive the tar ball
+  ansible.builtin.unarchive:
+    src: "{{ rv_mattermost_desktop_archive_download_path }}"
+    dest: "{{ rv_mattermost_desktop_install_path }}"
+    extra_opts: [--strip-components=1]
+    mode: "0700"
+    remote_src: true
+
+- name: Mattermost Desktop | Prerequisites | Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ rv_mattermost_desktop_xdg_icon_path | dirname }}"
+    state: directory
+    mode: "0700"
+
+- name: Mattermost Desktop | Create desktop icon
+  ansible.builtin.template:
+    src: templates/mattermost-desktop-userapps.desktop.j2
+    dest: "{{ rv_mattermost_desktop_xdg_icon_path }}"
+    mode: "0600"

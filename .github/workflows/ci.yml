@@ -1,0 +1,415 @@
+---
+name: CI
+"on":
+  push:
+    branches:
+      - "feature/**"
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  ansible_lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements.yml ]; then ansible-galaxy install -r requirements.yml; fi
+
+      - name: ansible lint
+        run: ansible-lint
+
+  molecule_test_role_linux_patching:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.linux_patching.default
+
+  molecule_test_role_user_add:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.user_add.default
+
+  molecule_test_role_dotfiles:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.dotfiles.default
+
+  molecule_test_role_code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.code.default
+
+  molecule_test_role_util_scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.util_scripts.default
+
+  molecule_test_role_java:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.java.default
+
+  molecule_test_role_themes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.themes.default
+
+  molecule_test_role_go:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.go.default
+
+  molecule_test_role_nodejs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.nodejs.default
+
+  molecule_test_role_bw:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.bw.default
+
+  molecule_test_role_bitwarden_desktop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.bitwarden_desktop.default
+
+  molecule_test_role_mattermost_desktop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.mattermost_desktop.default
+
+  molecule_test_role_gnome:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.gnome.default
+
+  molecule_test_role_postman:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.postman.default
+
+  molecule_test_role_kde:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.kde.default
+
+  molecule_test_role_telegram:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.telegram.default
+
+  molecule_test_role_nvim:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.nvim.default
+
+  molecule_test_role_ssh_hardening:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.ssh_hardening.default
+
+  molecule_test:
+    needs:
+      - molecule_test_role_linux_patching
+      - molecule_test_role_user_add
+      - molecule_test_role_dotfiles
+      - molecule_test_role_code
+      - molecule_test_role_util_scripts
+      - molecule_test_role_java
+      - molecule_test_role_themes
+      - molecule_test_role_go
+      - molecule_test_role_nodejs
+      - molecule_test_role_bw
+      - molecule_test_role_bitwarden_desktop
+      - molecule_test_role_mattermost_desktop
+      - molecule_test_role_gnome
+      - molecule_test_role_postman
+      - molecule_test_role_kde
+      - molecule_test_role_telegram
+      - molecule_test_role_nvim
+      - molecule_test_role_ssh_hardening
+    runs-on: ubuntu-latest
+    steps:
+      - name: All molecule Tests
+        run: echo "All molecule Tests"

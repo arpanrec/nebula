@@ -1,0 +1,8 @@
+---
+- name: USERAPPS | Mattermost Desktop | Molecule | Converge
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: USERAPPS | Mattermost Desktop | Molecule | Converge | Include Mattermost Desktop
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.mattermost_desktop

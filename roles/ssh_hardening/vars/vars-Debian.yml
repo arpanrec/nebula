@@ -1,0 +1,2 @@
+---
+rv_sshd_hardening_package: [openssh-server]

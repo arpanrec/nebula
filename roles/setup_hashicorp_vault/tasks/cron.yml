@@ -1,0 +1,49 @@
+- name: Vault Cron Unseal | Check for unseal keys
+  ansible.builtin.fail:
+    msg: "Unseal keys not found"
+  when: rv_hashicorp_vault_post_install_action_setup_unseal_keys | length < 1
+
+- name: Vault Cron Unseal | Creating Vault Cron directories
+  ansible.builtin.file:
+    path: "{{ rv_hashicorp_vault_post_install_action_setup_auto_unseal_cron_dir }}"
+    state: directory
+    mode: "0755"
+    owner: "{{ rv_hashicorp_vault_os_user }}"
+
+- name: Vault Cron Unseal | Write Cron Keys to directory {{ rv_hashicorp_vault_post_install_action_setup_auto_unseal_cron_dir }}
+  ansible.builtin.copy:
+    content: "{{ rv_hashicorp_vault_post_install_action_setup_unseal_keys | to_json }}"
+    owner: "{{ rv_hashicorp_vault_os_user }}"
+    group: "{{ rv_hashicorp_vault_os_user }}"
+    mode: "0755"
+    dest: "{{ rv_hashicorp_vault_post_install_action_setup_auto_unseal_cron_dir }}/unseal_keys.json"
+
+- name: Vault Cron Unseal | Creating cron script for unseal
+  ansible.builtin.copy:
+    owner: "{{ rv_hashicorp_vault_os_user }}"
+    group: "{{ rv_hashicorp_vault_os_user }}"
+    mode: "0755"
+    dest: "{{ rv_hashicorp_vault_post_install_action_setup_auto_unseal_cron_dir }}/unseal_corn.sh"
+    content: |
+      #!/bin/bash
+      set -e
+      echo "Unseal Vault Cron Job"
+      keys_string=$(cat "{{ rv_hashicorp_vault_post_install_action_setup_auto_unseal_cron_dir }}/unseal_keys.json" | jq -r '.[]')
+      arr_keys=(${keys_string//\n/})
+      vault_seal_status=$(curl -sSk https://localhost:8200/v1/sys/health | jq .sealed -r)
+      if [ "$vault_seal_status" == "true" ]; then
+        for key in "${arr_keys[@]}"
+        do
+            curl -sSLkf -X PUT https://localhost:8200/v1/sys/unseal -d '{"key": "'$key'"}'
+        done
+      else
+        echo "Vault is already unsealed"
+      fi
+
+- name: Vault Cron Unseal | Setup Crop job
+  ansible.builtin.cron:
+    user: "{{ rv_hashicorp_vault_os_user }}"
+    name: "{{ rv_hashicorp_vault_os_cron_job_name }}"
+    minute: "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,\
+      17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59"
+    job: "{{ rv_hashicorp_vault_post_install_action_setup_auto_unseal_cron_dir }}/unseal_corn.sh"

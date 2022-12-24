@@ -1,0 +1,4 @@
+---
+rv_telegram_desktop_tarball_download_path: "{{ rv_telegram_desktop_user_tmp_dir }}/tsetup.{{ rv_telegram_desktop_version_number }}.tar.xz"
+rv_telegram_desktop_download_url_arch_map:
+  x86_64: "https://updates.tdesktop.com/tlinux/tsetup.{{ rv_telegram_desktop_version_number }}.tar.xz"

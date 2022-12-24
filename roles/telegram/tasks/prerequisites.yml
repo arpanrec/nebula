@@ -1,0 +1,22 @@
+---
+- name: Telegram Desktop | Prerequisites | Fail if Root User
+  ansible.builtin.command: whoami
+  register: rl_sw_current_shelluser_shell_result
+  failed_when: rl_sw_current_shelluser_shell_result.stdout == "root"
+  changed_when: false
+
+- name: Telegram Desktop | Prerequisites | Packages are present
+  ansible.builtin.shell: "command -v {{ item }} >/dev/null 2>&1"
+  changed_when: false
+  with_items:
+    - curl
+    - wget
+    - tar
+
+- name: Telegram Desktop | Prerequisites | Gather Facts
+  ansible.builtin.setup:
+
+- name: Telegram Desktop | Prerequisites | Fail if not ansible_facts.architecture == "x86_64"
+  ansible.builtin.fail:
+    msg: Telegram Desktop, This app is avalaible only for ansible_facts.architecture == "x86_64"
+  when: ansible_facts.architecture != "x86_64"

@@ -1,0 +1,14 @@
+---
+rv_gnome_extension_list:
+  - name: "user-themes"
+    id: 19
+  - name: "AppIndicator and KStatusNotifierItem Support"
+    id: 615
+  - name: "workspace-indicator"
+    id: 21
+  - name: "applications-menu"
+    id: 6
+  - name: "vitals"
+    id: 1460
+rv_gnome_user_share_dir: "{{ ansible_facts.user_dir }}/.local/share"
+rv_gnome_user_cache_tmp_dir: "{{ ansible_facts.user_dir }}/.tmp/gnome_ansible"

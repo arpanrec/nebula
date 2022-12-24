@@ -1,0 +1,38 @@
+---
+- name: Linux Patching | Setup Host Date Time | Checking Prerequisite | Include Common Checks
+  ansible.builtin.include_tasks: prerequisite.yml
+
+- name: Linux Patching | Setup Host Date Time | Set timezone as {{ rv_linux_patching_timezone }}
+  community.general.timezone:
+    name: "{{ rv_linux_patching_timezone }}"
+    hwclock: local
+  ignore_errors: true
+  register: rv_linux_patching_hw_settime_result
+
+- name: Linux Patching | Setup Host Date Time | Set timezone via softlink as {{ rv_linux_patching_timezone }}
+  ansible.builtin.file:
+    src: "/usr/share/zoneinfo/{{ rv_linux_patching_timezone }}"
+    dest: /etc/localtime
+    state: link
+  when: rv_linux_patching_hw_settime_result.failed
+
+- name: Linux Patching | Setup Host Date Time | Ensure a locale exists as en_US.UTF-8
+  community.general.locale_gen:
+    name: en_US.UTF-8
+    state: present
+  environment:
+    PATH: /usr/sbin:{{ ansible_env.PATH }}
+  register: rv_linux_patching_tmp_enus_utf_locale_gen
+
+- name: Linux Patching | Setup Host Date Time | Set default locale to en_US.UTF-8
+  ansible.builtin.shell: |+
+    localectl set-locale LANG=en_US.UTF-8
+    update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+  environment:
+    PATH: /usr/sbin:{{ ansible_env.PATH }}
+  register: rv_linux_patching_tmp_set_default_localectl
+  changed_when: rv_linux_patching_tmp_enus_utf_locale_gen.changed
+  failed_when: >
+    rv_linux_patching_init_system_systemd
+    and
+    rv_linux_patching_tmp_set_default_localectl.failed

@@ -1,0 +1,10 @@
+---
+- name: Linux Patching | Network | Update CA Trust
+  ansible.builtin.command: "{{ rv_linux_patching_ca_certificate_update_shell }}"
+  register: rv_linux_patching_update_ca_trust_shell_result
+  environment:
+    PATH: /usr/sbin:{{ ansible_env.PATH }}
+
+- name: Linux Patching | Network | Update CA Trust Shell Result
+  ansible.builtin.debug:
+    var: rv_linux_patching_update_ca_trust_shell_result

@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: all
+  become: false
+  tasks:
+    - name: "Include arpanrec.setup_hashicorp_vault"
+      ansible.builtin.include_role:
+        name: "arpanrec.setup_hashicorp_vault"

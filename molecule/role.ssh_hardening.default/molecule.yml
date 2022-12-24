@@ -1,0 +1,58 @@
+---
+dependency:
+  name: galaxy
+  enabled: true
+  options:
+    ignore-certs: false
+    ignore-errors: false
+    role-file: requirements.yml
+    requirements-file: requirements.yml
+driver:
+  name: docker
+platforms:
+  - name: debian_role_ssh_hardening_default
+    hostname: debian_role_ssh_hardening_default
+    image: debian
+    pre_build_image: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    provider_raw_config_args:
+      - "--sysctl"
+provisioner:
+  name: ansible
+  playbooks:
+    converge: converge.yml
+    prepare: prepare.yml
+  inventory:
+    group_vars:
+      all:
+        rv_linux_patching_install_headers: false
+        rv_sshd_hardening_ssh_security_restart_service: false
+scenario:
+  name: role.ssh_hardening.default
+  create_sequence:
+    - dependency
+    - create
+    - prepare
+  destroy_sequence:
+    - destroy
+  converge_sequence:
+    - converge
+  test_sequence:
+    - dependency
+    - lint
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - destroy
+verifier:
+  name: ansible
+lint: |
+  set -e
+  yamllint roles/linux_patching
+  ansible-lint roles/linux_patching
+  flake8 roles/linux_patching

@@ -1,0 +1,11 @@
+---
+- name: Install Vault | Requirements | Install docker python package
+  become: true
+  become_user: "{{ rv_hashicorp_vault_os_user }}"
+  ansible.builtin.pip:
+    name: "{{ item }}"
+    extra_args: --user
+    executable: pip3
+  with_items:
+    - docker
+    - cryptography

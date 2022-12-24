@@ -1,0 +1,46 @@
+---
+dependency:
+  name: galaxy
+  enabled: false
+  options:
+    ignore-certs: false
+    ignore-errors: false
+    role-file: requirements.yml
+    requirements-file: requirements.yml
+driver:
+  name: docker
+platforms:
+  - name: debian_role_themes_default
+    hostname: debian_role_themes_default
+    image: debian
+    dockerfile: Dockerfile.j2
+    pre_build_image: false
+provisioner:
+  name: ansible
+  playbooks:
+    converge: converge.yml
+    verify: verify.yml
+scenario:
+  name: role.themes.default
+  converge_sequence:
+    - dependency
+    - converge
+  destroy_sequence:
+    - destroy
+  create_sequence:
+    - create
+  test_sequence:
+    - lint
+    - syntax
+    - destroy
+    - create
+    - converge
+    - idempotence
+    - destroy
+verifier:
+  name: ansible
+lint: |
+  set -e
+  yamllint roles/themes
+  ansible-lint roles/themes
+  flake8 roles/themes

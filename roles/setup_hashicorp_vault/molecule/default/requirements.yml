@@ -1,0 +1,25 @@
+---
+- src: git@github.com:arpanrec/ansible-role-linux-patching.git
+  scm: git
+  name: arpanrec.linux_patching
+  version: main
+
+- src: git@github.com:geerlingguy/ansible-role-docker.git
+  scm: git
+  name: geerlingguy.docker
+
+- src: git@github.com:arpanrec/ansible-role-utils.git
+  scm: git
+  name: arpanrec.utils
+
+- src: git@github.com:arpanrec/ansible-role-ssh-hardening.git
+  scm: git
+  name: arpanrec.ssh_hardening
+
+- src: git@github.com:arpanrec/ansible-role-user-add.git
+  scm: git
+  name: arpanrec.user_add
+
+- src: git@github.com:arpanrec/ansible-role-server-workspace.git
+  scm: git
+  name: arpanrec.server_workspace

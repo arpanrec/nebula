@@ -1,0 +1,45 @@
+- name: Vault Initialize | Fail if vault is already Initialized
+  ansible.builtin.fail:
+    msg: "Vault is already initialized"
+  when: pv_vault_health_status.json.initialized
+
+- name: Vault Initialize | Initialize vault
+  ansible.builtin.uri:
+    url: "{{ rv_hashicorp_vault_post_install_action_api_addr }}/v1/sys/init"
+    method: POST
+    return_content: true
+    body_format: json
+    validate_certs: false
+    body:
+      secret_shares: "{{ rv_hashicorp_vault_post_install_action_initialize_share }}"
+      secret_threshold: "{{ rv_hashicorp_vault_post_install_action_initialize_threshold }}"
+    status_code: [200]
+  register: pv_vault_init_status
+
+- name: Vault Initialize | Get Vault Root Token and Unseal Keys
+  ansible.builtin.set_fact:
+    rv_hashicorp_vault_post_install_action_setup_unseal_keys: "{{ pv_vault_init_status.json['keys'] }}"
+    rv_hashicorp_vault_post_install_action_setup_privileged_token: "{{ pv_vault_init_status.json['root_token'] }}"
+
+- name: Vault Initialize | Creating Vault Initialize secret directories
+  ansible.builtin.file:
+    path: "{{ rv_hashicorp_vault_post_install_action_initialize_secrets_directory }}"
+    state: directory
+    mode: "0755"
+    owner: "{{ rv_hashicorp_vault_os_user }}"
+
+- name: Vault Initialize | Write Unseal Keys to directory {{ rv_hashicorp_vault_post_install_action_initialize_secrets_directory }}
+  ansible.builtin.copy:
+    content: "{{ rv_hashicorp_vault_post_install_action_setup_unseal_keys | to_json }}"
+    owner: "{{ rv_hashicorp_vault_os_user }}"
+    group: "{{ rv_hashicorp_vault_os_user }}"
+    mode: "0755"
+    dest: "{{ rv_hashicorp_vault_post_install_action_initialize_secrets_directory }}/unseal_keys.json"
+
+- name: Vault Initialize | Write Root Token to directory {{ rv_hashicorp_vault_post_install_action_initialize_secrets_directory }}
+  ansible.builtin.copy:
+    content: "{{ rv_hashicorp_vault_post_install_action_setup_privileged_token }}"
+    owner: "{{ rv_hashicorp_vault_os_user }}"
+    group: "{{ rv_hashicorp_vault_os_user }}"
+    mode: "0755"
+    dest: "{{ rv_hashicorp_vault_post_install_action_initialize_secrets_directory }}/root_token.json"

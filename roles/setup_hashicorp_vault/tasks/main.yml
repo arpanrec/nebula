@@ -1,0 +1,10 @@
+---
+# tasks file for hashicorp_vault
+- name: Prerequisites
+  ansible.builtin.include_tasks: tasks/prerequisite.yml
+
+- name: Install
+  ansible.builtin.include_tasks: tasks/install.yml
+
+- name: Post Install
+  ansible.builtin.include_tasks: tasks/post-install.yml

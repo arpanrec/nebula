@@ -127,3 +127,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+arpanrec-utilities-1.0.0-rc.tar.gz
+.trunk

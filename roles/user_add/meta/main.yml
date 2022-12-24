@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  role_name: user_add
+  author: arpan
+  namespace: arpanrec
+  platforms:
+    - name: Debian
+      versions:
+        - all
+  license: MIT
+  description: Add user to linux system
+  min_ansible_version: "2"

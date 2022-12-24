@@ -1,0 +1,49 @@
+---
+# rv_common_arch_aur_helper_packages :: Packages to be installed
+- name: Common | AUR Helper | Mandatory Checks
+  ansible.builtin.assert:
+    that:
+      - "{{ item }} is defined"
+      - "{{ item }} != None"
+    fail_msg: "{{ item }} is not defined, it should be present"
+    success_msg: "{{ item }} is defined"
+  with_items:
+    - rv_common_arch_aur_helper_packages
+
+- name: Common | AUR Helper | Generate User Name
+  ansible.builtin.set_fact:
+    rv_common_arch_aur_helper_build_group: nebula_build_user
+    rv_common_arch_aur_helper_build_gid: 11060
+    rv_common_arch_aur_helper_build_user: nebula_build_user
+    rv_common_arch_aur_helper_build_uid: 11061
+
+- name: Common | AUR Helper | Create Build User
+  ansible.builtin.include_role:
+    name: user_add
+    tasks_from: 100-adduser.yml
+  vars:
+    rv_user_add_user_primary_group: "{{ rv_common_arch_aur_helper_build_group }}"
+    rv_user_add_user_primary_gid: "{{ rv_common_arch_aur_helper_build_gid }}"
+    rv_user_add_username: "{{ rv_common_arch_aur_helper_build_user }}"
+    rv_user_add_uid: "{{ rv_common_arch_aur_helper_build_uid }}"
+    rv_user_add_user_nopasswd_commands: ["/usr/bin/pacman"]
+
+- name: Common | AUR Helper | Installing yay
+  become: true
+  become_user: "{{ rv_common_arch_aur_helper_build_user }}"
+  kewlfft.aur.aur:
+    name: yay
+    use: makepkg
+    aur_only: true
+
+- name: Common | AUR Helper | Installing packages {{ rv_common_arch_aur_helper_packages }}
+  become: true
+  become_user: "{{ rv_common_arch_aur_helper_build_user }}"
+  kewlfft.aur.aur:
+    name: "{{ rv_common_arch_aur_helper_packages }}"
+    use: yay
+    aur_only: true
+
+- name: Common | AUR Helper | Unset rv_common_arch_aur_helper_packages
+  ansible.builtin.set_fact:
+    rv_common_arch_aur_helper_packages: ""

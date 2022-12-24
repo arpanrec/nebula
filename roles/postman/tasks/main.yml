@@ -1,0 +1,38 @@
+---
+- name: Postman | Prerequisites
+  ansible.builtin.import_tasks: prerequisites.yml
+
+- name: Postman | Fail if not ansible_facts.architecture == "x86_64"
+  ansible.builtin.fail:
+    msg: Postman, This app is avalaible only for ansible_facts.architecture == "x86_64"
+  when: ansible_facts.architecture != "x86_64"
+
+- name: Postman | Create install directory
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0700"
+  with_items:
+    - "{{ rv_postman_install_path }}"
+    - "{{ rv_postman_user_tmp_dir }}"
+    - "{{ rv_postman_xdg_icon_path | dirname }}"
+
+- name: Postman | URI Head for file name
+  ansible.builtin.uri:
+    url: "{{ rv_postman_download_url_map[ansible_facts.architecture] }}"
+    method: HEAD
+    status_code: 200
+  register: pv_ua_postman_url_head_run
+
+- name: Postman | Download tarball
+  ansible.builtin.get_url:
+    url: "{{ rv_postman_download_url_map[ansible_facts.architecture] }}"
+    dest: "{{ rv_postman_tarball_download_path }}"
+    mode: "0700"
+  notify: Postman | Unarchive the tarball
+
+- name: Postman | Create desktop icon
+  ansible.builtin.template:
+    src: templates/postman-userapps.desktop.j2
+    dest: "{{ rv_postman_xdg_icon_path }}"
+    mode: "0600"

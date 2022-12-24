@@ -1,0 +1,93 @@
+---
+- name: Linux Patching | Network | Checking Prerequisite | Include Common Checks
+  ansible.builtin.include_tasks: prerequisite.yml
+
+- name: Linux Patching | Network | Make sure the folder exists
+  ansible.builtin.file:
+    path: "{{ rv_linux_patching_ca_certificate_dir }}"
+    state: directory
+    mode: "0775"
+
+- name: Linux Patching | Network | Disable Wifi MAC randomization
+  community.general.ini_file:
+    path: /etc/NetworkManager/NetworkManager.conf
+    section: "{{ item.section }}"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    no_extra_spaces: true
+    mode: "0775"
+  with_items:
+    - section: "device"
+      option: "wifi.scan-rand-mac-address"
+      value: "no"
+    - section: "device-mac-randomization"
+      option: "wifi.scan-rand-mac-address"
+      value: "no"
+    - section: "ifupdown"
+      option: "managed"
+      value: "true"
+    - section: "main"
+      option: "plugins"
+      value: "ifupdown,keyfile"
+    - section: "connection"
+      option: "wifi.powersave"
+      value: 2
+
+- name: Linux Patching | Network | Disable IPv6
+  ansible.posix.sysctl:
+    sysctl_file: /etc/sysctl.d/70-disable-ipv6.conf
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    reload: true
+  with_items:
+    - name: net.ipv6.conf.all.disable_ipv6
+      value: "1"
+    - name: net.ipv6.conf.default.disable_ipv6
+      value: "1"
+    - name: net.ipv6.conf.lo.disable_ipv6
+      value: "1"
+
+- name: Linux Patching | Network | Copy the certificate
+  ansible.builtin.copy:
+    src: "files/cert.pem"
+    dest: "{{ rv_linux_patching_ca_certificate_dir }}/cert.crt"
+    mode: "0775"
+  notify:
+    - Linux Patching | Network | Update CA Trust
+    - Linux Patching | Network | Update CA Trust Shell Result
+
+- name: Linux Patching | Network | Setup Host Network Information | Set Host-Name
+  ansible.builtin.hostname:
+    name: "{{ rv_linux_patching_hostname }}"
+    use: debian
+  register: rv_linux_patching_tmp_set_debian_hostname
+  failed_when: >
+    rv_linux_patching_init_system_systemd
+    and
+    rv_linux_patching_tmp_set_debian_hostname.failed
+
+- name: Linux Patching | Network | Setup Host Network Information | Set Hosts file
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    owner: root
+    group: root
+    mode: "0644"
+    line: "{{ item.line }}"
+    regexp: "{{ item.regexp }}"
+  register: rv_linux_patching_tmp_set_hosts_file_entry
+  failed_when: >
+    rv_linux_patching_init_system_systemd
+    and
+    rv_linux_patching_tmp_set_hosts_file_entry.failed
+  loop:
+    - regexp: '^127\.0\.0\.1'
+      line: "127.0.0.1  localhost"
+    - regexp: '^127\.0\.1\.1'
+      line: "127.0.1.1  {{ rv_linux_patching_hostname }}"
+
+- name: Linux Patching | Network | Setup Host Network Information | Enable network services
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: true
+  with_items: "{{ rv_linux_patching_net_time_services }}"

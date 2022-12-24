@@ -1,0 +1,48 @@
+---
+- name: Linux Patching | Users | Checking Prerequisite
+  ansible.builtin.include_tasks: prerequisite.yml
+
+- name: Linux Patching | Users | Create home for new users
+  ansible.builtin.lineinfile:
+    path: /etc/login.defs
+    state: present
+    regexp: "^CREATE_HOME"
+    line: "CREATE_HOME  yes"
+
+- name: Linux Patching | Users | Create mail spool for new users
+  ansible.builtin.lineinfile:
+    path: /etc/default/useradd
+    state: present
+    regexp: "^CREATE_MAIL_SPOOL"
+    line: "CREATE_MAIL_SPOOL=yes"
+
+- name: Linux Patching | Users | Create wheel and sudo groups
+  ansible.builtin.group:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - wheel
+    - sudo
+
+- name: Linux Patching | Users | Create Sudoers directory
+  ansible.builtin.file:
+    path: /etc/sudoers.d
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Linux Patching | Users | Allow group permissions
+  ansible.builtin.copy:
+    dest: "/etc/sudoers.d/{{ item.file_loc }}"
+    content: "{{ item.rule }}"
+    mode: "0644"
+    owner: root
+    group: root
+  loop:
+    - file_loc: 1000-root
+      rule: "root ALL=(ALL:ALL) ALL"
+    - file_loc: 1100-sudo
+      rule: "%sudo ALL=(ALL:ALL) ALL"
+    - file_loc: 1200-wheel
+      rule: "%wheel ALL=(ALL:ALL) NOPASSWD: ALL"

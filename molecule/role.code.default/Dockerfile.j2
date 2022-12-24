@@ -1,0 +1,29 @@
+# trunk-ignore(hadolint/DL1000)
+FROM "{{ item.image }}"
+
+USER root
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get upgrade -y && apt-get install -y python3-pip \
+    jq git wget curl tar zip unzip bzip2 \
+    vim \
+    fontconfig
+
+# For fonts
+RUN apt-get install -y fontconfig
+
+# For VSCode
+RUN apt-get install -y libglib2.0-dev libnss3 libatk1.0-0 libatk-bridge2.0-0 libdrm-dev libgtk-3-0 libgbm-dev libasound2
+
+# For Icons
+RUN apt-get install -y gtk-update-icon-cache
+
+# For Icons
+RUN apt-get install -y gnome-shell
+
+RUN useradd -m -s /bin/bash -d /home/molecule-user molecule-user
+
+WORKDIR /home/molecule-user
+
+USER molecule-user

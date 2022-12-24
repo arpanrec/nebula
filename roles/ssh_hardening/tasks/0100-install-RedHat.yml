@@ -1,0 +1,6 @@
+---
+- name: SSHD Hardening | Install Packages | Install openssh server
+  ansible.builtin.yum:
+    name: "{{ rv_sshd_hardening_package }}"
+    state: present
+    update_cache: true

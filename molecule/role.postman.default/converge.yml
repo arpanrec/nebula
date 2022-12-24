@@ -1,0 +1,8 @@
+---
+- name: Postman | Molecule | Converge
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Postman | Molecule | Converge | Include Postman
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.postman

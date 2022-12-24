@@ -1,0 +1,7 @@
+---
+- name: Postman | Unarchive the tarball
+  ansible.builtin.unarchive:
+    src: "{{ rv_postman_tarball_download_path }}"
+    dest: "{{ rv_postman_install_path }}"
+    extra_opts: [--strip-components=1]
+    remote_src: true

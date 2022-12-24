@@ -1,0 +1,49 @@
+---
+- name: Visual Studio Code | Molecule | Verify
+  hosts: all
+  gather_facts: false
+  become: false
+  tasks:
+    - name: Visual Studio Code | Molecule | Verify | Import Roles for variables
+      ansible.builtin.import_role:
+        name: arpanrec.utilities.code
+        tasks_from: prerequisites
+
+    - name: Visual Studio Code | Molecule | Verify | Set Fact for code bin environment
+      ansible.builtin.set_fact:
+        rv_code_tmp_bin_env:
+          DONT_PROMPT_WSL_INSTALL: true
+          PATH: "{{ rv_code_bin_dir }}:{{ ansible_env.PATH }}"
+
+    - name: Visual Studio Code | Molecule | Verify | Get code version from shell
+      ansible.builtin.command: code --version
+      environment: "{{ rv_code_tmp_bin_env }}"
+      register: rv_code_tmp_version_shell_result
+      changed_when: false
+
+    - name: Visual Studio Code | Molecule | Verify | code version from shell result
+      ansible.builtin.debug:
+        var: rv_code_tmp_version_shell_result
+
+    - name: Visual Studio Code | Molecule | Verify | Set Version
+      when: rv_code_version is undefined
+      block:
+        - name: Visual Studio Code | Molecule | Verify | Set Version | Get latest releases from github
+          ansible.builtin.uri:
+            url: "https://api.github.com/repos/microsoft/vscode/releases/latest"
+            method: GET
+            return_content: true
+            headers:
+              Accept: "application/vnd.github.v3+json"
+            status_code: 200
+          register: rv_code_tmp_latest_release
+
+        - name: Visual Studio Code | Molecule | Verify | Set Version | Set Version Number
+          ansible.builtin.set_fact:
+            rv_code_version: "{{ rv_code_tmp_latest_release.json.tag_name }}"
+
+    - name: Visual Studio Code | Molecule | Verify | Fail if code version is not present
+      ansible.builtin.assert:
+        that: rv_code_tmp_version_shell_result.stdout_lines[0] is match("{{ rv_code_version }}.*")
+        success_msg: Visual Studio Code {{ rv_code_version }} is installed
+        fail_msg: Visual Studio Code {{ rv_code_version }} is not installed, Shell result {{ rv_code_tmp_version_shell_result.stdout }}

@@ -1,0 +1,7 @@
+---
+rv_mattermost_desktop_download_url_appimage_map:
+  x86_64:
+    "https://releases.mattermost.com/desktop/{{ pv_ua_mm_release_version[1:] }}\
+    /mattermost-desktop-{{ pv_ua_mm_release_version[1:] }}-linux-x64.tar.gz"
+
+rv_mattermost_desktop_archive_download_path: "{{ rv_mattermost_desktop_user_tmp_dir }}/mattermost-desktop-{{ pv_ua_mm_release_version[1:] }}-linux.tar.gz"

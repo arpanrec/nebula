@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  platforms:
+    - name: Debian
+      versions:
+        - bullseye
+  role_name: utils
+  author: arpan m
+  namespace: arpanrec
+  description: Helper roles
+  license: MIT
+  min_ansible_version: "2.1"

@@ -1,0 +1,128 @@
+---
+# rv_tls_key_path : path to private key
+# rv_tls_cert_path : path to server certificate
+# rv_cert_owner : owner of the certificates
+# rv_tls_vault_uri : URI to hashicorp vault certificate issue end point
+# rv_tls_vault_token: Hashicorp vault auth token
+# rv_tls_common_name: domain/fqdn name of the expected uri (IP Address not allowed)
+# rv_tls_alt_names : alternet domain/fqdn name of the expected uri (IP Address not allowed)
+# rv_tls_alt_names_combiled : alternet domain/fqdn + rv_tls_common_name name of the expected uri (IP Address not allowed)
+# rv_tls_vault_uri_result: temp variable
+# rv_tls_tmpp_csr_dir: temp variable
+
+- name: TLS Certificate | Include Asserts | Checking essential variables
+  ansible.builtin.assert:
+    that:
+      - "{{ item }} is defined"
+      - "{{ item }} != None"
+    fail_msg: "{{ item }} is not defined, it should be present"
+    success_msg: "{{ item }} is defined"
+  with_items:
+    - rv_tls_key_path
+    - rv_tls_cert_path
+    - rv_tls_common_name
+    - rv_tls_alt_names
+
+- name: TLS Certificate | Combile domain name to alternetnames for chrome
+  ansible.builtin.set_fact:
+    rv_tls_alt_names_combiled: "{{ rv_tls_alt_names }} + ['{{ rv_tls_common_name }}']"
+
+- name: TLS Certificate | Certificate owner
+  ansible.builtin.set_fact:
+    rv_cert_owner: "{{ anisble_user }}"
+  when: rv_cert_owner is not defined or rv_cert_owner | length < 1
+
+- name: TLS Certificate | Selfsigned
+  when: rv_tls_vault_uri is not defined or rv_tls_vault_uri | length < 1
+  block:
+    - name: TLS Certificate | Generate an OpenSSL private key
+      tags: always
+      community.crypto.openssl_privatekey:
+        path: "{{ rv_tls_key_path }}"
+        owner: "{{ rv_cert_owner }}"
+
+    - name: TLS Certificate | Create tmp csr directory
+      ansible.builtin.tempfile:
+        state: directory
+        suffix: nebula_tls
+      register: rv_tls_tmpp_csr_dir
+
+    - name: TLS Certificate | Generate an OpenSSL Certificate Signing Request with Subject information
+      tags: always
+      community.crypto.openssl_csr:
+        path: "{{ rv_tls_tmpp_csr_dir.path }}/server.csr"
+        privatekey_path: "{{ rv_tls_key_path }}"
+        owner: "{{ rv_cert_owner }}"
+        subject_alt_name: "{{ item.value | map('regex_replace', '^', 'DNS:') | list }}"
+        common_name: "{{ rv_tls_common_name }}"
+        basic_constraints:
+          - "CA:TRUE"
+      with_dict:
+        dns_server: "{{ rv_tls_alt_names_combiled }}"
+
+    - name: TLS Certificate | Generate a Self Signed OpenSSL certificate
+      tags: always
+      community.crypto.x509_certificate:
+        path: "{{ rv_tls_cert_path }}"
+        privatekey_path: "{{ rv_tls_key_path }}"
+        csr_path: "{{ rv_tls_tmpp_csr_dir.path }}/server.csr"
+        provider: selfsigned
+        owner: "{{ rv_cert_owner }}"
+
+- name: TLS Certificate | Get Certificate from Vault
+  when: rv_tls_vault_uri is defined and rv_tls_vault_uri != None and rv_tls_vault_uri != ""
+  block:
+    - name: Install Vault | Get Certificate from Vault
+      ansible.builtin.uri:
+        url: "{{ rv_tls_vault_uri }}"
+        headers:
+          X-Vault-Token: "{{ rv_tls_vault_token }}"
+          Content-Type: "application/json"
+        method: POST
+        body:
+          {
+            "common_name": "{{ rv_tls_common_name }}",
+            "alt_names": "{{ rv_tls_alt_names_combiled | join(',') }}",
+          }
+        return_content: true
+        status_code: 200
+        body_format: json
+        validate_certs: false
+      register: rv_tls_vault_uri_result
+      no_log: true
+
+    - name: Install Vault | Set private key
+      no_log: true
+      ansible.builtin.copy:
+        content: "{{ rv_tls_vault_uri_result.json.data.private_key }}"
+        dest: "{{ rv_tls_key_path }}"
+        owner: "{{ rv_cert_owner }}"
+        mode: "0600"
+
+    - name: Install Vault | Set public key
+      ansible.builtin.copy:
+        content: "{{ rv_tls_vault_uri_result.json.data.certificate }}"
+        dest: "{{ rv_tls_cert_path }}"
+        owner: "{{ rv_cert_owner }}"
+        mode: "0600"
+
+    - name: Install Vault | Set Certificate Chain
+      ansible.builtin.lineinfile:
+        path: "{{ rv_tls_cert_path }}"
+        line: "{{ item }}"
+        owner: "{{ rv_cert_owner }}"
+      with_items:
+        - "{{ rv_tls_vault_uri_result.json.data.ca_chain }}"
+
+- name: TLS Certificate | Clear Variables
+  ansible.builtin.set_fact:
+    rv_tls_key_path: ""
+    rv_tls_cert_path: ""
+    rv_cert_owner: ""
+    rv_tls_vault_uri: ""
+    rv_tls_vault_token: ""
+    rv_tls_common_name: ""
+    rv_tls_alt_names: ""
+    rv_tls_alt_names_combiled: ""
+    rv_tls_vault_uri_result: ""
+    rv_tls_tmpp_csr_dir: ""

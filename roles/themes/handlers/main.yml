@@ -1,0 +1,26 @@
+---
+- name: Themes | Terminal Themes | Initialize p10k gitstatus
+  block:
+    - name: Themes | Terminal Themes | Initialize p10k gitstatus | Execute install script
+      ansible.builtin.shell: |
+        set timeout 100
+        {{ rv_themes_user_home_dir }}/.oh-my-zsh/custom/themes/powerlevel10k/gitstatus/install -f
+      changed_when: true
+      register: pv_ua_tmp_p10k_shell_install_result
+
+    - name: Themes | Terminal Themes | Initialize p10k gitstatus | Result
+      ansible.builtin.debug:
+        var: pv_ua_tmp_p10k_shell_install_result
+
+- name: Themes | Terminal Themes | Initialize fzf
+  block:
+    - name: Themes | Terminal Themes | Initialize fzf | Execute install script
+      ansible.builtin.shell: |
+        set timeout 100
+        {{ rv_themes_user_home_dir }}/.fzf/install --all
+      changed_when: true
+      register: pv_ua_tmp_fzf_shell_install_result
+
+    - name: Themes | Terminal Themes | Initialize fzf | Result
+      ansible.builtin.debug:
+        var: pv_ua_tmp_fzf_shell_install_result

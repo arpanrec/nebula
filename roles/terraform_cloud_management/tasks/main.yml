@@ -1,0 +1,13 @@
+---
+- name: Terraform Cloud Management | Check Mandatory Variables
+  ansible.builtin.include_tasks: var_checks.yml
+
+- name: Terraform Cloud Management | Organization
+  ansible.builtin.include_tasks: organization.yml
+
+- name: Terraform Cloud Management | Organization | Manage workspaces
+  ansible.builtin.include_tasks: workspace.yml
+  loop: "{{ rl_tef_workspaces }}"
+  when: rl_tef_workspaces | length > 0
+  loop_control:
+    loop_var: workspaces

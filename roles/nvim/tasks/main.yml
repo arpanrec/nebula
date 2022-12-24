@@ -1,0 +1,107 @@
+---
+- name: NEOVIM | Prerequisites
+  ansible.builtin.import_tasks: prerequisites.yml
+
+- name: NEOVIM | Install NodeJS
+  ansible.builtin.import_role:
+    name: arpanrec.utilities.nodejs
+
+- name: NEOVIM | Not x86_64
+  when: ansible_facts.architecture != "x86_64"
+  block:
+    - name: NEOVIM | Not x86_64 | NVIM already present
+      ansible.builtin.shell: "command -v nvim >/dev/null 2>&1"
+      changed_when: false
+      register: rl_ws_nvim_package_if_already_resent
+      ignore_errors: true
+
+    - name: NEOVIM | Not x86_64 | NVIM already present result
+      ansible.builtin.debug:
+        var: rl_ws_nvim_package_if_already_resent
+
+    - name: NEOVIM | Not x86_64 | NVIM already present result
+      when: rl_ws_nvim_package_if_already_resent.failed
+      ansible.builtin.fail:
+        msg:
+          "Neovim github package is only avalaible for x86_64, Use OS package maintainers version for other arch types
+          like 'sudo apt-get install -y neovim'"
+
+    - name: NEOVIM | Not x86_64 | which nvim
+      ansible.builtin.command: "which nvim"
+      changed_when: false
+      register: rv_nvim_tmp_package_which_nvim
+
+    - name: NEOVIM | Not x86_64 | which nvim result
+      ansible.builtin.debug:
+        var: rv_nvim_tmp_package_which_nvim
+
+    - name: NEOVIM | Install | nvim exec path
+      ansible.builtin.set_fact:
+        rv_nvim_exec_path: "{{ rv_nvim_tmp_package_which_nvim.stdout }}"
+
+- name: NEOVIM | Get latest releases
+  when: rv_nvim_version is undefined
+  block:
+    - name: NEOVIM | Get latest releases | Get from github
+      ansible.builtin.uri:
+        url: "https://api.github.com/repos/neovim/neovim/releases/latest"
+        method: GET
+        return_content: true
+        headers:
+          Accept: "application/vnd.github.v3+json"
+        status_code: 200
+      register: pv_ua_tmp_td_latest_release
+
+    - name: NEOVIM | Get latest releases | Set version variable
+      ansible.builtin.set_fact:
+        rv_nvim_version: "{{ pv_ua_tmp_td_latest_release.json.tag_name }}"
+
+- name: NEOVIM | Create install directory
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0700"
+  with_items:
+    - "{{ rv_nvim_install_path }}"
+    - "{{ rv_nvim_exec_path | dirname }}"
+    - "{{ rv_nvim_user_tmp_dir }}"
+
+- name: NEOVIM | Get downloaded file stat
+  when: ansible_facts.architecture == "x86_64"
+  ansible.builtin.stat:
+    path: "{{ rv_nvim_tarball_download_path }}"
+  register: pv_ua_nvim_tmp_downloaded_file_stat
+
+- name: NEOVIM | Install
+  when: (ansible_facts.architecture == "x86_64") and (not pv_ua_nvim_tmp_downloaded_file_stat.stat.exists)
+  block:
+    - name: NEOVIM | Install | Download tarball
+      ansible.builtin.get_url:
+        url: "{{ rv_nvim_download_url_arch_map[ansible_facts.architecture] }}"
+        dest: "{{ rv_nvim_tarball_download_path }}"
+        mode: "0700"
+
+    - name: NEOVIM | Install | Unarchive the tarball
+      ansible.builtin.unarchive:
+        src: "{{ rv_nvim_tarball_download_path }}"
+        dest: "{{ rv_nvim_install_path }}"
+        extra_opts: [--strip-components=1]
+        remote_src: true
+
+    - name: NEOVIM | Install | Create symlink to bin
+      ansible.builtin.file:
+        src: "{{ rv_nvim_install_path }}/bin/nvim"
+        dest: "{{ rv_nvim_exec_path }}"
+        state: link
+  rescue:
+    - name: NEOVIM | Install | fail | cleanup
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ rv_nvim_tarball_download_path }}"
+        - "{{ rv_nvim_exec_path }}"
+        - "{{ rv_nvim_install_path }}"
+
+- name: NEOVIM | Config
+  ansible.builtin.import_tasks: nvim_config.yml

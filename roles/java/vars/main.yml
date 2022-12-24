@@ -1,0 +1,14 @@
+---
+rv_jdk_download_url_map:
+  17:
+    x86_64: https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz
+    aarch64: https://download.oracle.com/java/17/archive/jdk-17.0.4_linux-aarch64_bin.tar.gz
+
+rv_jdk_tarball_download_path: "{{ rv_jdk_tmp_dir }}/jdk-{{ rv_jdk_version }}_linux-{{ ansible_facts.architecture }}_bin.tar.gz"
+
+rv_jdk_mvn_download_url: "https://dlcdn.apache.org/maven/maven-3/{{ rv_jdk_mvn_version }}/binaries/apache-maven-{{ rv_jdk_mvn_version }}-bin.tar.gz"
+rv_jdk_mvn_tarball_download_path: "{{ rv_jdk_tmp_dir }}/apache-maven-{{ rv_jdk_mvn_version }}-bin.tar.gz"
+
+rv_jdk_gradle_download_url: "https://downloads.gradle-dn.com/distributions/gradle-{{ rv_jdk_gradle_version }}-all.zip"
+rv_jdk_gradle_tmp_unzip_path: "{{ rv_jdk_tmp_dir }}"
+rv_jdk_gradle_tarball_download_path: "{{ rv_jdk_tmp_dir }}/gradle-{{ rv_jdk_gradle_version }}-all.zip"

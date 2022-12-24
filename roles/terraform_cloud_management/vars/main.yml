@@ -1,0 +1,3 @@
+---
+# vars file for terraform_cloud_management
+rl_tef_api_endpoint: https://app.terraform.io/api/v2

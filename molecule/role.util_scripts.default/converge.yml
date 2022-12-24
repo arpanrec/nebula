@@ -1,0 +1,8 @@
+---
+- name: Scripts | Molecule | Converge
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Scripts | Molecule | Converge | Include util_scripts
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.util_scripts

@@ -1,0 +1,15 @@
+---
+- name: Application User | Checking Mandatory Variables
+  ansible.builtin.include_tasks: 000-prerequisites.yml
+
+- name: Application User | Adding user - {{ rv_user_add_username }}
+  ansible.builtin.include_tasks: 100-adduser.yml
+
+- name: Application User | Removing admin user and group from system - {{ rv_user_add_username }}
+  ansible.builtin.include_tasks: 400-remove.yml
+  tags:
+    - always
+  args:
+    apply:
+      tags:
+        - never

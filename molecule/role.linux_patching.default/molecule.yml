@@ -1,0 +1,56 @@
+---
+dependency:
+  name: galaxy
+  enabled: true
+  options:
+    ignore-certs: false
+    ignore-errors: false
+    role-file: requirements.yml
+    requirements-file: requirements.yml
+driver:
+  name: docker
+platforms:
+  - name: debian_role_linux_patching_default
+    hostname: debian_role_linux_patching_default
+    image: debian
+    pre_build_image: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    provider_raw_config_args:
+      - "--sysctl"
+provisioner:
+  name: ansible
+  playbooks:
+    converge: converge.yml
+  inventory:
+    group_vars:
+      all:
+        rv_linux_patching_install_headers: false
+scenario:
+  name: role.linux_patching.default
+  converge_sequence:
+    - converge
+  destroy_sequence:
+    - destroy
+  create_sequence:
+    - dependency
+    - create
+  test_sequence:
+    - lint
+    - syntax
+    - destroy
+    - dependency
+    - create
+    - converge
+    - idempotence
+    - destroy
+verifier:
+  name: ansible
+lint: |
+  set -e
+  yamllint roles/linux_patching
+  ansible-lint roles/linux_patching
+  flake8 roles/linux_patching
+log: true
+role_name_check: 0

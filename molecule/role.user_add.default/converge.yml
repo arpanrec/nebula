@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: Include user_add
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.user_add

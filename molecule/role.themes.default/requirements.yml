@@ -1,0 +1,9 @@
+collections:
+  - source: https://github.com/ansible-collections/community.general.git
+    type: git
+  - source: https://github.com/ansible-collections/ansible.posix.git
+    type: git
+  - source: https://github.com/ansible-collections/community.docker.git
+    type: git
+  - source: https://github.com/kewlfft/ansible-aur.git
+    type: git

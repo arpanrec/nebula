@@ -1,0 +1,26 @@
+---
+- name: Bitwarden CLI | Molecule | Verify
+  hosts: all
+  gather_facts: true
+  become: false
+  tasks:
+    - name: Bitwarden CLI | Molecule | Verify | Import Roles for variables
+      ansible.builtin.include_vars:
+        file: "../../roles/bw/defaults/main.yml"
+
+    - name: Bitwarden CLI | Molecule | Verify | Get bw version from shell
+      ansible.builtin.command: bw --version
+      environment:
+        PATH: "{{ rv_bw_cli_node_dependency_bin_dir }}:{{ ansible_env.PATH }}"
+      register: rv_bw_cli_tmp_version_shell_result
+      changed_when: false
+
+    - name: Bitwarden CLI | Molecule | Verify | bw version from shell result
+      ansible.builtin.debug:
+        var: rv_bw_cli_tmp_version_shell_result
+
+    - name: Bitwarden CLI | Molecule | Verify | Fail if bw version is not present
+      ansible.builtin.assert:
+        that: rv_bw_cli_tmp_version_shell_result.stdout ==  rv_bw_cli_version
+        success_msg: BW Version {{ rv_bw_cli_version }} is installed
+        fail_msg: BW Version {{ rv_bw_cli_version }} is not installed, Shell result {{ rv_bw_cli_tmp_version_shell_result.stdout }}

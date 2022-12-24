@@ -1,0 +1,8 @@
+---
+- name: KDE | Install konsave
+  ansible.builtin.shell: |
+    deactivate | true
+    "$(readlink -f "$(which python3)")" -m pip install konsave --user --upgrade
+  environment:
+    PATH: "{{ ansible_facts.user_dir }}/.local/bin:{{ ansible_env.PATH }}"
+  changed_when: true

@@ -1,0 +1,33 @@
+---
+- name: Bitwarden Desktop | Prerequisites
+  ansible.builtin.import_tasks: prerequisites.yml
+
+- name: Bitwarden Desktop | Create install directory
+  ansible.builtin.file:
+    path: "{{ rv_bitwarden_desktop_install_path }}"
+    state: directory
+    mode: "0700"
+
+- name: Bitwarden Desktop | Get archive info
+  ansible.builtin.stat:
+    path: "{{ rv_bitwarden_desktop_install_path }}/{{ pv_ua_bitwarden_download_url_map[ansible_facts.architecture] | basename }}"
+  register: pv_ua_bw_archive_stat
+
+- name: Bitwarden Desktop | Download AppImage
+  when: not pv_ua_bw_archive_stat.stat.exists
+  ansible.builtin.get_url:
+    url: "{{ pv_ua_bitwarden_download_url_map[ansible_facts.architecture] }}"
+    dest: "{{ rv_bitwarden_desktop_install_path }}/{{ pv_ua_bitwarden_download_url_map[ansible_facts.architecture] | basename }}"
+    mode: "0700"
+
+- name: Bitwarden Desktop | Create desktop icon directory
+  ansible.builtin.file:
+    path: "{{ rv_bitwarden_desktop_xdg_icon_path | dirname }}"
+    state: directory
+    mode: "0700"
+
+- name: Bitwarden Desktop | Create desktop icon
+  ansible.builtin.template:
+    src: templates/bitwarden-desktop-userapps.desktop.j2
+    dest: "{{ rv_bitwarden_desktop_xdg_icon_path }}"
+    mode: "0600"

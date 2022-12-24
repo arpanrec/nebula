@@ -1,0 +1,44 @@
+---
+- name: NEOVIM | Install | Create plug directory
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0700"
+  with_items:
+    - "{{ rv_nvim_auto_load_dir }}"
+    - "{{ rv_nvim_config_dir }}"
+
+- name: NEOVIM | Install | Copy config
+  ansible.builtin.copy:
+    src: "files/init.vim"
+    dest: "{{ rv_nvim_config_dir }}/init.vim"
+    mode: "0700"
+
+- name: NEOVIM | Install | Install yarn from npm
+  community.general.npm:
+    name: yarn
+    global: true
+    state: latest
+  environment:
+    PATH: "{{ rv_nvim_nodejs_install_path }}/bin:{{ ansible_env.PATH }}"
+
+- name: NEOVIM | Install | Download vim-plug
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+    dest: "{{ rv_nvim_auto_load_dir }}/plug.vim"
+    mode: "0700"
+
+- name: NEOVIM | Install | Install vim plug with coc-python headless
+  ansible.builtin.shell: |
+    {{ rv_nvim_exec_path }} --headless +PlugInstall +qa
+    cd {{ rv_nvim_install_path }}/plugged/coc.nvim/
+    yarn install
+    {{ rv_nvim_exec_path }} --headless +"CocInstall coc-python" +qa
+  register: pv_ua_nvim_coc_python_install_result
+  changed_when: '"success Already up-to-date." not in pv_ua_nvim_coc_python_install_result.stdout_lines'
+  environment:
+    PATH: "{{ rv_nvim_nodejs_install_path }}/bin:{{ ansible_env.PATH }}"
+
+- name: NEOVIM | Install | Install coc-python result
+  ansible.builtin.debug:
+    var: pv_ua_nvim_coc_python_install_result
