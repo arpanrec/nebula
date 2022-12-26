@@ -33,7 +33,7 @@
       option: "wifi.powersave"
       value: 2
 
-- name: Linux Patching | Network | Disable IPv6
+- name: Linux Patching | Network | Disable IPv6 via sysctl
   ansible.posix.sysctl:
     sysctl_file: /etc/sysctl.d/70-disable-ipv6.conf
     name: "{{ item.name }}"
@@ -47,6 +47,23 @@
       value: "1"
     - name: net.ipv6.conf.lo.disable_ipv6
       value: "1"
+
+- name: Linux Patching | Network | Create modprobe directory
+  ansible.builtin.file:
+    path: /etc/modprobe.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Linux Patching | Network | Disable IPv6 via modeprobe
+  ansible.builtin.lineinfile:
+    path: /etc/modprobe.d/70-disable-ipv6.conf
+    line: "options ipv6 disable=1"
+    owner: root
+    group: root
+    create: true
+    mode: "0644"
 
 - name: Linux Patching | Network | Copy the certificate
   ansible.builtin.copy:
