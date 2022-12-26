@@ -42,7 +42,7 @@
   loop:
     - file_loc: 1000-root
       rule: "root ALL=(ALL:ALL) ALL"
-    - file_loc: 1100-sudo
-      rule: "%sudo ALL=(ALL:ALL) ALL"
     - file_loc: 1200-wheel
       rule: "%wheel ALL=(ALL:ALL) NOPASSWD: ALL"
+    - file_loc: 1100-sudo
+      rule: "%sudo ALL=(ALL:ALL) ALL"

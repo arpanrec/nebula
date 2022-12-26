@@ -40,6 +40,11 @@
     value: "{{ item.value }}"
     state: present
     reload: true
+  register: rv_linux_patching_tmp_ipvsix_disable_sysctl
+  failed_when: >
+    rv_linux_patching_tmp_ipvsix_disable_sysctl.failed
+    and
+    rv_linux_patching_tmp_ipvsix_disable_sysctl.msg is not search('disable_ipv6: No such file or directory')
   with_items:
     - name: net.ipv6.conf.all.disable_ipv6
       value: "1"
