@@ -1,0 +1,9 @@
+Port {{ rv_sshd_hardening_ssh_port }}
+PasswordAuthentication {{ rv_sshd_hardening_ssh_security_password_authentication | ternary('yes', 'no') }}
+PermitRootLogin {{ rv_sshd_hardening_ssh_security_permit_root_login | ternary('yes', 'no') }}
+PermitEmptyPasswords {{ rv_sshd_hardening_ssh_security_permit_empty_passwords | ternary('yes', 'no') }}
+MaxAuthTries {{ rv_sshd_hardening_ssh_security_max_auth_tries }}
+X11Forwarding {{ rv_sshd_hardening_ssh_security_x11_forwarding | ternary('yes', 'no') }}
+ClientAliveInterval {{ rv_sshd_hardening_ssh_security_client_alive_interval }}
+ClientAliveCountMax {{ rv_sshd_hardening_ssh_security_client_alive_count_max }}
+ChallengeResponseAuthentication {{ rv_sshd_hardening_ssh_security_challenge_response_authentication | ternary('yes', 'no') }}

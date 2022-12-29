@@ -4,6 +4,13 @@ This role applies basic security settings for personal VPS
 
 ## Variables
 
+`rv_sshd_hardening_ssh_port`
+
+- Type: `int`
+- Default: `22`
+- Required: `false`
+- Description: SSHD Server port.
+
 `rv_sshd_hardening_ssh_security_password_authentication`
 
 - Type: `boolean`
@@ -59,6 +66,13 @@ This role applies basic security settings for personal VPS
 - Default: `true`
 - Required: `false`
 - Description: Restart sshd handlers
+
+`rv_sshd_hardening_ssh_security_challenge_response_authentication`
+
+- Type: `bool`
+- Default: `false`
+- Required: `false`
+- Description: Challenge-response passwords (beware issues with some PAM modules and threads)
 
 ## Example Playbook
 
