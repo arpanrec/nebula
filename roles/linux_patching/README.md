@@ -32,6 +32,11 @@ Set timezone, locale, and loopback ip in server
   - Required: `false`
   - Type: `str`
 
+- `rv_linux_patching_root_ca_pem_content`
+  - Description: Organization Root CA certificate.
+  - Required: `false`
+  - Type: `str`
+
 ## Example Playbook
 
 ```yaml

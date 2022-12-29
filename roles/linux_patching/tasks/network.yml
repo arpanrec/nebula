@@ -2,11 +2,31 @@
 - name: Linux Patching | Network | Checking Prerequisite | Include Common Checks
   ansible.builtin.include_tasks: prerequisite.yml
 
-- name: Linux Patching | Network | Make sure the folder exists
-  ansible.builtin.file:
-    path: "{{ rv_linux_patching_ca_certificate_dir }}"
-    state: directory
-    mode: "0775"
+- name: Linux Patching | Network | CA Certificate
+  when: rv_linux_patching_root_ca_pem_content is defined and rv_linux_patching_root_ca_pem_content | length > 1
+  block:
+    - name: Linux Patching | Network | CA Certificate | Make sure the CA certificate folder exists
+      ansible.builtin.file:
+        path: /usr/local/share/ca-certificates
+        state: directory
+        mode: "0775"
+
+    - name: Linux Patching | Network | CA Certificate | Copy the certificate
+      ansible.builtin.copy:
+        content: "{{ rv_linux_patching_root_ca_pem_content }}"
+        dest: /usr/local/share/ca-certificates/arpanrec-root-ca.crt
+        mode: "0775"
+
+    - name: Linux Patching | Network | CA Certificate | Update CA Trust
+      ansible.builtin.command: update-ca-certificates
+      register: rv_linux_patching_update_ca_trust_shell_result
+      environment:
+        PATH: /usr/sbin:{{ ansible_env.PATH }}
+      changed_when: rv_linux_patching_update_ca_trust_shell_result.stdout_lines[1] is not match("0 added.*")
+
+    - name: Linux Patching | Network | CA Certificate | Update CA Trust Shell Result
+      ansible.builtin.debug:
+        var: rv_linux_patching_update_ca_trust_shell_result
 
 - name: Linux Patching | Network | Disable Wifi MAC randomization
   community.general.ini_file:
@@ -77,14 +97,6 @@
     line: "IPV6=no"
     state: present
 
-- name: Linux Patching | Network | Copy the certificate
-  ansible.builtin.copy:
-    src: "files/cert.pem"
-    dest: "{{ rv_linux_patching_ca_certificate_dir }}/cert.crt"
-    mode: "0775"
-  notify:
-    - Linux Patching | Network | Update CA Trust
-    - Linux Patching | Network | Update CA Trust Shell Result
 
 - name: Linux Patching | Network | Setup Host Network Information | Set Host-Name
   ansible.builtin.hostname:
