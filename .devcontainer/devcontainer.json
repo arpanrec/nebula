@@ -30,7 +30,6 @@
     "redhat.ansible",
     "ms-python.python",
     "esbenp.prettier-vscode",
-    "trunk.io",
     "redhat.vscode-yaml"
   ]
   // Configure tool-specific properties.
