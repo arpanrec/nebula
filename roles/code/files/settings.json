@@ -85,7 +85,10 @@
     "--indent-size=2",
     "--max-line-length=180"
   ],
-  "python.formatting.blackArgs": ["--line-length", "180"],
+  "python.formatting.blackArgs": [
+    "--line-length",
+    "180"
+  ],
   "editor.tabSize": 2,
   "[xml]": {
     "editor.defaultFormatter": "redhat.vscode-xml"
@@ -147,7 +150,5 @@
     "files.insertFinalNewline": false,
     "files.trimFinalNewlines": true
   },
-  "[ansible]": {
-    "editor.defaultFormatter": "trunk.io"
-  }
+  "update.showReleaseNotes": false,
 }
