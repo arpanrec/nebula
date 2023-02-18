@@ -14,6 +14,7 @@
   register: pv_ua_code_tmp_ext_install_result
   when: item | lower not in pv_ua_code_tmp_ext_installed_list_shell | lower
   environment: "{{ rv_code_tmp_bin_env }}"
+  changed_when: '"successfully installed" in pv_ua_code_tmp_ext_install_result.stdout'
 
 - name: Visual Studio Code | Extension | Install result | {{ item }}
   ansible.builtin.debug:
