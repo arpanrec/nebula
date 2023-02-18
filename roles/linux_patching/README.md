@@ -19,6 +19,12 @@ Set timezone, locale, and loopback ip in server
   - Default: [ `zip`, `unzip`, `net-tools`, `build-essential`, `tar`, `wget`, `curl`, `ca-certificates`, `sudo`, `systemd`, `telnet`, `gnupg2`, `apt-transport-https`, `lsb-release`, `software-properties-common`, `locales`, `"linux-headers-{{ansible_kernel}}"`, `network-manager`, `gnupg2`, `gnupg`, `pigz`, `cron`, `acl` , `fontconfig`, `gtk-update-icon-cache`, `libnss3`, `libatk1.0-0`, `libatk-bridge2.0-0`, `libgtk-3-0`, `bzip2`, `libgbm-dev`, `libglib2.0-dev`, `libdrm-dev`, `libasound2`, `jq`, `zsh`, `ntfs-3g`, `exfat-fuse`, `exfat-utils`]
   - Type: `list[str]`
 
+- `rv_linux_patching_extra_packages`
+
+  - Description: Install extra required the packages.
+  - Required: `false`
+  - Type: `list[str]`
+
 - `rv_linux_patching_timezone`
 
   - Description: Set the ZoneTime info in server.
