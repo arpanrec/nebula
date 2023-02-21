@@ -43,6 +43,12 @@ Set timezone, locale, and loopback ip in server
   - Required: `false`
   - Type: `str`
 
+- `rv_linux_patching_ssh_port`
+  - Description: Default SSH Port
+  - Required: `false`
+  - Type: `int`
+  - Default: `22`
+
 ## Example Playbook
 
 ```yaml

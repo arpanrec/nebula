@@ -97,7 +97,6 @@
     line: "IPV6=no"
     state: present
 
-
 - name: Linux Patching | Network | Setup Host Network Information | Set Host-Name
   ansible.builtin.hostname:
     name: "{{ rv_linux_patching_hostname }}"
@@ -132,3 +131,9 @@
     name: "{{ item }}"
     enabled: true
   with_items: "{{ rv_linux_patching_net_time_services }}"
+
+- name: Linux Patching | Network | Setup Host Network Information | Enable SSH Port
+  community.general.ufw:
+    rule: allow
+    port: "{{ rv_linux_patching_ssh_port }}"
+    proto: tcp

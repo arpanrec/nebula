@@ -57,3 +57,5 @@ rv_linux_patching_timezone: Asia/Kolkata
 
 rv_linux_patching_hostname: "{{ ansible_facts['hostname'] | mandatory }}"
 # rv_linux_patching_root_ca_pem_content:
+
+rv_linux_patching_ssh_port: 22
