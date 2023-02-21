@@ -5,29 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased] - 2023-02-19
+## [Unreleased] - 2023-02-21
 
-Bitwarden Version Update
+Open 22 UFW Port
 
 ### Added
 
-- Bitwarden CLI version to 2023.2.0
-- Bitwarden Desktop version to 2023.2.0
+- `rv_linux_patching_ssh_port` is added to linux patching to open 22 port in ufw.
 
 ### Changed
 
 ### Fixed
-
-## [Unreleased] - 2023-02-18
-
-Updated Linux Patching Role and Code role
-
-### Added
-
-- Added `rv_linux_patching_extra_packages` to linux patching
-
-### Changed
-
-### Fixed
-
-- VS Code extension install to detect changed when.
