@@ -1,2 +1,5 @@
 ---
 rv_getcert_validity_days: 7
+rv_getcert_to_be_created: false
+rv_getcert_private_key_file_mode: "0600"
+rv_getcert_certificate_file_mode: "0600"

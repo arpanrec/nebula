@@ -1,0 +1,35 @@
+---
+- ansible.builtin.fail:
+    msg: "{{ rv_getcert_to_be_created }}"
+
+- name: Get Certificate Ownca | Certificate To Be Created | When Certificate Content Not Present
+  when: >
+    ( not rv_getcert_to_be_created )
+    or
+    ( not rv_getcert_certificate_content is defined )
+    or
+    ( rv_getcert_certificate_content | length < 2 )
+  ansible.builtin.set_fact:
+    rv_getcert_to_be_created: true
+
+- name: Get Certificate Ownca | Certificate To Be Created | Get Certificate Old Information
+  when: not rv_getcert_to_be_created
+  community.crypto.x509_certificate_info:
+    content: "{{ rv_getcert_certificate_content }}"
+    valid_at:
+      one_day_after: "+1d"
+  register: rv_getcert_tmp_certificate_content_x509_info
+  ignore_errors: true
+
+- name: Get Certificate Ownca | Certificate To Be Created | Invalid Certificate is Given
+  when:
+    - rv_getcert_tmp_certificate_content_x509_info.failed is defined
+    - rv_getcert_tmp_certificate_content_x509_info.failed
+  ansible.builtin.set_fact:
+    rv_getcert_to_be_created: true
+
+- name: Get Certificate Ownca | Certificate To Be Created | Get Issuer Information
+  when: not rv_getcert_to_be_created
+  community.crypto.x509_certificate_info:
+    content: "{{ rv_getcert_certificate_content }}"
+  register: rv_getcert_tmp_owca_certificate_content_x509_info

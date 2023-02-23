@@ -30,8 +30,10 @@
       ansible.builtin.slurp:
         src: "{{ rv_getcert_private_key_path }}"
       register: rv_getcert_tmp_private_key_slurp
+      ignore_errors: true
 
     - name: Get Certificate Ownca | Set Values | Private Key | Set rv_getcert_private_key_content
+      when: rv_getcert_tmp_private_key_slurp.content is defined
       ansible.builtin.set_fact:
         rv_getcert_private_key_content: "{{ rv_getcert_tmp_private_key_slurp.content | b64decode }}"
 
@@ -42,7 +44,9 @@
       ansible.builtin.slurp:
         src: "{{ rv_getcert_certificate_path }}"
       register: rv_getcert_tmp_certificate_slurp
+      ignore_errors: true
 
     - name: Get Certificate Ownca | Set Values | OwnCA Certificate | Set rv_getcert_certificate_content
+      when: rv_getcert_tmp_certificate_slurp.content is defined
       ansible.builtin.set_fact:
         rv_getcert_certificate_content: "{{ rv_getcert_tmp_certificate_slurp.content | b64decode }}"
