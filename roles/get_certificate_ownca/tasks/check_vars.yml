@@ -1,0 +1,48 @@
+---
+- name: Get Certificate Ownca | Check Variables | Fail if OwnCA Private Key is not Present
+  ansible.builtin.fail:
+    msg: >-
+      rv_getcert_ownca_private_key_content or rv_getcert_ownca_private_key_path is required
+  when:
+    - rv_getcert_ownca_private_key_content is not defined
+    - rv_getcert_ownca_private_key_path is not defined
+
+- name: Get Certificate Ownca | Check Variables | Fail if OwnCA private key path and content both Present
+  ansible.builtin.fail:
+    msg: >-
+      rv_getcert_ownca_private_key_content or rv_getcert_ownca_private_key_path is mutually exclusive
+  when:
+    - rv_getcert_ownca_private_key_content is defined
+    - rv_getcert_ownca_private_key_path is defined
+
+- name: Get Certificate Ownca | Check Variables | Fail if OwnCA Certificate is not Present
+  ansible.builtin.fail:
+    msg: >-
+      rv_getcert_ownca_certificate_content or rv_getcert_ownca_certificate_path is required
+  when:
+    - rv_getcert_ownca_certificate_content is not defined
+    - rv_getcert_ownca_certificate_path is not defined
+
+- name: Get Certificate Ownca | Check Variables | Fail if OwnCA certificate path and content both Present
+  ansible.builtin.fail:
+    msg: >-
+      rv_getcert_ownca_certificate_content or rv_getcert_ownca_certificate_path is mutually exclusive
+  when:
+    - rv_getcert_ownca_certificate_content is defined
+    - rv_getcert_ownca_certificate_path is defined
+
+- name: Get Certificate Ownca | Check Variables | Fail if private key path and content both Present
+  ansible.builtin.fail:
+    msg: >-
+      rv_getcert_private_key_content or rv_getcert_private_key_path is mutually exclusive
+  when:
+    - rv_getcert_private_key_content is defined
+    - rv_getcert_private_key_path is defined
+
+- name: Get Certificate Ownca | Check Variables | Fail if certificate path and content both Present
+  ansible.builtin.fail:
+    msg: >-
+      rv_getcert_certificate_content or rv_getcert_certificate_path is mutually exclusive
+  when:
+    - rv_getcert_certificate_content is defined
+    - rv_getcert_certificate_path is defined

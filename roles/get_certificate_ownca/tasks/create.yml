@@ -1,0 +1,35 @@
+---
+- name: Get Certificate Ownca | Create Certificate | Private Key
+  community.crypto.openssl_privatekey_pipe:
+    size: "{{ rv_getcert_private_key_size | default(omit) }}"
+    passphrase: "{{ rv_getcert_private_key_password | default(omit) }}"
+    content: "{{ rv_getcert_private_key_content | default(omit) }}"
+    cipher: auto
+  register: rv_getcert_private_key_content_create_new
+
+- name: Get Certificate Ownca | Create Certificate | Private Key Set Fact
+  when: rv_getcert_private_key_content_create_new.privatekey is defined
+  ansible.builtin.set_fact:
+    rv_getcert_private_key_content: "{{ rv_getcert_private_key_content_create_new.privatekey }}"
+
+- name: Get Certificate Ownca | Create Certificate | CSR
+  community.crypto.openssl_csr_pipe:
+    privatekey_content: "{{ rv_getcert_private_key_content }}"
+    privatekey_passphrase: "{{ rv_getcert_private_key_password | default(omit) }}"
+  register: rv_getcert_tmp_csr
+
+- name: Get Certificate Ownca | Create Certificate | Certificate
+  community.crypto.x509_certificate_pipe:
+    content: "{{ rv_getcert_certificate_content | default(omit) }}"
+    csr_content: "{{ rv_getcert_tmp_csr.csr }}"
+    ownca_content: "{{ rv_getcert_ownca_certificate_content }}"
+    ownca_privatekey_content: "{{ rv_getcert_ownca_private_key_content }}"
+    ownca_privatekey_passphrase: "{{ rv_getcert_ownca_private_key_password | default(omit) }}"
+    provider: ownca
+    selfsigned_not_after: "+{{ rv_getcert_validity_days }}d"
+  register: rv_getcert_tmp_new_certificate_content
+
+- name: Get Certificate Ownca | Create Certificate | Certificate Set Fact
+  when: rv_getcert_tmp_new_certificate_content.certificate is defined
+  ansible.builtin.set_fact:
+    rv_getcert_certificate_content: "{{ rv_getcert_tmp_new_certificate_content.certificate }}"

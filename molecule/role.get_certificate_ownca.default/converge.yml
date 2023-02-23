@@ -1,0 +1,11 @@
+---
+- name: Get Certificate Ownca | Molecule | Converge
+  hosts: all
+  become: false
+  gather_facts: false
+  any_errors_fatal: false
+  tasks:
+    - name: Get Certificate Ownca | Molecule | Converge | Role
+      any_errors_fatal: true
+      ansible.builtin.import_role:
+        name: arpanrec.utilities.get_certificate_ownca

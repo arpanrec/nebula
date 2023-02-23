@@ -5,7 +5,7 @@
   gather_facts: false
   any_errors_fatal: false
   tasks:
-    - name: Dotfiles | Molecule | Converge | Role
+    - name: Linux Patching | Molecule | Converge | Role
       become: true
       become_method: su
       any_errors_fatal: true
