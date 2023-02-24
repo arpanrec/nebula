@@ -25,8 +25,7 @@
     rv_getcert_to_be_created: >-
       {{ rv_getcert_tmp_certificate_content_x509_info.failed is defined
       and
-      rv_getcert_tmp_certificate_content_x509_info.failed
-      }}
+      rv_getcert_tmp_certificate_content_x509_info.failed }}
     rv_getcert_to_be_created_reason: "Existing Certificate is Invalid"
 
 - name: Get Certificate Ownca | Certificate To Be Created | Get Issuer Information
@@ -38,7 +37,7 @@
   register: rv_getcert_tmp_owca_certificate_content_x509_info
 
 - name:
-    Get Certificate Ownca | Certificate To Be Created | Authority Key Identifier Mismatch, \
+    Get Certificate Ownca | Certificate To Be Created | Authority Key Identifier Mismatch,
     Existing Certificate is not signed by OwnCA
   when: not rv_getcert_to_be_created
   ansible.builtin.set_fact:
@@ -56,9 +55,33 @@
 
 - name: Get Certificate Ownca | Certificate To Be Created | Create a dummy CSR for key uses
   when: not rv_getcert_to_be_created
+  changed_when: false
   community.crypto.openssl_csr_pipe:
-    privatekey_content:
-    privatekey_passphrase:
-    key_usage:
-    extended_key_usage:
-      -
+    privatekey_content: "{{ rv_getcert_private_key_content }}"
+    privatekey_passphrase: "{{ rv_getcert_private_key_password | default(omit) }}"
+    key_usage: "{{ rv_getcert_key_usage | default(omit) }}"
+    extended_key_usage: "{{ rv_getcert_extended_key_usage | default(omit) }}"
+  register: rv_getcert_tmp_to_be_created_csr_for_keyusage
+
+- name: Get Certificate Ownca | Certificate To Be Created | Key Usage Mismatch
+  when: not rv_getcert_to_be_created
+  ansible.builtin.set_fact:
+    rv_getcert_to_be_created: "{{ expected_list | difference(current_list) | length != 0 or current_list | difference(expected_list) | length != 0 }}"
+    rv_getcert_to_be_created_reason: "Key Usage Mismatch"
+  vars:
+    current_list: "{{ rv_getcert_tmp_certificate_content_x509_info.key_usage | default([]) }}"
+    expected_list: "{{ rv_getcert_tmp_to_be_created_csr_for_keyusage.diff.after.key_usage | default([]) }}"
+
+- name: Get Certificate Ownca | Certificate To Be Created | Extended Key Usage Mismatch
+  when: not rv_getcert_to_be_created
+  ansible.builtin.set_fact:
+    rv_getcert_to_be_created: "{{ expected_list | difference(current_list) | length != 0 or current_list | difference(expected_list) | length != 0 }}"
+    rv_getcert_to_be_created_reason: "Extended Key Usage Mismatch"
+  vars:
+    current_list: "{{ rv_getcert_tmp_certificate_content_x509_info.extended_key_usage | default([]) }}"
+    expected_list: "{{ rv_getcert_tmp_to_be_created_csr_for_keyusage.diff.after.extended_key_usage | default([]) }}"
+
+- name: Get Certificate Ownca | Certificate To Be Created | Reason
+  when: rv_getcert_to_be_created
+  ansible.builtin.debug:
+    msg: "Certificate to be created reason: {{ rv_getcert_to_be_created_reason }}"
