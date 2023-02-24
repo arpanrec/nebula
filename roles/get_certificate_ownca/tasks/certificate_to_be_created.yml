@@ -1,16 +1,14 @@
 ---
-- ansible.builtin.fail:
-    msg: "{{ rv_getcert_to_be_created }}"
-
 - name: Get Certificate Ownca | Certificate To Be Created | When Certificate Content Not Present
-  when: >
-    ( not rv_getcert_to_be_created )
-    or
-    ( not rv_getcert_certificate_content is defined )
-    or
-    ( rv_getcert_certificate_content | length < 2 )
+  when: not rv_getcert_to_be_created
   ansible.builtin.set_fact:
-    rv_getcert_to_be_created: true
+    rv_getcert_to_be_created: >-
+      {{
+        ( not rv_getcert_certificate_content is defined )
+        or
+        ( rv_getcert_certificate_content | length < 2 )
+      }}
+    rv_getcert_to_be_created_reason: "When Certificate Content Not Present"
 
 - name: Get Certificate Ownca | Certificate To Be Created | Get Certificate Old Information
   when: not rv_getcert_to_be_created
@@ -21,15 +19,30 @@
   register: rv_getcert_tmp_certificate_content_x509_info
   ignore_errors: true
 
-- name: Get Certificate Ownca | Certificate To Be Created | Invalid Certificate is Given
-  when:
-    - rv_getcert_tmp_certificate_content_x509_info.failed is defined
-    - rv_getcert_tmp_certificate_content_x509_info.failed
+- name: Get Certificate Ownca | Certificate To Be Created | Existing Certificate is Invalid
+  when: not rv_getcert_to_be_created
   ansible.builtin.set_fact:
-    rv_getcert_to_be_created: true
+    rv_getcert_to_be_created: >-
+      {{ rv_getcert_tmp_certificate_content_x509_info.failed is defined
+      and
+      rv_getcert_tmp_certificate_content_x509_info.failed
+      }}
+    rv_getcert_to_be_created_reason: "Existing Certificate is Invalid"
 
 - name: Get Certificate Ownca | Certificate To Be Created | Get Issuer Information
   when: not rv_getcert_to_be_created
   community.crypto.x509_certificate_info:
-    content: "{{ rv_getcert_certificate_content }}"
+    content: "{{ rv_getcert_ownca_certificate_content }}"
   register: rv_getcert_tmp_owca_certificate_content_x509_info
+
+- name: Get Certificate Ownca | Certificate To Be Created | Authority Key Identifier Mismatch, Existing Certificate is not signed by OwnCA
+  when: not rv_getcert_to_be_created
+  ansible.builtin.set_fact:
+    rv_getcert_to_be_created: >-
+      {{ rv_getcert_tmp_certificate_content_x509_info.authority_key_identifier
+      !=
+      rv_getcert_tmp_owca_certificate_content_x509_info.subject_key_identifier }}
+    rv_getcert_to_be_created_reason: "Authority Key Identifier Mismatch, Existing Certificate is not signed by OwnCA"
+
+- ansible.builtin.fail:
+    msg: "{{ rv_getcert_to_be_created_reason }} :: {{ rv_getcert_to_be_created }}"

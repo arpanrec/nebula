@@ -4,8 +4,6 @@
   become: false
   gather_facts: false
   any_errors_fatal: false
-  vars:
-    tmp_csr_path: ownca_csr.pem
   tasks:
     - name: Get Certificate Ownca | Molecule | Prepare | Generate an OpenSSL private key
       community.crypto.openssl_privatekey:
@@ -16,7 +14,7 @@
 
     - name: Get Certificate Ownca | Molecule | Prepare | Generate an OpenSSL Certificate Signing Request
       community.crypto.openssl_csr:
-        path: "{{ tmp_csr_path }}"
+        path: "{{ rv_getcert_molecule_prepare_csr_path }}"
         privatekey_path: "{{ rv_getcert_ownca_private_key_path }}"
         privatekey_passphrase: "{{ rv_getcert_ownca_private_key_password }}"
         country_name: IN
@@ -51,7 +49,7 @@
     - name: Get Certificate Ownca | Molecule | Prepare | Generate an OpenSSL certificate signed with your own CA certificate
       community.crypto.x509_certificate:
         path: "{{ rv_getcert_ownca_certificate_path }}"
-        csr_path: "{{ tmp_csr_path }}"
+        csr_path: "{{ rv_getcert_molecule_prepare_csr_path }}"
         privatekey_path: "{{ rv_getcert_ownca_private_key_path }}"
         privatekey_passphrase: "{{ rv_getcert_ownca_private_key_password }}"
         provider: selfsigned
