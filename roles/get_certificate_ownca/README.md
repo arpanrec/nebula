@@ -5,6 +5,7 @@ Get Server or Client certificate.
 ## Variables
 
 - `rv_getcert_ownca_private_key_content`
+
   - Description:
     - Private Key as String of OWNCA
     - Mutually exclusive with `rv_getcert_ownca_private_key_path`
@@ -12,6 +13,7 @@ Get Server or Client certificate.
   - Required: `true`
 
 - `rv_getcert_ownca_private_key_path`
+
   - Description:
     - Private Key path of OWNCA
     - Mutually exclusive with `rv_getcert_ownca_private_key_content`
@@ -19,11 +21,13 @@ Get Server or Client certificate.
   - Required: `true`
 
 - `rv_getcert_ownca_private_key_password`
+
   - Description: password if the ownca private key is encrypted.
   - Type: `str`
   - Required: `false`
 
 - `rv_getcert_ownca_certificate_content`
+
   - Description:
     - Certificate as String of OWNCA
     - Mutually exclusive with `rv_getcert_ownca_certificate_path`
@@ -31,6 +35,7 @@ Get Server or Client certificate.
   - Required: `true`
 
 - `rv_getcert_ownca_certificate_path`
+
   - Description:
     - Certificate path of OWNCA
     - Mutually exclusive with `rv_getcert_ownca_certificate_content`
@@ -38,6 +43,7 @@ Get Server or Client certificate.
   - Required: `true`
 
 - `rv_getcert_private_key_path`
+
   - Description:
     - Private Key path
     - Mutually exclusive with `rv_getcert_private_key_content`
@@ -45,6 +51,7 @@ Get Server or Client certificate.
   - Required: `true`
 
 - `rv_getcert_private_key_content`
+
   - Description:
     - Private Key Content
     - Mutually exclusive with `rv_getcert_private_key_path`
@@ -52,11 +59,13 @@ Get Server or Client certificate.
   - Required: `true`
 
 - `rv_getcert_private_key_password`
+
   - Description: password if the private key is encrypted.
   - Type: `str`
   - Required: `false`
 
 - `rv_getcert_certificate_content`
+
   - Description:
     - Certificate as String
     - Mutually exclusive with `rv_getcert_certificate_path`
@@ -64,6 +73,7 @@ Get Server or Client certificate.
   - Required: `true`
 
 - `rv_getcert_certificate_path`
+
   - Description:
     - Certificate path
     - Mutually exclusive with `rv_getcert_certificate_content`
@@ -71,11 +81,19 @@ Get Server or Client certificate.
   - Required: `true`
 
 - `rv_getcert_private_key_size`
+
   - Description: Size of the private key
   - Type: `int`
   - Required: `false`
 
 - `rv_getcert_validity_days`
+
+  - Description: Validity of certificate in days
+  - Type: `int`
+  - Required: `false`
+  - Default: `7`
+
+- `rv_getcert_key_use`
   - Description: Validity of certificate in days
   - Type: `int`
   - Required: `false`

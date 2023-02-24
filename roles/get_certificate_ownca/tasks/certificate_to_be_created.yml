@@ -51,4 +51,3 @@
   ansible.builtin.set_fact:
     rv_getcert_to_be_created: "{{ not rv_getcert_tmp_certificate_content_x509_info.valid_at.one_day_after }}"
     rv_getcert_to_be_created_reason: "Certificate Expired"
-
