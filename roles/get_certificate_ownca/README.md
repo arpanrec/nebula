@@ -93,11 +93,15 @@ Get Server or Client certificate.
   - Required: `false`
   - Default: `7`
 
-- `rv_getcert_key_use`
-  - Description: Validity of certificate in days
-  - Type: `int`
+- `rv_getcert_key_usage`
+  - Description: Key Usages, that can be found [here](https://www.openssl.org/docs/manmaster/man5/x509v3_config.html)
+  - Type: `list[str]`
   - Required: `false`
-  - Default: `7`
+
+- `rv_getcert_extended_key_usage`
+  - Description: Extended Key Usages, that can be found [here](https://www.openssl.org/docs/manmaster/man5/x509v3_config.html)
+  - Type: `list[str]`
+  - Required: `false`
 
 ## Example Playbook Bitwarden Desktop
 

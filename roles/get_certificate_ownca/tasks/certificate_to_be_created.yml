@@ -37,7 +37,9 @@
       not_crossed_issuer: "+{{ rv_getcert_validity_days }}d"
   register: rv_getcert_tmp_owca_certificate_content_x509_info
 
-- name: Get Certificate Ownca | Certificate To Be Created | Authority Key Identifier Mismatch, Existing Certificate is not signed by OwnCA
+- name:
+    Get Certificate Ownca | Certificate To Be Created | Authority Key Identifier Mismatch, \
+    Existing Certificate is not signed by OwnCA
   when: not rv_getcert_to_be_created
   ansible.builtin.set_fact:
     rv_getcert_to_be_created: >-
@@ -51,3 +53,12 @@
   ansible.builtin.set_fact:
     rv_getcert_to_be_created: "{{ not rv_getcert_tmp_certificate_content_x509_info.valid_at.one_day_after }}"
     rv_getcert_to_be_created_reason: "Certificate Expired"
+
+- name: Get Certificate Ownca | Certificate To Be Created | Create a dummy CSR for key uses
+  when: not rv_getcert_to_be_created
+  community.crypto.openssl_csr_pipe:
+    privatekey_content:
+    privatekey_passphrase:
+    key_usage:
+    extended_key_usage:
+      -
