@@ -5,6 +5,21 @@
     privatekey_passphrase: "{{ rv_getcert_private_key_password | default(omit) }}"
     key_usage: "{{ rv_getcert_key_usage | default(omit) }}"
     extended_key_usage: "{{ rv_getcert_extended_key_usage | default(omit) }}"
+    key_usage_critical: true
+    extended_key_usage_critical: true
+    subject_alt_name: "{{ rv_getcert_subject_alt_name | default(omit) }}"
+    subject_alt_name_critical: true
+    use_common_name_for_san: false
+    commonName: "{{ rv_getcert_subject.commonName | default(omit) }}"
+    state_or_province_name: "{{ rv_getcert_subject.state_or_province_name | default(omit) }}"
+    locality_name: "{{ rv_getcert_subject.locality_name | default(omit) }}"
+    organization_name: "{{ rv_getcert_subject.organization_name | default(omit) }}"
+    organizational_unit_name: "{{ rv_getcert_subject.organizational_unit_name | default(omit) }}"
+    country_name: "{{ rv_getcert_subject.country_name | default(omit) }}"
+    email_address: "{{ rv_getcert_subject.email_address | default(omit) }}"
+    basic_constraints: "{{ rv_getcert_basic_constraints | default(omit) }}"
+    basic_constraints_critical: true
+    create_subject_key_identifier: true
   register: rv_getcert_tmp_csr
 
 - name: Get Certificate Ownca | Create Certificate | Certificate
@@ -16,7 +31,12 @@
     ownca_privatekey_passphrase: "{{ rv_getcert_ownca_private_key_password | default(omit) }}"
     provider: ownca
     selfsigned_not_after: "+{{ rv_getcert_validity_days }}d"
+    force: "{{ rv_getcert_to_be_created }}"
   register: rv_getcert_tmp_new_certificate_content
+
+- name: Get Certificate Ownca | Create Certificate | Certificate Information
+  ansible.builtin.debug:
+    var: rv_getcert_tmp_new_certificate_content
 
 - name: Get Certificate Ownca | Create Certificate | Certificate Set Fact
   when: rv_getcert_tmp_new_certificate_content.certificate is defined

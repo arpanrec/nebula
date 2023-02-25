@@ -45,6 +45,14 @@ provisioner:
           - timeStamping
           - OCSPSigning
           - msCTLSign
+        rv_getcert_subject_alt_name:
+          - DNS:www.arpanrec.com
+          - IP:172.0.0.1
+        rv_getcert_subject:
+          commonName: www.arpanrec.com
+        rv_getcert_basic_constraints:
+          - CA:TRUE
+          - pathlen:0
 scenario:
   name: role.get_certificate_ownca.default
   converge_sequence:

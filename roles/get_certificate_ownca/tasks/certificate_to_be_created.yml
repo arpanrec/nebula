@@ -81,6 +81,32 @@
     current_list: "{{ rv_getcert_tmp_certificate_content_x509_info.extended_key_usage | default([]) }}"
     expected_list: "{{ rv_getcert_tmp_to_be_created_csr_for_keyusage.diff.after.extended_key_usage | default([]) }}"
 
+- name: Get Certificate Ownca | Certificate To Be Created | SAN Mismatch
+  when: not rv_getcert_to_be_created
+  ansible.builtin.set_fact:
+    rv_getcert_to_be_created: "{{ expected_list | difference(current_list) | length != 0 or current_list | difference(expected_list) | length != 0 }}"
+    rv_getcert_to_be_created_reason: "SAN Mismatch"
+  vars:
+    current_list: "{{ rv_getcert_tmp_certificate_content_x509_info.subject_alt_name | default([]) }}"
+    expected_list: "{{ rv_getcert_subject_alt_name | default([]) }}"
+
+- name: Get Certificate Ownca | Certificate To Be Created | Subject Mismatch
+  when: not rv_getcert_to_be_created
+  ansible.builtin.set_fact:
+    rv_getcert_to_be_created: "{{ rv_getcert_tmp_certificate_content_x509_info.subject != rv_getcert_subject_user_default }}"
+    rv_getcert_to_be_created_reason: "Subject Mismatch"
+  vars:
+    rv_getcert_subject_user_default: "{{ rv_getcert_subject | default({}) }}"
+
+- name: Get Certificate Ownca | Certificate To Be Created | Basic Constraints Mismatch
+  when: not rv_getcert_to_be_created
+  ansible.builtin.set_fact:
+    rv_getcert_to_be_created: "{{ expected_list | difference(current_list) | length != 0 or current_list | difference(expected_list) | length != 0 }}"
+    rv_getcert_to_be_created_reason: "Basic Constraints Mismatch"
+  vars:
+    expected_list: "{{ rv_getcert_basic_constraints | default([]) }}"
+    current_list: "{{ rv_getcert_tmp_certificate_content_x509_info.basic_constraints | default([]) }}"
+
 - name: Get Certificate Ownca | Certificate To Be Created | Reason
   when: rv_getcert_to_be_created
   ansible.builtin.debug:

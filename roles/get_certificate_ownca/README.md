@@ -103,16 +103,38 @@ Get Server or Client certificate.
   - Type: `list[str]`
   - Required: `false`
 
+- `rv_getcert_subject_alt_name`
+  - Description:
+    - Subject Alternative Name (SAN) extension to attach to the certificate signing request.
+    - Values must be prefixed by their options. (These are email, URI, DNS, RID, IP, dirName, otherName, and the ones specific to your CA).
+    - Note that if no SAN is specified, but a common name, the common name will be added as a SAN except if useCommonNameForSAN is set to false.
+    - More at <https://tools.ietf.org/html/rfc5280#section-4.2.1.6>.
+  - Type: `list[str]`
+  - Required: `false`
+
+- `rv_getcert_subject`
+  - Description:
+    - Key/value pairs that will be present in the subject name field of the certificate signing request.
+    - If you need to specify more than one value with the same key, use a list as value.
+    - Subject field option, such as `countryName`, `stateOrProvinceName`, `localityName`, `organizationName`, `organizationalUnitName`, `commonName`, or `emailAddress`.
+  - Type: `dict`
+  - Required: `false`
+
+- `rv_getcert_basic_constraints`
+  - Description: Indicates basic constraints, such as if the certificate is a CA.
+  - Type: `list[str]`
+  - Required: `false`
+
 ## Example Playbook Bitwarden Desktop
 
 ```yaml
 - name: Create Certificate
   ansible.builtin.import_role:
-    name: arpanrec.utilities.bitwarden_desktop
+    name: arpanrec.utilities.get_certificate_ownca
 ```
 
 ## Testing Bitwarden Desktop
 
 ```bash
-molecule test -s role.bitwarden_desktop.default
+molecule test -s role.get_certificate_ownca.default
 ```
