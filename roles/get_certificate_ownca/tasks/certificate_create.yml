@@ -31,6 +31,7 @@
     ownca_privatekey_passphrase: "{{ rv_getcert_ownca_private_key_password | default(omit) }}"
     provider: ownca
     selfsigned_not_after: "+{{ rv_getcert_validity_days }}d"
+    selfsigned_not_before: "-1d"
     force: "{{ rv_getcert_to_be_created }}"
   register: rv_getcert_tmp_new_certificate_content
 

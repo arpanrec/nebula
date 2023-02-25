@@ -45,7 +45,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.linux_patching.default
 
@@ -65,7 +65,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.user_add.default
 
@@ -85,7 +85,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.dotfiles.default
 
@@ -105,7 +105,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.code.default
 
@@ -125,7 +125,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.util_scripts.default
 
@@ -145,7 +145,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.java.default
 
@@ -165,7 +165,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.themes.default
 
@@ -185,7 +185,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.go.default
 
@@ -205,7 +205,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.nodejs.default
 
@@ -225,7 +225,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.bw.default
 
@@ -245,7 +245,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.bitwarden_desktop.default
 
@@ -265,7 +265,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.mattermost_desktop.default
 
@@ -285,7 +285,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.gnome.default
 
@@ -305,7 +305,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.postman.default
 
@@ -325,7 +325,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.kde.default
 
@@ -345,7 +345,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.telegram.default
 
@@ -365,7 +365,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.nvim.default
 
@@ -385,7 +385,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.ssh_hardening.default
 
@@ -405,7 +405,7 @@ jobs:
           python -m pip install --upgrade pip wheel setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install Run Molecule Test
+      - name: Run Molecule Test
         run: |+
           molecule test -s role.get_certificate_ownca.default
 
