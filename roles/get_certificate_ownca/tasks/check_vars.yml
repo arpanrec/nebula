@@ -78,8 +78,9 @@
 
 - name: Get Certificate Ownca | Check Variables | Required Path for Certificate Full Chain
   ansible.builtin.fail:
-    msg: >-
-      `rv_getcert_certificatefullchain_file_mode`, `rv_getcert_certificatefullchain_owner` and `rv_getcert_certificatefullchain_group` requires `rv_getcert_certificatefullchain_path`
+    msg:
+      rv_getcert_certificatefullchain_file_mode, rv_getcert_certificatefullchain_owner and rv_getcert_certificatefullchain_group \
+      requires rv_getcert_certificatefullchain_path
   when: >
     (( rv_getcert_certificatefullchain_file_mode is defined ) or ( rv_getcert_certificatefullchain_owner is defined ) or ( rv_getcert_certificatefullchain_group is defined ))
     and
