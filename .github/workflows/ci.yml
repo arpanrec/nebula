@@ -389,6 +389,26 @@ jobs:
         run: |+
           molecule test -s role.ssh_hardening.default
 
+  molecule_test_role_get_certificate_ownca:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |+
+          python -m pip install --upgrade pip wheel setuptools
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install Run Molecule Test
+        run: |+
+          molecule test -s role.get_certificate_ownca.default
+
   molecule_test:
     needs:
       - molecule_test_role_linux_patching
@@ -409,6 +429,7 @@ jobs:
       - molecule_test_role_telegram
       - molecule_test_role_nvim
       - molecule_test_role_ssh_hardening
+      - molecule_test_role_get_certificate_ownca
     runs-on: ubuntu-latest
     steps:
       - name: All molecule Tests
