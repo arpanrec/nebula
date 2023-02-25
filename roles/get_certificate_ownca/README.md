@@ -173,6 +173,32 @@ Get Server or Client certificate.
   - Type: `list[str]`
   - Required: `false`
 
+### Variables: Certificate Full Chain
+
+- `rv_getcert_certificatefullchain_path`
+
+  - Description: Certificate full chain path
+  - Type: `str`
+  - Required: `true`
+
+- `rv_getcert_certificatefullchain_file_mode`
+
+  - Description: Private Key file mode, when `rv_getcert_certificatefullchain_path` is defined
+  - Type: `str`
+  - Required: `false`
+
+- `rv_getcert_certificatefullchain_owner`
+
+  - Description: Private Key file owner, when `rv_getcert_certificatefullchain_path` is defined
+  - Type: `str`
+  - Required: `false`
+
+- `rv_getcert_certificatefullchain_group`
+
+  - Description: Private Key file owner group, when `rv_getcert_certificatefullchain_path` is defined
+  - Type: `str`
+  - Required: `false`
+
 ## Example Playbook Bitwarden Desktop
 
 ```yaml
