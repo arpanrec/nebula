@@ -5,6 +5,8 @@
     content: "{{ rv_getcert_certificate_content }}"
     dest: "{{ rv_getcert_certificate_path }}"
     mode: "{{ rv_getcert_certificate_file_mode | default(omit) }}"
+    owner: "{{ rv_getcert_certificate_owner | default(omit) }}"
+    group: "{{ rv_getcert_certificate_group | default(omit) }}"
 
 - name: Get Certificate Ownca | Write Files | Write Private Key
   when: rv_getcert_private_key_path is defined

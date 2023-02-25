@@ -52,22 +52,19 @@ Get Server or Client certificate.
 
 - `rv_getcert_private_key_owner`
 
-  - Description:
-    - Private Key file owner, when `rv_getcert_private_key_path` is defined
+  - Description: Private Key file owner, when `rv_getcert_private_key_path` is defined
   - Type: `str`
   - Required: `false`
 
 - `rv_getcert_private_key_group`
 
-  - Description:
-    - Private Key file owner group, when `rv_getcert_private_key_path` is defined
+  - Description: Private Key file owner group, when `rv_getcert_private_key_path` is defined
   - Type: `str`
   - Required: `false`
 
 - `rv_getcert_private_key_file_mode`
 
-  - Description:
-    - Private Key file mode, when `rv_getcert_private_key_path` is defined
+  - Description: Private Key file mode, when `rv_getcert_private_key_path` is defined
   - Type: `str`
   - Required: `false`
 
@@ -78,6 +75,12 @@ Get Server or Client certificate.
     - Mutually exclusive with `rv_getcert_private_key_path`
   - Type: `str`
   - Required: `true`
+
+- `rv_getcert_private_key_size`
+
+  - Description: Size of the private key
+  - Type: `int`
+  - Required: `false`
 
 - `rv_getcert_private_key_password`
 
@@ -101,10 +104,22 @@ Get Server or Client certificate.
   - Type: `str`
   - Required: `true`
 
-- `rv_getcert_private_key_size`
+- `rv_getcert_certificate_file_mode`
 
-  - Description: Size of the private key
-  - Type: `int`
+  - Description: Private Key file mode, when `rv_getcert_certificate_path` is defined
+  - Type: `str`
+  - Required: `false`
+
+- `rv_getcert_certificate_owner`
+
+  - Description: Private Key file owner, when `rv_getcert_certificate_path` is defined
+  - Type: `str`
+  - Required: `false`
+
+- `rv_getcert_certificate_group`
+
+  - Description: Private Key file owner group, when `rv_getcert_certificate_path` is defined
+  - Type: `str`
   - Required: `false`
 
 - `rv_getcert_validity_days`

@@ -66,3 +66,12 @@
     (( rv_getcert_private_key_file_mode is defined ) or ( rv_getcert_private_key_group is defined ) or ( rv_getcert_private_key_owner is defined ))
     and
     ( not rv_getcert_private_key_path is defined )
+
+- name: Get Certificate Ownca | Check Variables | Required Path for Certificate
+  ansible.builtin.fail:
+    msg: >-
+      `rv_getcert_certificate_file_mode`, `rv_getcert_certificate_owner` and `rv_getcert_certificate_group` requires `rv_getcert_certificate_path`
+  when: >
+    (( rv_getcert_certificate_file_mode is defined ) or ( rv_getcert_certificate_owner is defined ) or ( rv_getcert_certificate_group is defined ))
+    and
+    ( not rv_getcert_certificate_path is defined )
