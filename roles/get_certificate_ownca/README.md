@@ -4,6 +4,10 @@ Get Server or Client certificate.
 
 ## Variables
 
+### Variables: CA
+
+#### Variables: CA: Private Key
+
 - `rv_getcert_ownca_private_key_content`
 
   - Description:
@@ -26,6 +30,8 @@ Get Server or Client certificate.
   - Type: `str`
   - Required: `false`
 
+#### Variables: CA: Certificate
+
 - `rv_getcert_ownca_certificate_content`
 
   - Description:
@@ -39,6 +45,16 @@ Get Server or Client certificate.
   - Description:
     - Certificate path of OWNCA
     - Mutually exclusive with `rv_getcert_ownca_certificate_content`
+  - Type: `str`
+  - Required: `true`
+
+### Variables: Private Key
+
+- `rv_getcert_private_key_content`
+
+  - Description:
+    - Private Key Content
+    - Mutually exclusive with `rv_getcert_private_key_path`
   - Type: `str`
   - Required: `true`
 
@@ -68,14 +84,6 @@ Get Server or Client certificate.
   - Type: `str`
   - Required: `false`
 
-- `rv_getcert_private_key_content`
-
-  - Description:
-    - Private Key Content
-    - Mutually exclusive with `rv_getcert_private_key_path`
-  - Type: `str`
-  - Required: `true`
-
 - `rv_getcert_private_key_size`
 
   - Description: Size of the private key
@@ -87,6 +95,8 @@ Get Server or Client certificate.
   - Description: password if the private key is encrypted.
   - Type: `str`
   - Required: `false`
+
+### Variables: Certificate
 
 - `rv_getcert_certificate_content`
 
@@ -129,6 +139,8 @@ Get Server or Client certificate.
   - Required: `false`
   - Default: `7`
 
+#### Variables: Certificate: CSR Config
+
 - `rv_getcert_key_usage`
   - Description: Key Usages, that can be found [here](https://www.openssl.org/docs/manmaster/man5/x509v3_config.html)
   - Type: `list[str]`
@@ -167,6 +179,38 @@ Get Server or Client certificate.
 - name: Create Certificate
   ansible.builtin.import_role:
     name: arpanrec.utilities.get_certificate_ownca
+  vars:
+    rv_getcert_ownca_private_key_path: ownca_private_key.pem
+    rv_getcert_ownca_certificate_path: ownca_certificate_path.pem
+    rv_getcert_ownca_private_key_password: password
+    rv_getcert_private_key_password: password
+    rv_getcert_private_key_path: private_key.pem
+    rv_getcert_certificate_path: certificate_path.pem
+    rv_getcert_molecule_prepare_csr_path: ownca_csr.pem
+    rv_getcert_key_usage:
+      - digitalSignature
+      - nonRepudiation
+      - keyEncipherment
+      - dataEncipherment
+      - keyCertSign
+      - cRLSign
+    rv_getcert_extended_key_usage:
+      - serverAuth
+      - clientAuth
+      - codeSigning
+      - emailProtection
+      - timeStamping
+      - OCSPSigning
+      - msCTLSign
+    rv_getcert_subject_alt_name:
+      - DNS:www.arpanrec.com
+      - IP:172.0.0.1
+    rv_getcert_subject:
+      commonName: www.arpanrec.com
+    rv_getcert_basic_constraints:
+      - CA:TRUE
+      - pathlen:0
+    rv_getcert_private_key_file_mode: "0600"
 ```
 
 ## Testing Bitwarden Desktop
