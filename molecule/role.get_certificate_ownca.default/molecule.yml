@@ -1,0 +1,85 @@
+---
+dependency:
+  name: galaxy
+  enabled: true
+  options:
+    ignore-certs: false
+    ignore-errors: false
+    role-file: requirements.yml
+    requirements-file: requirements.yml
+driver:
+  name: docker
+platforms:
+  - name: debian_role_get_certificate_ownca_default
+    hostname: debian_role_get_certificate_ownca_default
+    image: debian
+    dockerfile: Dockerfile.j2
+    pre_build_image: false
+provisioner:
+  name: ansible
+  playbooks:
+    converge: converge.yml
+    prepare: prepare.yml
+  inventory:
+    group_vars:
+      all:
+        rv_getcert_ownca_private_key_path: ownca_private_key.pem
+        rv_getcert_ownca_certificate_path: ownca_certificate_path.pem
+        rv_getcert_ownca_private_key_password: password
+        rv_getcert_private_key_password: password
+        rv_getcert_private_key_path: private_key.pem
+        rv_getcert_certificate_path: certificate_path.pem
+        rv_getcert_molecule_prepare_csr_path: ownca_csr.pem
+        rv_getcert_key_usage:
+          - digitalSignature
+          - nonRepudiation
+          - keyEncipherment
+          - dataEncipherment
+          - keyCertSign
+          - cRLSign
+        rv_getcert_extended_key_usage:
+          - serverAuth
+          - clientAuth
+          - codeSigning
+          - emailProtection
+          - timeStamping
+          - OCSPSigning
+          - msCTLSign
+        rv_getcert_subject_alt_name:
+          - DNS:www.arpanrec.com
+          - IP:172.0.0.1
+        rv_getcert_subject:
+          commonName: www.arpanrec.com
+        rv_getcert_basic_constraints:
+          - CA:TRUE
+          - pathlen:0
+        rv_getcert_private_key_file_mode: "0600"
+scenario:
+  name: role.get_certificate_ownca.default
+  converge_sequence:
+    - converge
+  destroy_sequence:
+    - destroy
+  create_sequence:
+    - dependency
+    - create
+    - prepare
+  test_sequence:
+    - lint
+    - syntax
+    - destroy
+    - dependency
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - destroy
+verifier:
+  name: ansible
+lint: |
+  set -e
+  yamllint roles/get_certificate_ownca
+  ansible-lint roles/get_certificate_ownca
+  flake8 roles/get_certificate_ownca
+log: true
+role_name_check: 0

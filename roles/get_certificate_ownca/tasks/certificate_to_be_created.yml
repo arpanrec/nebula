@@ -1,0 +1,113 @@
+---
+- name: Get Certificate Ownca | Certificate To Be Created | When Certificate Content Not Present
+  when: not rv_getcert_to_be_created
+  ansible.builtin.set_fact:
+    rv_getcert_to_be_created: >-
+      {{
+        ( not rv_getcert_certificate_content is defined )
+        or
+        ( rv_getcert_certificate_content | length < 2 )
+      }}
+    rv_getcert_to_be_created_reason: "When Certificate Content Not Present"
+
+- name: Get Certificate Ownca | Certificate To Be Created | Get Certificate Old Information
+  when: not rv_getcert_to_be_created
+  community.crypto.x509_certificate_info:
+    content: "{{ rv_getcert_certificate_content }}"
+    valid_at:
+      one_day_after: "+1d"
+  register: rv_getcert_tmp_certificate_content_x509_info
+  ignore_errors: true
+
+- name: Get Certificate Ownca | Certificate To Be Created | Existing Certificate is Invalid
+  when: not rv_getcert_to_be_created
+  ansible.builtin.set_fact:
+    rv_getcert_to_be_created: >-
+      {{ rv_getcert_tmp_certificate_content_x509_info.failed is defined
+      and
+      rv_getcert_tmp_certificate_content_x509_info.failed }}
+    rv_getcert_to_be_created_reason: "Existing Certificate is Invalid"
+
+- name: Get Certificate Ownca | Certificate To Be Created | Get Issuer Information
+  when: not rv_getcert_to_be_created
+  community.crypto.x509_certificate_info:
+    content: "{{ rv_getcert_ownca_certificate_content }}"
+    valid_at:
+      not_crossed_issuer: "+{{ rv_getcert_validity_days }}d"
+  register: rv_getcert_tmp_owca_certificate_content_x509_info
+
+- name:
+    Get Certificate Ownca | Certificate To Be Created | Authority Key Identifier Mismatch,
+    Existing Certificate is not signed by OwnCA
+  when: not rv_getcert_to_be_created
+  ansible.builtin.set_fact:
+    rv_getcert_to_be_created: >-
+      {{ rv_getcert_tmp_certificate_content_x509_info.authority_key_identifier
+      !=
+      rv_getcert_tmp_owca_certificate_content_x509_info.subject_key_identifier }}
+    rv_getcert_to_be_created_reason: "Authority Key Identifier Mismatch, Existing Certificate is not signed by OwnCA"
+
+- name: Get Certificate Ownca | Certificate To Be Created | Certificate Expired
+  when: not rv_getcert_to_be_created
+  ansible.builtin.set_fact:
+    rv_getcert_to_be_created: "{{ not rv_getcert_tmp_certificate_content_x509_info.valid_at.one_day_after }}"
+    rv_getcert_to_be_created_reason: "Certificate Expired"
+
+- name: Get Certificate Ownca | Certificate To Be Created | Create a dummy CSR for key uses
+  when: not rv_getcert_to_be_created
+  changed_when: false
+  community.crypto.openssl_csr_pipe:
+    privatekey_content: "{{ rv_getcert_private_key_content }}"
+    privatekey_passphrase: "{{ rv_getcert_private_key_password | default(omit) }}"
+    key_usage: "{{ rv_getcert_key_usage | default(omit) }}"
+    extended_key_usage: "{{ rv_getcert_extended_key_usage | default(omit) }}"
+  register: rv_getcert_tmp_to_be_created_csr_for_keyusage
+
+- name: Get Certificate Ownca | Certificate To Be Created | Key Usage Mismatch
+  when: not rv_getcert_to_be_created
+  ansible.builtin.set_fact:
+    rv_getcert_to_be_created: "{{ expected_list | difference(current_list) | length != 0 or current_list | difference(expected_list) | length != 0 }}"
+    rv_getcert_to_be_created_reason: "Key Usage Mismatch"
+  vars:
+    current_list: "{{ rv_getcert_tmp_certificate_content_x509_info.key_usage | default([]) }}"
+    expected_list: "{{ rv_getcert_tmp_to_be_created_csr_for_keyusage.diff.after.key_usage | default([]) }}"
+
+- name: Get Certificate Ownca | Certificate To Be Created | Extended Key Usage Mismatch
+  when: not rv_getcert_to_be_created
+  ansible.builtin.set_fact:
+    rv_getcert_to_be_created: "{{ expected_list | difference(current_list) | length != 0 or current_list | difference(expected_list) | length != 0 }}"
+    rv_getcert_to_be_created_reason: "Extended Key Usage Mismatch"
+  vars:
+    current_list: "{{ rv_getcert_tmp_certificate_content_x509_info.extended_key_usage | default([]) }}"
+    expected_list: "{{ rv_getcert_tmp_to_be_created_csr_for_keyusage.diff.after.extended_key_usage | default([]) }}"
+
+- name: Get Certificate Ownca | Certificate To Be Created | SAN Mismatch
+  when: not rv_getcert_to_be_created
+  ansible.builtin.set_fact:
+    rv_getcert_to_be_created: "{{ expected_list | difference(current_list) | length != 0 or current_list | difference(expected_list) | length != 0 }}"
+    rv_getcert_to_be_created_reason: "SAN Mismatch"
+  vars:
+    current_list: "{{ rv_getcert_tmp_certificate_content_x509_info.subject_alt_name | default([]) }}"
+    expected_list: "{{ rv_getcert_subject_alt_name | default([]) }}"
+
+- name: Get Certificate Ownca | Certificate To Be Created | Subject Mismatch
+  when: not rv_getcert_to_be_created
+  ansible.builtin.set_fact:
+    rv_getcert_to_be_created: "{{ rv_getcert_tmp_certificate_content_x509_info.subject != rv_getcert_subject_user_default }}"
+    rv_getcert_to_be_created_reason: "Subject Mismatch"
+  vars:
+    rv_getcert_subject_user_default: "{{ rv_getcert_subject | default({}) }}"
+
+- name: Get Certificate Ownca | Certificate To Be Created | Basic Constraints Mismatch
+  when: not rv_getcert_to_be_created
+  ansible.builtin.set_fact:
+    rv_getcert_to_be_created: "{{ expected_list | difference(current_list) | length != 0 or current_list | difference(expected_list) | length != 0 }}"
+    rv_getcert_to_be_created_reason: "Basic Constraints Mismatch"
+  vars:
+    expected_list: "{{ rv_getcert_basic_constraints | default([]) }}"
+    current_list: "{{ rv_getcert_tmp_certificate_content_x509_info.basic_constraints | default([]) }}"
+
+- name: Get Certificate Ownca | Certificate To Be Created | Reason
+  when: rv_getcert_to_be_created
+  ansible.builtin.debug:
+    msg: "Certificate to be created reason: {{ rv_getcert_to_be_created_reason }}"

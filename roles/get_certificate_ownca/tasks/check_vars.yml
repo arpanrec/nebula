@@ -1,0 +1,77 @@
+---
+- name: Get Certificate Ownca | Check Variables | Fail if OwnCA Private Key is not Present
+  ansible.builtin.fail:
+    msg: >-
+      rv_getcert_ownca_private_key_content or rv_getcert_ownca_private_key_path is required
+  when:
+    - rv_getcert_ownca_private_key_content is not defined
+    - rv_getcert_ownca_private_key_path is not defined
+
+- name: Get Certificate Ownca | Check Variables | Fail if OwnCA private key path and content both Present
+  ansible.builtin.fail:
+    msg: >-
+      rv_getcert_ownca_private_key_content or rv_getcert_ownca_private_key_path is mutually exclusive
+  when:
+    - rv_getcert_ownca_private_key_content is defined
+    - rv_getcert_ownca_private_key_path is defined
+
+- name: Get Certificate Ownca | Check Variables | Fail if OwnCA Certificate is not Present
+  ansible.builtin.fail:
+    msg: >-
+      rv_getcert_ownca_certificate_content or rv_getcert_ownca_certificate_path is required
+  when:
+    - rv_getcert_ownca_certificate_content is not defined
+    - rv_getcert_ownca_certificate_path is not defined
+
+- name: Get Certificate Ownca | Check Variables | Fail if OwnCA certificate path and content both Present
+  ansible.builtin.fail:
+    msg: >-
+      rv_getcert_ownca_certificate_content or rv_getcert_ownca_certificate_path is mutually exclusive
+  when:
+    - rv_getcert_ownca_certificate_content is defined
+    - rv_getcert_ownca_certificate_path is defined
+
+- name: Get Certificate Ownca | Check Variables | Fail if private key path and content both Present
+  ansible.builtin.fail:
+    msg: >-
+      rv_getcert_private_key_content or rv_getcert_private_key_path is mutually exclusive
+  when:
+    - rv_getcert_private_key_content is defined
+    - rv_getcert_private_key_path is defined
+
+- name: Get Certificate Ownca | Check Variables | Fail if certificate path and content both Present
+  ansible.builtin.fail:
+    msg: >-
+      rv_getcert_certificate_content or rv_getcert_certificate_path is mutually exclusive
+  when:
+    - rv_getcert_certificate_content is defined
+    - rv_getcert_certificate_path is defined
+
+- name: Get Certificate Ownca | Check Variables | Unknown key in subject
+  ansible.builtin.fail:
+    msg:
+      "Unknown key in subject {{ rv_getcert_subject.keys() | difference(rv_getcert_subject_keys_list) }},
+      Expected Keys {{ rv_getcert_subject_keys_list }}"
+  when:
+    - rv_getcert_subject is defined
+    - rv_getcert_subject_keys_expected
+  vars:
+    rv_getcert_subject_keys_expected: "{{ rv_getcert_subject.keys() | difference(rv_getcert_subject_keys_list) | length != 0 }}"
+
+- name: Get Certificate Ownca | Check Variables | Required Path for Private Key
+  ansible.builtin.fail:
+    msg: >-
+      `rv_getcert_private_key_file_mode`, `rv_getcert_private_key_group` and `rv_getcert_private_key_owner` requires `rv_getcert_private_key_path`
+  when: >
+    (( rv_getcert_private_key_file_mode is defined ) or ( rv_getcert_private_key_group is defined ) or ( rv_getcert_private_key_owner is defined ))
+    and
+    ( not rv_getcert_private_key_path is defined )
+
+- name: Get Certificate Ownca | Check Variables | Required Path for Certificate
+  ansible.builtin.fail:
+    msg: >-
+      `rv_getcert_certificate_file_mode`, `rv_getcert_certificate_owner` and `rv_getcert_certificate_group` requires `rv_getcert_certificate_path`
+  when: >
+    (( rv_getcert_certificate_file_mode is defined ) or ( rv_getcert_certificate_owner is defined ) or ( rv_getcert_certificate_group is defined ))
+    and
+    ( not rv_getcert_certificate_path is defined )

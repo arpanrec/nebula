@@ -1,0 +1,52 @@
+---
+- name: Get Certificate Ownca | Set Values | OwnCA Private Key
+  when: rv_getcert_ownca_private_key_path is defined
+  block:
+    - name: Get Certificate Ownca | Set Values | OwnCA Private Key | Read content
+      ansible.builtin.slurp:
+        src: "{{ rv_getcert_ownca_private_key_path }}"
+      register: rv_getcert_tmp_ownca_private_key_slurp
+
+    - name: Get Certificate Ownca | Set Values | OwnCA Private Key | Set rv_getcert_ownca_private_key_content
+      ansible.builtin.set_fact:
+        rv_getcert_ownca_private_key_content: "{{ rv_getcert_tmp_ownca_private_key_slurp.content | b64decode }}"
+
+- name: Get Certificate Ownca | Set Values | OwnCA Certificate
+  when: rv_getcert_ownca_certificate_path is defined
+  block:
+    - name: Get Certificate Ownca | Set Values | OwnCA Certificate | Read content
+      ansible.builtin.slurp:
+        src: "{{ rv_getcert_ownca_certificate_path }}"
+      register: rv_getcert_tmp_ownca_certificate_slurp
+
+    - name: Get Certificate Ownca | Set Values | OwnCA Certificate | Set rv_getcert_ownca_certificate_content
+      ansible.builtin.set_fact:
+        rv_getcert_ownca_certificate_content: "{{ rv_getcert_tmp_ownca_certificate_slurp.content | b64decode }}"
+
+- name: Get Certificate Ownca | Set Values | Private Key
+  when: rv_getcert_private_key_path is defined
+  block:
+    - name: Get Certificate Ownca | Set Values | Private Key | Read content
+      ansible.builtin.slurp:
+        src: "{{ rv_getcert_private_key_path }}"
+      register: rv_getcert_tmp_private_key_slurp
+      ignore_errors: true
+
+    - name: Get Certificate Ownca | Set Values | Private Key | Set rv_getcert_private_key_content
+      when: rv_getcert_tmp_private_key_slurp.content is defined
+      ansible.builtin.set_fact:
+        rv_getcert_private_key_content: "{{ rv_getcert_tmp_private_key_slurp.content | b64decode }}"
+
+- name: Get Certificate Ownca | Set Values | Certificate
+  when: rv_getcert_certificate_path is defined
+  block:
+    - name: Get Certificate Ownca | Set Values | Certificate | Read content
+      ansible.builtin.slurp:
+        src: "{{ rv_getcert_certificate_path }}"
+      register: rv_getcert_tmp_certificate_slurp
+      ignore_errors: true
+
+    - name: Get Certificate Ownca | Set Values | OwnCA Certificate | Set rv_getcert_certificate_content
+      when: rv_getcert_tmp_certificate_slurp.content is defined
+      ansible.builtin.set_fact:
+        rv_getcert_certificate_content: "{{ rv_getcert_tmp_certificate_slurp.content | b64decode }}"

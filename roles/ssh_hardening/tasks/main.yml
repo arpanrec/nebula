@@ -9,11 +9,12 @@
 - name: SSHD Hardening | Install Packages Archlinux
   ansible.builtin.include_tasks: "0100-install-{{ ansible_os_family }}.yml"
 
-- name: SSHD Hardening | Apply SSHD Settings
-  ansible.builtin.include_tasks: 0200-ssh-security.yml
-
 - name: Linux Patching | Enable UFW SSH Port
   community.general.ufw:
     rule: allow
     port: "{{ rv_sshd_hardening_ssh_port }}"
     proto: tcp
+    state: enabled
+
+- name: SSHD Hardening | Apply SSHD Settings
+  ansible.builtin.include_tasks: 0200-ssh-security.yml

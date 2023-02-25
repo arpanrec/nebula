@@ -1,0 +1,57 @@
+---
+- name: Get Certificate Ownca | Molecule | Prepare
+  hosts: all
+  become: false
+  gather_facts: false
+  any_errors_fatal: false
+  tasks:
+    - name: Get Certificate Ownca | Molecule | Prepare | Generate an OpenSSL private key
+      community.crypto.openssl_privatekey:
+        path: "{{ rv_getcert_ownca_private_key_path }}"
+        passphrase: "{{ rv_getcert_ownca_private_key_password }}"
+        size: 8192
+        cipher: auto
+
+    - name: Get Certificate Ownca | Molecule | Prepare | Generate an OpenSSL Certificate Signing Request
+      community.crypto.openssl_csr:
+        path: "{{ rv_getcert_molecule_prepare_csr_path }}"
+        privatekey_path: "{{ rv_getcert_ownca_private_key_path }}"
+        privatekey_passphrase: "{{ rv_getcert_ownca_private_key_password }}"
+        country_name: IN
+        state_or_province_name: STName
+        locality_name: LName
+        organization_name: Org
+        organizational_unit_name: OUName
+        email_address: x@x.x
+        common_name: CNName
+        basic_constraints: CA:TRUE
+        basic_constraints_critical: true
+        key_usage:
+          - digitalSignature
+          - nonRepudiation
+          - keyEncipherment
+          - dataEncipherment
+          - keyCertSign
+          - cRLSign
+        key_usage_critical: true
+        extended_key_usage:
+          - serverAuth
+          - clientAuth
+          - codeSigning
+          - emailProtection
+          - timeStamping
+          - OCSPSigning
+          - msCTLSign
+          - msEFS
+        extended_key_usage_critical: true
+        create_subject_key_identifier: true
+
+    - name: Get Certificate Ownca | Molecule | Prepare | Generate an OpenSSL certificate signed with your own CA certificate
+      community.crypto.x509_certificate:
+        path: "{{ rv_getcert_ownca_certificate_path }}"
+        csr_path: "{{ rv_getcert_molecule_prepare_csr_path }}"
+        privatekey_path: "{{ rv_getcert_ownca_private_key_path }}"
+        privatekey_passphrase: "{{ rv_getcert_ownca_private_key_password }}"
+        provider: selfsigned
+        selfsigned_not_after: "+365d"
+        selfsigned_not_before: "-1d"
