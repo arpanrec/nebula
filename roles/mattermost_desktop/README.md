@@ -36,7 +36,7 @@ Install [Mattermost Desktop](https://github.com/mattermost/desktop/releases)
 
 ```yaml
 - name: Include bitwarden_desktop
-  ansible.builtin.import_role:
+  ansible.builtin.include_role:
     name: arpanrec.utilities.mattermost_desktop
 ```
 

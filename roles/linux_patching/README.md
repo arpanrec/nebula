@@ -57,6 +57,6 @@ Set timezone, locale, and loopback ip in server
   become: true
   become_method: su
   any_errors_fatal: true
-  ansible.builtin.import_role:
+  ansible.builtin.include_role:
     name: arpanrec.utilities.linux_patching
 ```

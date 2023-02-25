@@ -1,6 +1,6 @@
 ---
 - name: Golang | Prerequisites
-  ansible.builtin.import_tasks: prerequisites.yml
+  ansible.builtin.include_tasks: prerequisites.yml
 
 - name: Golang | Create install directory
   ansible.builtin.file:

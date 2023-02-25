@@ -10,7 +10,7 @@ Install [konsave](https://github.com/Prayag2/konsave) and upload [sweet-kde](htt
 
 ```yaml
 - name: Include KDE
-  ansible.builtin.import_role:
+  ansible.builtin.include_role:
     name: arpanrec.utilities.kde
 ```
 

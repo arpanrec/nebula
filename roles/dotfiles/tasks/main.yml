@@ -1,6 +1,6 @@
 ---
 - name: Dotfiles | Prerequisites
-  ansible.builtin.import_tasks: prerequisites.yml
+  ansible.builtin.include_tasks: prerequisites.yml
 
 - name: Dotfiles | Cloning git bare
   ansible.builtin.git:

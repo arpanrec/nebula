@@ -28,7 +28,7 @@ Install bitwarden AppImage [Bitwarden Desktop](https://github.com/bitwarden/clie
 
 ```yaml
 - name: Include bitwarden_desktop
-  ansible.builtin.import_role:
+  ansible.builtin.include_role:
     name: arpanrec.utilities.bitwarden_desktop
 ```
 

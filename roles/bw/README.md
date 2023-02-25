@@ -24,7 +24,7 @@ Variables:
 
 ```yaml
 - name: Include Bitwarden CLI
-  ansible.builtin.import_role:
+  ansible.builtin.include_role:
     name: arpanrec.utilities.bw
 ```
 

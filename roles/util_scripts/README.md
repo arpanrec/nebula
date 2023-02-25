@@ -10,7 +10,7 @@ Install [Utility Scripts](https://github.com/arpanrec/util_scripts/tree/main/bin
 
 ```yaml
 - name: Include Utility Scripts
-  ansible.builtin.import_role:
+  ansible.builtin.include_role:
     name: arpanrec.utilities.util_scripts
 ```
 

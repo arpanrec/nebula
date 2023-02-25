@@ -4,7 +4,7 @@
   gather_facts: false
   tasks:
     - name: Oracle JDK | Molecule | Verify | Import Roles for variables
-      ansible.builtin.import_role:
+      ansible.builtin.include_role:
         name: arpanrec.utilities.java
         tasks_from: prerequisites
 

@@ -1,6 +1,6 @@
 ---
 - name: Bitwarden Desktop | Prerequisites
-  ansible.builtin.import_tasks: prerequisites.yml
+  ansible.builtin.include_tasks: prerequisites.yml
 
 - name: Bitwarden Desktop | Create install directory
   ansible.builtin.file:

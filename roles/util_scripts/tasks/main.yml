@@ -1,6 +1,6 @@
 ---
 - name: Scripts | Prerequisites
-  ansible.builtin.import_tasks: prerequisites.yml
+  ansible.builtin.include_tasks: prerequisites.yml
 
 - name: Scripts | Git Clone
   ansible.builtin.git:

@@ -1,4 +1,31 @@
 ---
+# rv_getcert_ownca_private_key_content: "{{ omit }}"
+# rv_getcert_ownca_private_key_path: "{{ omit }}"
+# rv_getcert_ownca_private_key_password: "{{ omit }}"
+# rv_getcert_ownca_certificate_content: "{{ omit }}"
+# rv_getcert_ownca_certificate_path: "{{ omit }}"
+# rv_getcert_private_key_content: "{{ omit }}"
+# rv_getcert_private_key_path: "{{ omit }}"
+# rv_getcert_private_key_owner:
+# rv_getcert_private_key_group:
+# rv_getcert_private_key_file_mode:
+# rv_getcert_private_key_size:
+# rv_getcert_private_key_password:
+# rv_getcert_certificate_content:
+# rv_getcert_certificate_path:
+# rv_getcert_certificate_file_mode:
+# rv_getcert_certificate_owner:
+# rv_getcert_certificate_group:
+# rv_getcert_key_usage:
+# rv_getcert_extended_key_usage:
+# rv_getcert_subject_alt_name:
+# rv_getcert_subject:
+# rv_getcert_basic_constraints:
+# rv_getcert_certificatefullchain_path:
+# rv_getcert_certificatefullchain_file_mode:
+# rv_getcert_certificatefullchain_owner: "{{ omit }}"
+# rv_getcert_certificatefullchain_group:
+
 rv_getcert_validity_days: 7
 rv_getcert_to_be_created: false
 rv_getcert_to_be_created_reason: "Unknown"

@@ -4,10 +4,11 @@
   gather_facts: false
   tasks:
     - name: SSHD Hardening | Molecule | Prepare | Include arpanrec.linux_patching
-      become: true
-      become_method: su
-      any_errors_fatal: true
-      ansible.builtin.import_role:
+      ansible.builtin.include_role:
         name: arpanrec.utilities.linux_patching
       vars:
         rv_linux_patching_install_headers: false
+      args:
+        apply:
+          become: true
+          become_method: su

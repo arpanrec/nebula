@@ -4,7 +4,7 @@
   gather_facts: false
   tasks:
     - name: NEOVIM | Molecule | Verify | Import Roles for variables
-      ansible.builtin.import_role:
+      ansible.builtin.include_role:
         name: arpanrec.utilities.nvim
         tasks_from: prerequisites
 

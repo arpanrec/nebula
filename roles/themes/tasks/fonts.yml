@@ -1,6 +1,6 @@
 ---
 - name: Themes | Fonts | Cascadia Code
-  ansible.builtin.import_tasks: fonts/cascadia-code.yml
+  ansible.builtin.include_tasks: fonts/cascadia-code.yml
 
 - name: Themes | Fonts | Nerd Hack
-  ansible.builtin.import_tasks: fonts/nerd-hack.yml
+  ansible.builtin.include_tasks: fonts/nerd-hack.yml

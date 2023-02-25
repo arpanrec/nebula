@@ -50,7 +50,7 @@ Install [NeoVIM](https://neovim.io/) with setup with vim plug coc python
 
 ```yaml
 - name: Include NeoVIM
-  ansible.builtin.import_role:
+  ansible.builtin.include_role:
     name: arpanrec.utilities.nvim
 ```
 

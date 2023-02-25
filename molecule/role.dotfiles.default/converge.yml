@@ -6,5 +6,5 @@
   any_errors_fatal: true
   tasks:
     - name: Dotfiles | Molecule | Converge | Role
-      ansible.builtin.import_role:
+      ansible.builtin.include_role:
         name: arpanrec.utilities.dotfiles

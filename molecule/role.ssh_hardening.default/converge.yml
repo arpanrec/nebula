@@ -4,6 +4,8 @@
   gather_facts: true
   tasks:
     - name: SSHD Hardening | Molecule | Converge | Include arpanrec.ssh_hardening
-      become: true
-      ansible.builtin.import_role:
+      ansible.builtin.include_role:
         name: arpanrec.utilities.ssh_hardening
+      args:
+        apply:
+          become: true

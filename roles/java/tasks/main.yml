@@ -1,6 +1,6 @@
 ---
 - name: Oracle JDK | Prerequisites
-  ansible.builtin.import_tasks: prerequisites.yml
+  ansible.builtin.include_tasks: prerequisites.yml
 
 - name: Oracle JDK | Create install directory
   ansible.builtin.file:
@@ -30,7 +30,7 @@
         remote_src: true
 
 - name: Oracle JDK | Maven
-  ansible.builtin.import_tasks: mvn.yml
+  ansible.builtin.include_tasks: mvn.yml
 
 - name: Oracle JDK | Gradle
-  ansible.builtin.import_tasks: gradle.yml
+  ansible.builtin.include_tasks: gradle.yml

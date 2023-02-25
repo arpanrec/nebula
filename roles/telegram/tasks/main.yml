@@ -1,6 +1,6 @@
 ---
 - name: Telegram Desktop | Prerequisites
-  ansible.builtin.import_tasks: prerequisites.yml
+  ansible.builtin.include_tasks: prerequisites.yml
 
 - name: Telegram Desktop | Create install directory
   ansible.builtin.file:

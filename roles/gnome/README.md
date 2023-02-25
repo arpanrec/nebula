@@ -42,7 +42,7 @@ Install Gnome Extensions and setup
 
 ```yaml
 - name: Include Gnome
-  ansible.builtin.import_role:
+  ansible.builtin.include_role:
     name: arpanrec.utilities.gnome
 ```
 
