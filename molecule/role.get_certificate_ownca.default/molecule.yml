@@ -53,6 +53,7 @@ provisioner:
         rv_getcert_basic_constraints:
           - CA:TRUE
           - pathlen:0
+        rv_getcert_private_key_file_mode: "0600"
 scenario:
   name: role.get_certificate_ownca.default
   converge_sequence:

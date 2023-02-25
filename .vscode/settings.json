@@ -82,6 +82,7 @@
     "OCSP",
     "onedark",
     "ownca",
+    "pathlen",
     "perfmon",
     "pigz",
     "posix",

@@ -57,3 +57,12 @@
     - rv_getcert_subject_keys_expected
   vars:
     rv_getcert_subject_keys_expected: "{{ rv_getcert_subject.keys() | difference(rv_getcert_subject_keys_list) | length != 0 }}"
+
+- name: Get Certificate Ownca | Check Variables | Required Path for Private Key
+  ansible.builtin.fail:
+    msg: >-
+      `rv_getcert_private_key_file_mode`, `rv_getcert_private_key_group` and `rv_getcert_private_key_owner` requires `rv_getcert_private_key_path`
+  when: >
+    (( rv_getcert_private_key_file_mode is defined ) or ( rv_getcert_private_key_group is defined ) or ( rv_getcert_private_key_owner is defined ))
+    and
+    ( not rv_getcert_private_key_path is defined )

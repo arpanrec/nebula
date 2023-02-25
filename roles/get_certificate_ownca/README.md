@@ -50,6 +50,27 @@ Get Server or Client certificate.
   - Type: `str`
   - Required: `true`
 
+- `rv_getcert_private_key_owner`
+
+  - Description:
+    - Private Key file owner, when `rv_getcert_private_key_path` is defined
+  - Type: `str`
+  - Required: `false`
+
+- `rv_getcert_private_key_group`
+
+  - Description:
+    - Private Key file owner group, when `rv_getcert_private_key_path` is defined
+  - Type: `str`
+  - Required: `false`
+
+- `rv_getcert_private_key_file_mode`
+
+  - Description:
+    - Private Key file mode, when `rv_getcert_private_key_path` is defined
+  - Type: `str`
+  - Required: `false`
+
 - `rv_getcert_private_key_content`
 
   - Description:
