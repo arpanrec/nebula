@@ -1,10 +1,10 @@
 ---
 - name: Get Certificate Ownca | Create Private Key | Private Key
   community.crypto.openssl_privatekey_pipe:
+    content: "{{ rv_getcert_private_key_content | default(omit) }}"
     size: "{{ rv_getcert_private_key_size | default(omit) }}"
     passphrase: "{{ rv_getcert_private_key_password | default(omit) }}"
-    content: "{{ rv_getcert_private_key_content | default(omit) }}"
-    cipher: auto
+    cipher: "{{ (rv_getcert_private_key_password is defined) | ternary('auto', omit) }}"
   register: rv_getcert_private_key_content_create_new
 
 - name: Get Certificate Ownca | Create Private Key | Private Key Set Fact
