@@ -1,18 +1,31 @@
 ---
 collections:
-  - source: https://github.com/ansible-collections/community.general.git
+  - name: community.general
     type: git
+    source: https://github.com/ansible-collections/community.general.git
     version: 6.3.0
-  - source: https://github.com/ansible-collections/ansible.posix.git
+  - name: community.crypto
     type: git
-    version: 1.5.1
-  - source: https://github.com/ansible-collections/community.docker.git
+    source: https://github.com/ansible-collections/community.crypto.git
+    version: 2.11.0
+  - name: amazon.aws
     type: git
+    source: https://github.com/ansible-collections/amazon.aws.git
+    version: 5.2.0
+  - name: community.docker
+    type: git
+    source: https://github.com/ansible-collections/community.docker.git
     version: 3.4.1
-  - source: https://github.com/kewlfft/ansible-aur.git
+  - name: ansible.posix
     type: git
+    source: https://github.com/ansible-collections/ansible.posix.git
+    version: 1.5.1
+  - name: kewlfft.aur
+    type: git
+    source: https://github.com/kewlfft/ansible-aur.git
     version: v0.10.0
 roles:
-  - src: https://github.com/geerlingguy/ansible-role-docker.git
+  - name: geerlingguy.docker
     scm: git
+    src: https://github.com/geerlingguy/ansible-role-docker.git
     version: 6.1.0
