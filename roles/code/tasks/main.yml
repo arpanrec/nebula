@@ -76,7 +76,7 @@
         mode: "0600"
 
 - name: Visual Studio Code | Install Extensions
-  ansible.builtin.import_tasks: code_extensions.yml
+  ansible.builtin.include_tasks: code_extensions.yml
   with_items: "{{ rv_code_ext_to_be_installed }}"
 
 - name: Visual Studio Code | Copy Config

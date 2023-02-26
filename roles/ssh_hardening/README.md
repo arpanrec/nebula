@@ -83,3 +83,9 @@ This role applies basic security settings for personal VPS
   vars:
     rv_sshd_hardening_ssh_security_password_authentication: true
 ```
+
+## Testing
+
+```bash
+molecule test -s role.ssh_hardening.default
+```

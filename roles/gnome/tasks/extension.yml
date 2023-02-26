@@ -17,7 +17,7 @@
     var: pv_gnome_gnome_shell_version
 
 - name: Gnome | Extension | Install
-  ansible.builtin.import_tasks: extension-install.yml
+  ansible.builtin.include_tasks: extension-install.yml
   with_items: "{{ rv_gnome_extension_list }}"
   vars:
     pv_gnome_extension_id: "{{ item.id }}"
