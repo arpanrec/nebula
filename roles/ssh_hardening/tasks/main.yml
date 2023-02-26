@@ -4,7 +4,7 @@
   ansible.builtin.import_tasks: 0000-pre-install-checks.yml
 
 - name: SSHD Hardening | Include Variables
-  ansible.builtin.import_vars: "vars-{{ ansible_os_family }}.yml"
+  ansible.builtin.include_vars: "vars-{{ ansible_os_family }}.yml"
 
 - name: SSHD Hardening | Install Packages Archlinux
   ansible.builtin.import_tasks: "0100-install-{{ ansible_os_family }}.yml"
