@@ -10,4 +10,3 @@
         name: arpanrec.utilities.linux_patching
       vars:
         rv_linux_patching_install_headers: false
-
