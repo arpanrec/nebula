@@ -78,7 +78,7 @@ This role applies basic security settings for personal VPS
 
 ```yaml
 - name: SSHD Hardening
-  ansible.builtin.include_role:
+  ansible.builtin.import_role:
     name: arpanrec.utilities.ssh_hardening
   vars:
     rv_sshd_hardening_ssh_security_password_authentication: true

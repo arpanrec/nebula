@@ -18,7 +18,7 @@
     rv_common_arch_aur_helper_build_uid: 11061
 
 - name: Common | AUR Helper | Create Build User
-  ansible.builtin.include_role:
+  ansible.builtin.import_role:
     name: user_add
     tasks_from: 100-adduser.yml
   vars:

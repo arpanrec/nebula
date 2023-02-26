@@ -1,6 +1,6 @@
 ---
 - name: KDE | Prerequisites
-  ansible.builtin.include_tasks: prerequisites.yml
+  ansible.builtin.import_tasks: prerequisites.yml
 
 - name: KDE | Create Konsave Profiles Directory
   ansible.builtin.file:

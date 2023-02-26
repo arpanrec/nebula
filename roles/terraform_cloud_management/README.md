@@ -80,7 +80,7 @@ molecule test
   hosts: all
   tasks:
     - name: Terraform Cloud Management | Include arpanrec.terraform_cloud_management
-      ansible.builtin.include_role:
+      ansible.builtin.import_role:
         name: "arpanrec.terraform_cloud_management"
       vars:
         rl_tef_org_name: arpanrec

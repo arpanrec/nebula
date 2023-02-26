@@ -30,7 +30,7 @@ Install NodeJS in user space
 
 ```yaml
 - name: Include NodeJS
-  ansible.builtin.include_role:
+  ansible.builtin.import_role:
     name: arpanrec.utilities.nodejs
 ```
 

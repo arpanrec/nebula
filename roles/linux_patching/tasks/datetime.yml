@@ -1,6 +1,6 @@
 ---
 - name: Linux Patching | Setup Host Date Time | Checking Prerequisite | Include Common Checks
-  ansible.builtin.include_tasks: prerequisite.yml
+  ansible.builtin.import_tasks: prerequisite.yml
 
 - name: Linux Patching | Setup Host Date Time | Set timezone as {{ rv_linux_patching_timezone }}
   community.general.timezone:

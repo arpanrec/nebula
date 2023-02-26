@@ -4,5 +4,5 @@
   gather_facts: false
   tasks:
     - name: Bitwarden Desktop | Molecule | Converge | Include Bitwarden Desktop
-      ansible.builtin.include_role:
+      ansible.builtin.import_role:
         name: arpanrec.utilities.bitwarden_desktop

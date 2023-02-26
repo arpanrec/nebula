@@ -1,9 +1,9 @@
 ---
 - name: NEOVIM | Prerequisites
-  ansible.builtin.include_tasks: prerequisites.yml
+  ansible.builtin.import_tasks: prerequisites.yml
 
 - name: NEOVIM | Install NodeJS
-  ansible.builtin.include_role:
+  ansible.builtin.import_role:
     name: arpanrec.utilities.nodejs
 
 - name: NEOVIM | Create install directory
@@ -104,4 +104,4 @@
         - "{{ rv_nvim_install_path }}"
 
 - name: NEOVIM | Config
-  ansible.builtin.include_tasks: nvim_config.yml
+  ansible.builtin.import_tasks: nvim_config.yml

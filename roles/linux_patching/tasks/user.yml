@@ -1,6 +1,6 @@
 ---
 - name: Linux Patching | Users | Checking Prerequisite
-  ansible.builtin.include_tasks: prerequisite.yml
+  ansible.builtin.import_tasks: prerequisite.yml
 
 - name: Linux Patching | Users | Create home for new users
   ansible.builtin.lineinfile:

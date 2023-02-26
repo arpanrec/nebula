@@ -1,7 +1,0 @@
----
-- name: Terraform Cloud Management | Converge
-  hosts: all
-  tasks:
-    - name: Terraform Cloud Management | Converge | Include arpanrec.terraform_cloud_management
-      ansible.builtin.include_role:
-        name: "arpanrec.terraform_cloud_management"

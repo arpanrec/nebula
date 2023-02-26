@@ -74,6 +74,7 @@
     "markdownlint",
     "memfree",
     "memtotal",
+    "minio",
     "MZVLB",
     "ncipollo",
     "nocache",

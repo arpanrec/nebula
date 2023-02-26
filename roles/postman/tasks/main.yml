@@ -1,6 +1,6 @@
 ---
 - name: Postman | Prerequisites
-  ansible.builtin.include_tasks: prerequisites.yml
+  ansible.builtin.import_tasks: prerequisites.yml
 
 - name: Postman | Fail if not ansible_facts.architecture == "x86_64"
   ansible.builtin.fail:

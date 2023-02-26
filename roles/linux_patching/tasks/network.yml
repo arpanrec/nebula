@@ -1,6 +1,6 @@
 ---
 - name: Linux Patching | Network | Checking Prerequisite | Include Common Checks
-  ansible.builtin.include_tasks: prerequisite.yml
+  ansible.builtin.import_tasks: prerequisite.yml
 
 - name: Linux Patching | Network | CA Certificate
   when: rv_linux_patching_root_ca_pem_content is defined and rv_linux_patching_root_ca_pem_content | length > 1

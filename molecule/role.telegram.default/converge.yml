@@ -4,5 +4,5 @@
   gather_facts: false
   tasks:
     - name: Telegram Desktop | Molecule | Converge | Include Telegram Desktop
-      ansible.builtin.include_role:
+      ansible.builtin.import_role:
         name: arpanrec.utilities.telegram

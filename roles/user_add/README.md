@@ -66,7 +66,7 @@ Create a user and add it to sudoers.d
 
 ```yaml
 - name: Add application user
-  include_role:
+  import_role:
     name: arpanrec.user_add
   vars:
     rv_user_add_username: "arpan"

@@ -203,7 +203,7 @@ Get Server or Client certificate.
 
 ```yaml
 - name: Create Certificate
-  ansible.builtin.include_role:
+  ansible.builtin.import_role:
     name: arpanrec.utilities.get_certificate_ownca
   vars:
     rv_getcert_ownca_private_key_path: ownca_private_key.pem

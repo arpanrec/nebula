@@ -1,6 +1,6 @@
 ---
 - name: NodeJS | Prerequisites
-  ansible.builtin.include_tasks: prerequisites.yml
+  ansible.builtin.import_tasks: prerequisites.yml
 
 - name: NodeJS | Create install directory
   ansible.builtin.file:

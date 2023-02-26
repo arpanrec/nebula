@@ -1,6 +1,6 @@
 ---
 - name: Gnome | Prerequisites
-  ansible.builtin.include_tasks: prerequisites.yml
+  ansible.builtin.import_tasks: prerequisites.yml
 
 - name: Gnome | Install extension
-  ansible.builtin.include_tasks: extension.yml
+  ansible.builtin.import_tasks: extension.yml

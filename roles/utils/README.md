@@ -6,7 +6,7 @@ Helper Ansible Roles
 
 ```yaml
 - name: "Include tasks from set_secret_vault_env"
-    include_role:
+    import_role:
     name: arpanrec.utils
     tasks_from: tlscert.yml
 ```

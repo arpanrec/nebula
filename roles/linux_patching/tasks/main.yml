@@ -5,13 +5,13 @@
   changed_when: "'0 upgraded, 0 newly installed' not in rv_linux_patching_install_python_pip_result_raw.stdout_lines | last"
 
 - name: Linux Patching | Install packages
-  ansible.builtin.include_tasks: packages.yml
+  ansible.builtin.import_tasks: packages.yml
 
 - name: Linux Patching | Date Time
-  ansible.builtin.include_tasks: datetime.yml
+  ansible.builtin.import_tasks: datetime.yml
 
 - name: Linux Patching | Setup Host Network Information
-  ansible.builtin.include_tasks: network.yml
+  ansible.builtin.import_tasks: network.yml
 
 - name: Linux Patching | Setup admin users
-  ansible.builtin.include_tasks: user.yml
+  ansible.builtin.import_tasks: user.yml

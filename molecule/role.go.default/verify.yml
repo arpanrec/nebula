@@ -4,7 +4,7 @@
   gather_facts: false
   tasks:
     - name: Golang | Molecule | Verify | Import Roles for variables
-      ansible.builtin.include_role:
+      ansible.builtin.import_role:
         name: arpanrec.utilities.go
         tasks_from: prerequisites
 

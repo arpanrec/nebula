@@ -1,15 +1,15 @@
 ---
 - name: Themes | Prerequisites
-  ansible.builtin.include_tasks: prerequisites.yml
+  ansible.builtin.import_tasks: prerequisites.yml
 
 - name: Themes | Theme
-  ansible.builtin.include_tasks: theme.yml
+  ansible.builtin.import_tasks: theme.yml
 
 - name: Themes | Terminal Themes
-  ansible.builtin.include_tasks: terminal_themes.yml
+  ansible.builtin.import_tasks: terminal_themes.yml
 
 - name: Themes | Icons
-  ansible.builtin.include_tasks: icons.yml
+  ansible.builtin.import_tasks: icons.yml
 
 - name: Themes | Fonts
-  ansible.builtin.include_tasks: fonts.yml
+  ansible.builtin.import_tasks: fonts.yml

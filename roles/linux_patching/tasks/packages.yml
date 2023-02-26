@@ -1,6 +1,6 @@
 ---
 - name: Linux Patching | Install Packages | Checking Prerequisite | Include Common Checks
-  ansible.builtin.include_tasks: prerequisite.yml
+  ansible.builtin.import_tasks: prerequisite.yml
 
 - name: Linux Patching | Install Packages | Purge to resolve conflicts
   ansible.builtin.apt:
@@ -16,7 +16,7 @@
 
 - name: Linux Patching | Install Packages | Reboot After Packages Upgrade
   when: rv_linux_patching_upgrade_result.changed and rv_linux_patching_init_system_systemd
-  ansible.builtin.include_tasks:
+  ansible.builtin.import_tasks:
     file: reboot.yml
 
 - name: Linux Patching | Install Packages | Install specific essential packages in Debian
@@ -28,7 +28,7 @@
 
 - name: Linux Patching | Install Packages | Reboot After Packages Install
   when: rv_linux_patching_extra_install.changed and rv_linux_patching_init_system_systemd
-  ansible.builtin.include_tasks:
+  ansible.builtin.import_tasks:
     file: reboot.yml
 
 - name: Linux Patching | Install Packages | Install headers linux-headers-{{ ansible_kernel }}
@@ -49,7 +49,7 @@
   register: rv_linux_patching_install_generic_headers_tmp_kernel_version_installed
 
 - name: Linux Patching | Install Packages | Reboot after kernel install
-  ansible.builtin.include_tasks:
+  ansible.builtin.import_tasks:
     file: reboot.yml
   when: >
     rv_linux_patching_init_system_systemd

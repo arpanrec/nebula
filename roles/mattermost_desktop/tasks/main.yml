@@ -1,6 +1,6 @@
 ---
 - name: Mattermost Desktop | Prerequisites
-  ansible.builtin.include_tasks: prerequisites.yml
+  ansible.builtin.import_tasks: prerequisites.yml
 
 - name: Mattermost Desktop | Create install directory
   ansible.builtin.file:

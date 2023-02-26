@@ -28,7 +28,7 @@ Install [postman](https://www.postman.com/)
 
 ```yaml
 - name: Include postman
-  ansible.builtin.include_role:
+  ansible.builtin.import_role:
     name: arpanrec.utilities.postman
 ```
 

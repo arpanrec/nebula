@@ -4,5 +4,5 @@
   gather_facts: false
   tasks:
     - name: Bitwarden CLI | Molecule | Converge | Include Bitwarden CLI
-      ansible.builtin.include_role:
+      ansible.builtin.import_role:
         name: arpanrec.utilities.bw

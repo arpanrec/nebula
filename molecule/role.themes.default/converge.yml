@@ -4,5 +4,5 @@
   gather_facts: false
   tasks:
     - name: Themes | Molecule | Converge | Include Code role
-      ansible.builtin.include_role:
+      ansible.builtin.import_role:
         name: arpanrec.utilities.themes

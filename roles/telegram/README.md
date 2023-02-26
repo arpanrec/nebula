@@ -44,7 +44,7 @@ Install [Telegram Desktop](https://desktop.telegram.org/)
 
 ```yaml
 - name: Include Telegram Desktop
-  ansible.builtin.include_role:
+  ansible.builtin.import_role:
     name: arpanrec.utilities.telegram
 ```
 

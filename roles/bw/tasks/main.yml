@@ -1,6 +1,6 @@
 ---
 - name: Bitwarden CLI | Install NodeJS
-  ansible.builtin.include_role:
+  ansible.builtin.import_role:
     name: arpanrec.utilities.nodejs
 
 - name: Bitwarden CLI | Install from npm

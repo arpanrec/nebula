@@ -5,7 +5,7 @@
   become: false
   tasks:
     - name: Visual Studio Code | Molecule | Verify | Import Roles for variables
-      ansible.builtin.include_role:
+      ansible.builtin.import_role:
         name: arpanrec.utilities.code
         tasks_from: prerequisites
 

@@ -4,5 +4,5 @@
   gather_facts: false
   tasks:
     - name: USERAPPS | Mattermost Desktop | Molecule | Converge | Include Mattermost Desktop
-      ansible.builtin.include_role:
+      ansible.builtin.import_role:
         name: arpanrec.utilities.mattermost_desktop

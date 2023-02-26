@@ -1,6 +1,6 @@
 ---
 - name: Visual Studio Code | Prerequisites
-  ansible.builtin.include_tasks: prerequisites.yml
+  ansible.builtin.import_tasks: prerequisites.yml
 
 - name: Visual Studio Code | Set Fact for code bin environment
   ansible.builtin.set_fact:
@@ -76,8 +76,8 @@
         mode: "0600"
 
 - name: Visual Studio Code | Install Extensions
-  ansible.builtin.include_tasks: code_extensions.yml
+  ansible.builtin.import_tasks: code_extensions.yml
   with_items: "{{ rv_code_ext_to_be_installed }}"
 
 - name: Visual Studio Code | Copy Config
-  ansible.builtin.include_tasks: code_config.yml
+  ansible.builtin.import_tasks: code_config.yml
