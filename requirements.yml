@@ -23,7 +23,7 @@ collections:
   - name: kewlfft.aur
     type: git
     source: https://github.com/kewlfft/ansible-aur.git
-    version: v0.10.0
+    # version: v0.10.0
 roles:
   - name: geerlingguy.docker
     scm: git
