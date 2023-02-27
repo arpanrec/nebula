@@ -1,13 +1,14 @@
 ---
-# tasks file for ssh_hardening
-- name: SSHD Hardening | Include Asserts
-  ansible.builtin.import_tasks: 0000-pre-install-checks.yml
+- name: SSHD Hardening | Include Asserts | Checking platform compatibility
+  ansible.builtin.fail:
+    msg: "{{ ansible_system }} is not supported by this role"
+  when: ansible_os_family not in ['Debian']
 
-- name: SSHD Hardening | Include Variables
-  ansible.builtin.include_vars: "vars-{{ ansible_os_family }}.yml"
-
-- name: SSHD Hardening | Install Packages Archlinux
-  ansible.builtin.import_tasks: "0100-install-{{ ansible_os_family }}.yml"
+- name: SSHD Hardening | Install Packages | Install openssh server
+  ansible.builtin.apt:
+    name: openssh-server
+    state: present
+    update_cache: true
 
 - name: Linux Patching | Enable UFW SSH Port
   community.general.ufw:
@@ -16,5 +17,28 @@
     proto: tcp
     state: enabled
 
-- name: SSHD Hardening | Apply SSHD Settings
-  ansible.builtin.import_tasks: 0200-ssh-security.yml
+- name: SSHD Hardening | Enable Firewall port
+  community.general.ufw:
+    port: "{{ rv_sshd_hardening_ssh_port }}"
+    rule: allow
+    state: enabled
+
+- name: SSHD Hardening | Create config directory
+  ansible.builtin.file:
+    path: /etc/ssh/sshd_config.d
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+  notify:
+    - SSH Hardening | Restart openssh server
+
+- name: SSHD Hardening | Place config file
+  ansible.builtin.template:
+    src: templates/010-ssh-ansible.conf.j2
+    dest: /etc/ssh/sshd_config.d/010-ssh-ansible.conf
+    mode: "0755"
+    owner: root
+    group: root
+  notify:
+    - SSH Hardening | Restart openssh server

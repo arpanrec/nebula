@@ -1,5 +1,0 @@
----
-- name: SSHD Hardening | Include Asserts | Checking platform compatibility
-  ansible.builtin.fail:
-    msg: "{{ ansible_system }} is not supported by this role"
-  when: ansible_os_family not in ['RedHat', 'Archlinux', 'Debian']
