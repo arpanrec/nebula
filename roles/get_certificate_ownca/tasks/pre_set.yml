@@ -1,6 +1,6 @@
 ---
 - name: Get Certificate Ownca | Set Values | OwnCA Private Key
-  when: rv_getcert_ownca_private_key_path is defined
+  when: rv_getcert_ownca_private_key_path is defined and rv_getcert_ownca_private_key_path | length > 0
   block:
     - name: Get Certificate Ownca | Set Values | OwnCA Private Key | Read content
       ansible.builtin.slurp:
@@ -12,7 +12,7 @@
         rv_getcert_ownca_private_key_content: "{{ rv_getcert_tmp_ownca_private_key_slurp.content | b64decode }}"
 
 - name: Get Certificate Ownca | Set Values | OwnCA Certificate
-  when: rv_getcert_ownca_certificate_path is defined
+  when: rv_getcert_ownca_certificate_path is defined and rv_getcert_ownca_certificate_path | length > 0
   block:
     - name: Get Certificate Ownca | Set Values | OwnCA Certificate | Read content
       ansible.builtin.slurp:
@@ -24,7 +24,7 @@
         rv_getcert_ownca_certificate_content: "{{ rv_getcert_tmp_ownca_certificate_slurp.content | b64decode }}"
 
 - name: Get Certificate Ownca | Set Values | Private Key
-  when: rv_getcert_private_key_path is defined
+  when: rv_getcert_private_key_path is defined and rv_getcert_private_key_path | length > 0
   block:
     - name: Get Certificate Ownca | Set Values | Private Key | Read content
       ansible.builtin.slurp:
@@ -38,7 +38,7 @@
         rv_getcert_private_key_content: "{{ rv_getcert_tmp_private_key_slurp.content | b64decode }}"
 
 - name: Get Certificate Ownca | Set Values | Certificate
-  when: rv_getcert_certificate_path is defined
+  when: rv_getcert_certificate_path is defined and rv_getcert_certificate_path | length > 0
   block:
     - name: Get Certificate Ownca | Set Values | Certificate | Read content
       ansible.builtin.slurp:
@@ -52,7 +52,7 @@
         rv_getcert_certificate_content: "{{ rv_getcert_tmp_certificate_slurp.content | b64decode }}"
 
 - name: Get Certificate Ownca | Set Values | Certificate Chain
-  when: rv_getcert_certificatefullchain_path is defined
+  when: rv_getcert_certificatefullchain_path is defined and rv_getcert_certificatefullchain_path | length > 0
   block:
     - name: Get Certificate Ownca | Set Values | Certificate Chain | Read content
       ansible.builtin.slurp:
@@ -64,7 +64,7 @@
       when: >
         ( rv_getcert_tmp_certificate_chain_slurp.content is defined )
         and
-        ( rv_getcert_certificate_content is defined )
+        ( rv_getcert_certificate_content is defined | rv_getcert_certificate_content > 0 )
       ansible.builtin.set_fact:
         rv_getcert_to_be_created: "{{ (cerfromchain | trim) != (existingcert | trim) }}"
         rv_getcert_to_be_created_reason: "Leaf for cert chain and existing cert doesn't match"

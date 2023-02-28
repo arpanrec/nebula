@@ -58,9 +58,9 @@
   changed_when: false
   community.crypto.openssl_csr_pipe:
     privatekey_content: "{{ rv_getcert_private_key_content }}"
-    privatekey_passphrase: "{{ rv_getcert_private_key_password | default(omit) }}"
-    key_usage: "{{ rv_getcert_key_usage | default(omit) }}"
-    extended_key_usage: "{{ rv_getcert_extended_key_usage | default(omit) }}"
+    privatekey_passphrase: "{{ rv_getcert_private_key_password | default(omit, True) }}"
+    key_usage: "{{ rv_getcert_key_usage | default(omit, True) }}"
+    extended_key_usage: "{{ rv_getcert_extended_key_usage | default(omit, True) }}"
   register: rv_getcert_tmp_to_be_created_csr_for_keyusage
 
 - name: Get Certificate Ownca | Certificate To Be Created | Key Usage Mismatch

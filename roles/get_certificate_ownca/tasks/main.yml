@@ -23,3 +23,7 @@
 - name: Get Certificate Ownca | Write Files
   ansible.builtin.import_tasks:
     file: write_files.yml
+
+- name: Get Certificate Ownca | Set All values to length 0
+  ansible.builtin.import_tasks:
+    file: reset_vars.yml
