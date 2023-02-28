@@ -2,12 +2,7 @@
 - name: Get Certificate Ownca | Certificate To Be Created | When Certificate Content Not Present
   when: not rv_getcert_to_be_created
   ansible.builtin.set_fact:
-    rv_getcert_to_be_created: >-
-      {{
-        ( not rv_getcert_certificate_content is defined )
-        or
-        ( rv_getcert_certificate_content | length < 2 )
-      }}
+    rv_getcert_to_be_created: "{{ rv_getcert_certificate_content | length < 2 }}"
     rv_getcert_to_be_created_reason: "When Certificate Content Not Present"
 
 - name: Get Certificate Ownca | Certificate To Be Created | Get Certificate Old Information

@@ -4,7 +4,7 @@
     content: "{{ rv_getcert_private_key_content | default(omit, True) }}"
     size: "{{ rv_getcert_private_key_size | default(omit, True) }}"
     passphrase: "{{ rv_getcert_private_key_password | default(omit, True) }}"
-    cipher: "{{ (rv_getcert_private_key_password is defined) | ternary('auto', omit) }}"
+    cipher: "{{ (rv_getcert_private_key_password is defined and rv_getcert_private_key_password | length > 0) | ternary('auto', omit) }}"
   register: rv_getcert_private_key_content_create_new
 
 - name: Get Certificate Ownca | Create Private Key | Private Key Set Fact

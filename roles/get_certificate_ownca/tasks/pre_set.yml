@@ -64,18 +64,20 @@
       when: >
         ( rv_getcert_tmp_certificate_chain_slurp.content is defined )
         and
-        ( rv_getcert_certificate_content is defined | rv_getcert_certificate_content > 0 )
+        ( rv_getcert_certificate_content is defined and rv_getcert_certificate_content | length > 0 )
       ansible.builtin.set_fact:
         rv_getcert_to_be_created: "{{ (cerfromchain | trim) != (existingcert | trim) }}"
         rv_getcert_to_be_created_reason: "Leaf for cert chain and existing cert doesn't match"
       vars:
         cerfromchain: "{{ (rv_getcert_tmp_certificate_chain_slurp.content | b64decode | arpanrec.utilities.split_certificates)[0] }}"
-        existingcert: "{{ rv_getcert_tmp_certificatefullchain_leaf }}"
+        existingcert: "{{ rv_getcert_certificate_content }}"
 
     - name: Get Certificate Ownca | Set Values | Certificate Chain | Set rv_getcert_certificate_content
       when: >
         ( rv_getcert_tmp_certificate_chain_slurp.content is defined )
         and
-        ( not rv_getcert_certificate_content is defined )
+        ( not rv_getcert_to_be_created )
+        and
+        ( rv_getcert_certificate_content is defined and rv_getcert_certificate_content | length > 0 )
       ansible.builtin.set_fact:
         rv_getcert_certificate_content: "{{ (rv_getcert_tmp_certificate_chain_slurp.content | b64decode | arpanrec.utilities.split_certificates)[0] }}"

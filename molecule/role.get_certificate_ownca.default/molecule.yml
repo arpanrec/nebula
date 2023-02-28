@@ -30,6 +30,7 @@ provisioner:
         rv_getcert_private_key_path: private_key.pem
         rv_getcert_certificate_path: certificate_path.pem
         rv_getcert_molecule_prepare_csr_path: ownca_csr.pem
+        rv_getcert_certificatefullchain_path: certificate_chain_path.pem
         rv_getcert_key_usage:
           - digitalSignature
           - nonRepudiation
