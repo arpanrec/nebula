@@ -77,7 +77,5 @@
         ( rv_getcert_tmp_certificate_chain_slurp.content is defined )
         and
         ( not rv_getcert_to_be_created )
-        and
-        ( rv_getcert_certificate_content is defined and rv_getcert_certificate_content | length > 0 )
       ansible.builtin.set_fact:
         rv_getcert_certificate_content: "{{ (rv_getcert_tmp_certificate_chain_slurp.content | b64decode | arpanrec.utilities.split_certificates)[0] }}"
