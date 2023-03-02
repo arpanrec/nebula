@@ -1,5 +1,5 @@
 ---
-- name: Application User | Generate password hash - {{ rv_user_add_username }}
+- name: Application User | Generate password hash
   ansible.builtin.shell: >
     import crypt;  print(crypt.crypt("{{ rv_user_add_password }}", "$1$SomeSalt$"))
   register: rv_user_add_password_hash_tmp
@@ -9,13 +9,13 @@
   when: rv_user_add_password is defined
   changed_when: false
 
-- name: Application User | Adding the group {{ rv_user_add_user_primary_group }}
+- name: Application User | Adding the group
   ansible.builtin.group:
     name: "{{ rv_user_add_user_primary_group }}"
     gid: "{{ rv_user_add_user_primary_gid | default(omit) }}"
     state: present
 
-- name: Application User | Adding the user {{ rv_user_add_username }}
+- name: Application User | Adding the user
   ansible.builtin.user:
     name: "{{ rv_user_add_username }}"
     shell: "{{ rv_user_add_user_default_shell }}"
@@ -25,19 +25,23 @@
     uid: "{{ rv_user_add_uid | default(omit) }}"
     group: "{{ rv_user_add_user_primary_group }}"
     create_home: true
+    home: "{{ rv_user_add_user_home_dir | default(omit, True) }}"
     expires: -1
     password: "{{ rv_user_add_password_hash_tmp.stdout | default(omit) }}"
     update_password: on_create
 
-- name: Application User | Deploying SSH Key for {{ rv_user_add_username }}
+- name: Application User | Deploying SSH Key
   ansible.posix.authorized_key:
     user: "{{ rv_user_add_username }}"
-    key: "{{ rv_user_add_ssh_access_public_key }}"
+    key: "{{ item }}"
     state: present
     comment: added by ansible automation
-  when: rv_user_add_ssh_access_public_key is defined
+  with_items: "{{ rv_user_add_ssh_access_public_key_content_list }}"
+  when:
+    - rv_user_add_ssh_access_public_key_content_list is defined
+    - rv_user_add_ssh_access_public_key_content_list | length > 0
 
-- name: Application User | Adding user to the sudoers - {{ rv_user_add_username }}
+- name: Application User | Adding user to the sudoers
   when: rv_user_add_user_nopasswd_commands | length > 0
   ansible.builtin.lineinfile:
     path: "{{ rv_user_add_sudoers_file }}"

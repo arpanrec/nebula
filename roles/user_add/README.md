@@ -1,4 +1,4 @@
-# Ansible Role User Add (user_add)
+# Ansible Role User Add (arpanrec.utilities.user_add)
 
 Create a user and add it to sudoers.d
 
@@ -43,9 +43,9 @@ Create a user and add it to sudoers.d
   - Required: `false`
   - Description: Groups : Extra groups for user
 
-- `rv_user_add_ssh_access_public_key`
+- `rv_user_add_ssh_access_public_key_content_list`
 
-  - Type: `String`
+  - Type: `list<str>`
   - Required: `false`
   - Description: Public key for remote ssh access
 
@@ -62,15 +62,20 @@ Create a user and add it to sudoers.d
   - Default: `/bin/bash`
   - Description: Default shell for the User
 
+- `rv_user_add_user_home_dir`
+  - Type: `str`
+  - Required: `false`
+  - Description: Path to home
+
 ## Example Playbook
 
 ```yaml
 - name: Add application user
   import_role:
-    name: arpanrec.user_add
+    name: arpanrec.utilities.user_add
   vars:
     rv_user_add_username: "arpan"
-    rv_user_add_ssh_access_public_key: ssh-rsa yc2E
+    rv_user_add_ssh_access_public_key_content_list: ["ssh-rsa yc2E"]
 ```
 
 ## Testing
