@@ -25,6 +25,11 @@ rv_getcert_certificatefullchain_path: ""
 rv_getcert_certificatefullchain_file_mode: ""
 rv_getcert_certificatefullchain_owner: ""
 rv_getcert_certificatefullchain_group: ""
+rv_getcert_pkcs12_path: ""
+rv_getcert_pkcs12_password: ""
+rv_getcert_pkcs12_file_mode: ""
+rv_getcert_pkcs12_owner: ""
+rv_getcert_pkcs12_group: ""
 
 rv_getcert_validity_days: 7
 rv_getcert_to_be_created: false

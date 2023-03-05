@@ -179,7 +179,7 @@ Get Server or Client certificate.
 
   - Description: Certificate full chain path
   - Type: `str`
-  - Required: `true`
+  - Required: `false`
 
 - `rv_getcert_certificatefullchain_file_mode`
 
@@ -199,7 +199,39 @@ Get Server or Client certificate.
   - Type: `str`
   - Required: `false`
 
-## Example Playbook Bitwarden Desktop
+### Variables: PKCS12 Certificate
+
+- `rv_getcert_pkcs12_path`
+
+  - Description: Certificate pkcs12 path
+  - Type: `str`
+  - Required: `false`
+
+- `rv_getcert_pkcs12_password`
+
+  - Description: Certificate pkcs12 password
+  - Type: `str`
+  - Required: `false`
+
+- `rv_getcert_pkcs12_file_mode`
+
+  - Description: Private Key file mode, when `rv_getcert_pkcs12_path` is defined
+  - Type: `str`
+  - Required: `false`
+
+- `rv_getcert_pkcs12_owner`
+
+  - Description: Private Key file owner, when `rv_getcert_pkcs12_path` is defined
+  - Type: `str`
+  - Required: `false`
+
+- `rv_getcert_pkcs12_group`
+
+  - Description: Private Key file owner group, when `rv_getcert_pkcs12_path` is defined
+  - Type: `str`
+  - Required: `false`
+
+## Example Certificate Role
 
 ```yaml
 - name: Create Certificate
@@ -240,7 +272,7 @@ Get Server or Client certificate.
     rv_getcert_private_key_file_mode: "0600"
 ```
 
-## Testing Bitwarden Desktop
+## Testing Certificate Role
 
 ```bash
 molecule test -s role.get_certificate_ownca.default

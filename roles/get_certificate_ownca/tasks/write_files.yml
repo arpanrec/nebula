@@ -33,3 +33,51 @@
     mode: "{{ rv_getcert_certificatefullchain_file_mode | default(omit, True) }}"
     owner: "{{ rv_getcert_certificatefullchain_owner | default(omit, True) }}"
     group: "{{ rv_getcert_certificatefullchain_group | default(omit, True) }}"
+
+- name: Get Certificate Ownca | Write Files | Generate PKCS#12 file
+  when:
+    - rv_getcert_pkcs12_path is defined
+    - rv_getcert_pkcs12_path | length > 0
+  block:
+    - name: Get Certificate Ownca | Write Files | Generate PKCS#12 file | Create Temp File for root ca
+      changed_when: false
+      ansible.builtin.tempfile:
+        state: file
+      register: rv_getcert_tmp_pkcs12_ca_path
+
+    - name: Get Certificate Ownca | Write Files | Generate PKCS#12 file | Write RootCA to temp file
+      changed_when: false
+      ansible.builtin.copy:
+        content: "{{ rv_getcert_ownca_certificate_content }}"
+        dest: "{{ rv_getcert_tmp_pkcs12_ca_path.path }}"
+        mode: "0400"
+
+    - name: Get Certificate Ownca | Write Files | Generate PKCS#12 file | Create Temp File for Certificate
+      changed_when: false
+      ansible.builtin.tempfile:
+        state: file
+      register: rv_getcert_tmp_pkcs12_certificate_path
+
+    - name: Get Certificate Ownca | Write Files | Generate PKCS#12 file | Write Certificate to temp file
+      changed_when: false
+      ansible.builtin.copy:
+        content: "{{ rv_getcert_certificate_content }}"
+        dest: "{{ rv_getcert_tmp_pkcs12_certificate_path.path }}"
+        mode: "0400"
+
+    - name: Get Certificate Ownca | Write Files | Generate PKCS#12 file | Write PKCS#12
+      community.crypto.openssl_pkcs12:
+        action: export
+        path: "{{ rv_getcert_pkcs12_path }}"
+        passphrase: "{{ rv_getcert_pkcs12_password | default(omit, true) }}"
+        friendly_name: "{{ rv_getcert_subject.commonName | default(omit, True) }}"
+        privatekey_content: "{{ rv_getcert_private_key_content }}"
+        privatekey_passphrase: "{{ rv_getcert_private_key_password | default(omit, True) }}"
+        certificate_path: "{{ rv_getcert_tmp_pkcs12_certificate_path.path }}"
+        other_certificates_parse_all: true
+        other_certificates:
+          - "{{ rv_getcert_tmp_pkcs12_ca_path.path }}"
+        state: present
+        owner: "{{ rv_getcert_pkcs12_owner | default(omit, true) }}"
+        group: "{{ rv_getcert_pkcs12_group | default(omit, true) }}"
+        mode: "{{ rv_getcert_pkcs12_file_mode | default(omit, true) }}"

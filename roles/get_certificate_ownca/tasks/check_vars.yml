@@ -105,3 +105,21 @@
     )
     and
     ( (not rv_getcert_certificatefullchain_path is defined) or (rv_getcert_certificatefullchain_path | length < 1) )
+
+- name: Get Certificate Ownca | Check Variables | Required Path for Certificate PKCS12 Path
+  ansible.builtin.fail:
+    msg:
+      rv_getcert_pkcs12_password, rv_getcert_pkcs12_file_mode, rv_getcert_pkcs12_owner and rv_getcert_pkcs12_group \
+      requires rv_getcert_pkcs12_path
+  when: >
+    (
+      ( rv_getcert_pkcs12_password is defined and rv_getcert_pkcs12_password | length > 0 )
+      or
+      ( rv_getcert_pkcs12_file_mode is defined and rv_getcert_pkcs12_file_mode | length > 0 )
+      or
+      ( rv_getcert_pkcs12_owner is defined and rv_getcert_pkcs12_owner | length > 0 )
+      or
+      ( rv_getcert_pkcs12_group is defined and rv_getcert_pkcs12_group | length > 0 )
+    )
+    and
+    ( (not rv_getcert_pkcs12_path is defined) or (rv_getcert_pkcs12_path | length < 1) )
