@@ -24,12 +24,16 @@
     rv_getcert_to_be_created_reason: "Existing Certificate is Invalid"
 
 - name: Get Certificate Ownca | Certificate To Be Created | Get Issuer Information
-  when: not rv_getcert_to_be_created
   community.crypto.x509_certificate_info:
     content: "{{ rv_getcert_ownca_certificate_content }}"
     valid_at:
       not_crossed_issuer: "+{{ rv_getcert_validity_days }}d"
   register: rv_getcert_tmp_owca_certificate_content_x509_info
+
+- name: Get Certificate Ownca | Certificate To Be Created | Fail if crossed the validity of CA
+  ansible.builtin.fail:
+    msg: "Expected validity should not cross CA"
+  when: not rv_getcert_tmp_owca_certificate_content_x509_info.valid_at.not_crossed_issuer
 
 - name:
     Get Certificate Ownca | Certificate To Be Created | Authority Key Identifier Mismatch,
