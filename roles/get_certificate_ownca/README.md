@@ -83,6 +83,7 @@ Get Server or Client certificate.
   - Description: Private Key file mode, when `rv_getcert_private_key_path` is defined
   - Type: `str`
   - Required: `false`
+  - Default: `0400`
 
 - `rv_getcert_private_key_size`
 
@@ -119,6 +120,7 @@ Get Server or Client certificate.
   - Description: Private Key file mode, when `rv_getcert_certificate_path` is defined
   - Type: `str`
   - Required: `false`
+  - Default: `0400`
 
 - `rv_getcert_certificate_owner`
 
@@ -186,6 +188,7 @@ Get Server or Client certificate.
   - Description: Private Key file mode, when `rv_getcert_certificatefullchain_path` is defined
   - Type: `str`
   - Required: `false`
+  - Default: `0400`
 
 - `rv_getcert_certificatefullchain_owner`
 
@@ -218,6 +221,7 @@ Get Server or Client certificate.
   - Description: Private Key file mode, when `rv_getcert_pkcs12_path` is defined
   - Type: `str`
   - Required: `false`
+  - Default: `0400`
 
 - `rv_getcert_pkcs12_owner`
 
@@ -269,7 +273,7 @@ Get Server or Client certificate.
     rv_getcert_basic_constraints:
       - CA:TRUE
       - pathlen:0
-    rv_getcert_private_key_file_mode: "0600"
+    rv_getcert_private_key_file_mode: "0400"
 ```
 
 ## Testing Certificate Role
