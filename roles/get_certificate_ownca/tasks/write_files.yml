@@ -6,7 +6,7 @@
   ansible.builtin.copy:
     content: "{{ rv_getcert_certificate_content }}"
     dest: "{{ rv_getcert_certificate_path }}"
-    mode: "{{ rv_getcert_certificate_file_mode | default('0400', True) }}"
+    mode: "{{ rv_getcert_certificate_file_mode | default('0600', True) }}"
     owner: "{{ rv_getcert_certificate_owner | default(omit, True) }}"
     group: "{{ rv_getcert_certificate_group | default(omit, True) }}"
 
@@ -17,7 +17,7 @@
   ansible.builtin.copy:
     content: "{{ rv_getcert_private_key_content }}"
     dest: "{{ rv_getcert_private_key_path }}"
-    mode: "{{ rv_getcert_private_key_file_mode | default('0400', True) }}"
+    mode: "{{ rv_getcert_private_key_file_mode | default('0600', True) }}"
     owner: "{{ rv_getcert_private_key_owner | default(omit, True) }}"
     group: "{{ rv_getcert_private_key_group | default(omit, True) }}"
 
@@ -30,7 +30,7 @@
       {{ rv_getcert_certificate_content | trim }}
       {{ rv_getcert_ownca_certificate_content }}
     dest: "{{ rv_getcert_certificatefullchain_path }}"
-    mode: "{{ rv_getcert_certificatefullchain_file_mode | default('0400', True) }}"
+    mode: "{{ rv_getcert_certificatefullchain_file_mode | default('0600', True) }}"
     owner: "{{ rv_getcert_certificatefullchain_owner | default(omit, True) }}"
     group: "{{ rv_getcert_certificatefullchain_group | default(omit, True) }}"
 
@@ -50,7 +50,7 @@
       ansible.builtin.copy:
         content: "{{ rv_getcert_ownca_certificate_content }}"
         dest: "{{ rv_getcert_tmp_pkcs12_ca_path.path }}"
-        mode: "0400"
+        mode: "0600"
 
     - name: Get Certificate Ownca | Write Files | Generate PKCS#12 file | Create Temp File for Certificate
       changed_when: false
@@ -63,7 +63,7 @@
       ansible.builtin.copy:
         content: "{{ rv_getcert_certificate_content }}"
         dest: "{{ rv_getcert_tmp_pkcs12_certificate_path.path }}"
-        mode: "0400"
+        mode: "0600"
 
     - name: Get Certificate Ownca | Write Files | Generate PKCS#12 file | Write PKCS#12
       community.crypto.openssl_pkcs12:
@@ -80,4 +80,4 @@
         state: present
         owner: "{{ rv_getcert_pkcs12_owner | default(omit, true) }}"
         group: "{{ rv_getcert_pkcs12_group | default(omit, true) }}"
-        mode: "{{ rv_getcert_pkcs12_file_mode | default('0400', true) }}"
+        mode: "{{ rv_getcert_pkcs12_file_mode | default('0600', true) }}"
