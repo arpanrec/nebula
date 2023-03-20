@@ -14,14 +14,14 @@ This role applies basic security settings for personal VPS
 `rv_sshd_hardening_ssh_security_password_authentication`
 
 - Type: `boolean`
-- Default: `true`
+- Default: `false`
 - Required: `false`
 - Description: To disable tunneled clear text passwords.
 
 `rv_sshd_hardening_ssh_security_permit_root_login`
 
 - Type: `boolean`
-- Default: `true`
+- Default: `false`
 - Required: `false`
 - Description: Specifies whether root can log in using ssh.
 
