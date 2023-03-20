@@ -1,6 +1,6 @@
 ---
 - name: Installing apps in user $HOME directory
-  hosts: all
+  hosts: localhost
   become: false
   gather_facts: true
   tasks:
