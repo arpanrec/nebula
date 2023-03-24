@@ -11,7 +11,7 @@ Variables:
   - Description: Version of [Bitwarden ClI](https://www.npmjs.com/package/@bitwarden/cli) npm module.
   - Type: `str`
   - Required: `false`
-  - Default: `2023.2.0`
+  - Default: `2023.3.0`
 
 - `rv_bw_cli_node_dependency_bin_dir`
 
