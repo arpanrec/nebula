@@ -7,7 +7,7 @@ Install bitwarden AppImage [Bitwarden Desktop](https://github.com/bitwarden/clie
 - `rv_bitwarden_desktop_version`
 
   - Description: [Bitwarden Desktop Release](https://github.com/bitwarden/clients/releases?q=Desktop&expanded=true) version like `desktop_*`
-  - Default: `v2023.3.0`
+  - Default: `v2023.3.1`
   - Type: `str`
   - Required: `false`
 
