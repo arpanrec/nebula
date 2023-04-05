@@ -82,14 +82,14 @@
   "python.formatting.blackPath": "black",
   "python.formatting.autopep8Path": "autopep8",
   "python.formatting.autopep8Args": [
-    "--indent-size=2",
+    "--indent-size=4",
     "--max-line-length=180"
   ],
   "python.formatting.blackArgs": [
     "--line-length",
     "180"
   ],
-  "editor.tabSize": 2,
+  "editor.tabSize": 4,
   "[xml]": {
     "editor.defaultFormatter": "redhat.vscode-xml"
   },
@@ -145,10 +145,11 @@
   },
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features",
-    "editor.tabSize": 2,
+    "editor.tabSize": 4,
     "editor.indentSize": "tabSize",
     "files.insertFinalNewline": false,
     "files.trimFinalNewlines": true
   },
   "update.showReleaseNotes": false,
+  "githubPullRequests.createOnPublishBranch": "never",
 }
