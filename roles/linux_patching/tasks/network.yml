@@ -137,3 +137,20 @@
     rule: allow
     port: "{{ rv_linux_patching_ssh_port }}"
     proto: tcp
+  register: rv_linux_patching_ufw_ssh_port_result
+  failed_when: >
+    rv_linux_patching_ufw_ssh_port_result.failed
+    and
+    "ERROR: Couldn't determine iptables version\n" != rv_linux_patching_ufw_ssh_port_result.msg
+
+- name: Linux Patching | Network | Setup Host Network Information | Change iptables legacy for UFW
+  when: rv_linux_patching_ufw_ssh_port_result.failed
+  community.general.alternatives:
+    name: iptables
+    path: /usr/sbin/iptables-legacy
+
+- name: Linux Patching | Network | Setup Host Network Information | Enable SSH Port with iptables legacy
+  community.general.ufw:
+    rule: allow
+    port: "{{ rv_linux_patching_ssh_port }}"
+    proto: tcp
