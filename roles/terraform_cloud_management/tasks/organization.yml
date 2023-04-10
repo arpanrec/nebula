@@ -55,6 +55,7 @@
       register: rl_tef_organization_create_response
       changed_when: rl_tef_organization_create_response.status == 201
       failed_when: rl_tef_organization_create_response.status != 201
+
     - name: Terraform Cloud Management | Organization | Create organizations | Get new organization details
       no_log: "{{ rl_tef_api_debug_no_log }}"
       ansible.builtin.uri:
@@ -64,6 +65,7 @@
           content-type: "application/vnd.api+json"
         status_code: 200
       register: rl_tef_org_new_org_response
+
     - name: Terraform Cloud Management | Workspaces | Create workspace | Reset fact with new
       ansible.builtin.set_fact:
         rl_tef_org_details: "{{ rl_tef_org_new_org_response }}"

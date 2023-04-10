@@ -1,0 +1,27 @@
+---
+- name: Terraform | Molecule | Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+
+    - name: Terraform | Molecule | Verify | Import Roles for variables
+      ansible.builtin.import_role:
+        name: arpanrec.utilities.terraform
+        tasks_from: prerequisites
+
+    - name: Terraform | Molecule | Verify | Get terraform version from shell
+      ansible.builtin.command: terraform --version
+      environment:
+        PATH: "{{ rv_terraform_install_path }}:{{ ansible_env.PATH }}"
+      register: rv_terraform_version_shell_result
+      changed_when: false
+
+    - name: Terraform | Molecule | Verify | terraform version from shell result
+      ansible.builtin.debug:
+        var: rv_terraform_version_shell_result
+
+    - name: Terraform | Molecule | Verify | Fail if terraform version is not present
+      ansible.builtin.assert:
+        that: rv_terraform_version_shell_result.stdout_lines[0] == "Terraform v{{ rv_terraform_version }}"
+        success_msg: Terraform Version {{ rv_terraform_version }} is installed
+        fail_msg: Terraform Version {{ rv_terraform_version }} is not installed, Shell result {{ rv_terraform_version_shell_result.stdout }}

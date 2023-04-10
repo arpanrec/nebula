@@ -1,0 +1,10 @@
+---
+- name: Terraform | Molecule | Converge
+  hosts: all
+  gather_facts: false
+  any_errors_fatal: true
+  become: false
+  tasks:
+    - name: Terraform | Molecule | Converge | Include terraform role
+      ansible.builtin.import_role:
+        name: arpanrec.utilities.terraform
