@@ -1,0 +1,45 @@
+---
+- name: Terraform | Prerequisites
+  ansible.builtin.import_tasks: prerequisites.yml
+
+- name: Terraform | Create install directory
+  ansible.builtin.file:
+    path: "{{ rv_terraform_install_path }}"
+    state: directory
+    mode: "0700"
+
+- name: Terraform | Get downloaded file stat
+  ansible.builtin.stat:
+    path: "{{ rv_terraform_tarball_download_path }}"
+  register: rv_terraform_tmp_downloaded_file_stat
+
+- name: Terraform | New Download
+  when: not rv_terraform_tmp_downloaded_file_stat.stat.exists
+  block:
+    - name: Terraform | New Download | Create download directory
+      ansible.builtin.file:
+        path: "{{ rv_terraform_tmp_install_cache_dir }}"
+        state: directory
+        mode: "0700"
+
+    - name: Terraform | New Download | Download tarball
+      ansible.builtin.get_url:
+        url: "{{ rv_terraform_download_url }}"
+        dest: "{{ rv_terraform_tarball_download_path }}"
+        mode: "0700"
+
+    - name: Terraform | New Download | Unarchive the tarball
+      ansible.builtin.unarchive:
+        src: "{{ rv_terraform_tarball_download_path }}"
+        dest: "{{ rv_terraform_install_path }}"
+        remote_src: true
+
+  rescue:
+    - name: Terraform | New Download | Fail | Cleanup
+      ansible.builtin.file:
+        path: "{{ rv_terraform_tmp_install_cache_dir }}"
+        state: absent
+
+    - name: Terraform | New Download | Fail | Fail
+      ansible.builtin.fail:
+        msg: Something went wrong, check the errors above

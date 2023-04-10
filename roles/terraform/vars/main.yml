@@ -1,0 +1,17 @@
+---
+rv_terraform_ansible_architecture_map:
+  amd64: amd64
+  x86_64: amd64
+  aarch64: arm64
+
+# https://releases.hashicorp.com/terraform/1.4.4/terraform_1.4.4_linux_amd64.zip
+
+rv_terraform_install_select_architecture: "{{ rv_terraform_ansible_architecture_map[ansible_facts.architecture] }}"
+rv_terraform_select_ansible_system: "{{ ansible_system | lower }}"
+
+# https://releases.hashicorp.com/terraform/1.4.4/terraform_1.4.4_linux_amd64.zip
+# https://releases.hashicorp.com/terraform/1.4.4/terraform_1.4.4_linux_arm64.zip
+
+rv_terraform_download_url: https://releases.hashicorp.com/terraform/{{ rv_terraform_version }}/terraform_{{ rv_terraform_version }}_{{ rv_terraform_select_ansible_system }}_{{ rv_terraform_install_select_architecture }}.zip
+
+rv_terraform_tarball_download_path: "{{ rv_terraform_tmp_install_cache_dir }}/tf-{{ rv_terraform_version }}.zip"
