@@ -43,6 +43,6 @@ verifier:
   name: ansible
 lint: |
   set -e
-  yamllint roles/terraform
-  ansible-lint roles/terraform
-  flake8 roles/terraform
+  yamllint roles/terraform/*
+  ansible-lint roles/terraform/*
+  flake8 roles/terraform/*
