@@ -16,7 +16,7 @@ Install Terraform in user space
 - `rv_terraform_version`
 
   - Description: Release version.
-  - Default: `v16.19.0`
+  - Default: `1.4.4`
   - Required: `false`
   - Type: `str`
 

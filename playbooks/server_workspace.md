@@ -23,3 +23,4 @@ Extra variables will be applied to the original role.
 - [Themes](../roles/themes/README.md) -> themes
 - [KDE Settings](../roles/kde/README.md) -> kde
 - [Gnome Settings](../roles/gnome/README.md) -> gnome [Disable By Default]
+- [Terraform](../roles/terraform/README.md) -> terraform
