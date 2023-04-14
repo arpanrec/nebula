@@ -1,18 +1,18 @@
 ---
-- name: Installing apps in user $HOME directory
+- name: Patch Cloud System
   hosts: localhost
   become: true
   gather_facts: true
   tasks:
-    - name: linux_patching
+    - name: Patch Cloud System | Linux Patching
       ansible.builtin.include_role:
         name: arpanrec.utilities.linux_patching
 
-    - name: ssh_hardening
+    - name: Patch Cloud System | SSH Hardening
       ansible.builtin.include_role:
         name: arpanrec.utilities.ssh_hardening
 
-    - name: docker
+    - name: Patch Cloud System | Install Docker
       ansible.builtin.include_role:
         name: geerlingguy.docker
       vars:
