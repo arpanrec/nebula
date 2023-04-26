@@ -1,4 +1,4 @@
 ---
 rv_nodejs_install_path: "{{ ansible_facts.user_dir }}/.local/share/node"
 rv_nodejs_tmp_install_cache_dir: "{{ ansible_facts.user_dir }}/.tmp/nodejs"
-rv_nodejs_version: v16.19.0
+rv_nodejs_version: v18.16.0
