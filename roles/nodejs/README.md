@@ -16,7 +16,7 @@ Install NodeJS in user space
 - `rv_nodejs_version`
 
   - Description: Release version.
-  - Default: `v16.19.0`
+  - Default: `v18.16.0`
   - Required: `false`
   - Type: `str`
 
