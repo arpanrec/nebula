@@ -17,7 +17,7 @@ options:
     description: Exact release version of go language.
     required: false
     type: str
-    default: 1.19.2
+    default: 1.20.4
   rv_golang_tmp_dir:
     description: Temporary cache directory for install.
     required: false
