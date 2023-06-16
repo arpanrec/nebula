@@ -1,3 +1,4 @@
 ---
 rv_linux_patching_net_time_services:
-  [NetworkManager, systemd-timesyncd, systemd-resolved, ufw, cron]
+  #[NetworkManager, systemd-timesyncd, systemd-resolved, ufw, cron]
+  [NetworkManager, systemd-timesyncd, ufw, cron]

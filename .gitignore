@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 arpanrec-utilities-1.0.0-rc.tar.gz
 .trunk
+.vscode/settings.json
