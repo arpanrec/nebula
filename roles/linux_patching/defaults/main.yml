@@ -31,7 +31,6 @@ rv_linux_patching_packages:
   - acl
   - ufw
   - vim
-  - python3-pip
   - git
   - fontconfig
   - gtk-update-icon-cache
@@ -51,7 +50,7 @@ rv_linux_patching_packages:
   - exfat-fuse
   - vim
   - neovim
-  - python3-virtualenv
+  - python3-venv
 
 rv_linux_patching_timezone: Asia/Kolkata
 
