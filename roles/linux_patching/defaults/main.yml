@@ -9,6 +9,7 @@ rv_linux_patching_packages:
   - zip
   - unzip
   - net-tools
+  - resolvconf
   - build-essential
   - tar
   - wget
