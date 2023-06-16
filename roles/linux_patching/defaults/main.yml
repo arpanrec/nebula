@@ -52,6 +52,7 @@ rv_linux_patching_packages:
   - exfat-utils
   - vim
   - neovim
+  - python3-virtualenv
 
 rv_linux_patching_timezone: Asia/Kolkata
 

@@ -13,4 +13,4 @@
     src: files/konsave.tar.gz
     dest: "{{ ansible_facts.user_dir }}/.config/konsave/profiles"
     remote_src: false
-  notify: KDE | Install konsave
+  # notify: KDE | Install konsave

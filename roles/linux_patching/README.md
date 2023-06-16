@@ -16,7 +16,7 @@ Set timezone, locale, and loopback ip in server
 
   - Description: Install the packages in all the distributions.
   - Required: `false`
-  - Default: [ `zip`, `unzip`, `net-tools`, `build-essential`, `tar`, `wget`, `curl`, `ca-certificates`, `sudo`, `systemd`, `telnet`, `gnupg2`, `apt-transport-https`, `lsb-release`, `software-properties-common`, `locales`, `systemd-timesyncd`, `network-manager`, `gnupg2`, `gnupg`, `pigz`, `cron`, `acl`, `ufw`, `vim`, `python3-pip`, `git`, `fontconfig`, `gtk-update-icon-cache`, `libnss3`, `libatk1.0-0`, `libatk-bridge2.0-0`, `libgtk-3-0`, `bzip2`, `libgbm-dev`, `libglib2.0-dev`, `libdrm-dev`, `libasound2`, `jq`, `zsh`, `libcap2-bin`, `ntfs-3g`, `exfat-fuse`, `exfat-utils`, `vim`, `neovim`]
+  - Default: [ `zip`, `unzip`, `net-tools`, `build-essential`, `tar`, `wget`, `curl`, `ca-certificates`, `sudo`, `systemd`, `telnet`, `gnupg2`, `apt-transport-https`, `lsb-release`, `software-properties-common`, `locales`, `systemd-timesyncd`, `network-manager`, `gnupg2`, `gnupg`, `pigz`, `cron`, `acl`, `ufw`, `vim`, `python3-pip`, `git`, `fontconfig`, `gtk-update-icon-cache`, `libnss3`, `libatk1.0-0`, `libatk-bridge2.0-0`, `libgtk-3-0`, `bzip2`, `libgbm-dev`, `libglib2.0-dev`, `libdrm-dev`, `libasound2`, `jq`, `zsh`, `libcap2-bin`, `ntfs-3g`, `exfat-fuse`, `exfat-utils`, `vim`, `neovim`, 'python3-virtualenv']
   - Type: `list[str]`
 
 - `rv_linux_patching_extra_packages`

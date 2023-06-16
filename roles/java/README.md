@@ -32,7 +32,7 @@ options:
     description: Exact release version of maven.
     required: false
     type: str
-    default: 3.9.1
+    default: 3.9.2
   rv_jdk_gradle_version:
     description: Release version of Gradle from https://gradle.org/releases/.
     required: false
