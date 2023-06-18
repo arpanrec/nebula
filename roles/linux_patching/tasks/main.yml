@@ -1,6 +1,6 @@
 ---
-- name: Linux Patching | Install python3-pip and procps
-  ansible.builtin.raw: apt-get update && apt-get install -y python3-pip procps
+- name: Linux Patching | Install python3-venv and procps
+  ansible.builtin.raw: apt-get update && apt-get install -y python3-venv procps
   register: rv_linux_patching_install_python_pip_result_raw
   changed_when: "'0 upgraded, 0 newly installed' not in rv_linux_patching_install_python_pip_result_raw.stdout_lines | last"
 

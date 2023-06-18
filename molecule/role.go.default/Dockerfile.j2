@@ -5,7 +5,7 @@ USER root
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y python3-pip git wget tar
+RUN apt-get update && apt-get upgrade -y && apt-get install -y python3-venv git wget tar
 
 RUN useradd -m -s /bin/bash -d /home/molecule-user molecule-user
 

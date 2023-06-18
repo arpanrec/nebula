@@ -80,7 +80,7 @@ Create a user and add it to sudoers.d
 
 ## Testing
 
-Prerequisite: `docker`, `python3-pip`
+Prerequisite: `docker`, `python3-venv`
 
 ```bash
 molecule test -s role.user_add.default

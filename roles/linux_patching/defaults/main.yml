@@ -51,7 +51,7 @@ rv_linux_patching_packages:
   - exfat-fuse
   - vim
   - neovim
-  - python3-pip
+  - python3-venv
 
 rv_linux_patching_timezone: Asia/Kolkata
 

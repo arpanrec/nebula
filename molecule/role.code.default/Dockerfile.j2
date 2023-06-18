@@ -5,7 +5,7 @@ USER root
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y python3-pip \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y python3-venv \
     jq git wget curl tar zip unzip bzip2 \
     vim \
     fontconfig
