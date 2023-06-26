@@ -1,83 +1,83 @@
 ---
 - name: Get Certificate Ownca | Write Files | Write Certificate
   when:
-    - rv_getcert_certificate_path is defined
-    - rv_getcert_certificate_path | length > 0
+    - get_certificate_ownca_rv_getcert_certificate_path is defined
+    - get_certificate_ownca_rv_getcert_certificate_path | length > 0
   ansible.builtin.copy:
-    content: "{{ rv_getcert_certificate_content }}"
-    dest: "{{ rv_getcert_certificate_path }}"
-    mode: "{{ rv_getcert_certificate_file_mode | default('0600', True) }}"
-    owner: "{{ rv_getcert_certificate_owner | default(omit, True) }}"
-    group: "{{ rv_getcert_certificate_group | default(omit, True) }}"
+    content: "{{ get_certificate_ownca_rv_getcert_certificate_content }}"
+    dest: "{{ get_certificate_ownca_rv_getcert_certificate_path }}"
+    mode: "{{ get_certificate_ownca_rv_getcert_certificate_file_mode | default('0600', True) }}"
+    owner: "{{ get_certificate_ownca_rv_getcert_certificate_owner | default(omit, True) }}"
+    group: "{{ get_certificate_ownca_rv_getcert_certificate_group | default(omit, True) }}"
 
 - name: Get Certificate Ownca | Write Files | Write Private Key
   when:
-    - rv_getcert_private_key_path is defined
-    - rv_getcert_private_key_path | length > 0
+    - get_certificate_ownca_rv_getcert_private_key_path is defined
+    - get_certificate_ownca_rv_getcert_private_key_path | length > 0
   ansible.builtin.copy:
-    content: "{{ rv_getcert_private_key_content }}"
-    dest: "{{ rv_getcert_private_key_path }}"
-    mode: "{{ rv_getcert_private_key_file_mode | default('0600', True) }}"
-    owner: "{{ rv_getcert_private_key_owner | default(omit, True) }}"
-    group: "{{ rv_getcert_private_key_group | default(omit, True) }}"
+    content: "{{ get_certificate_ownca_rv_getcert_private_key_content }}"
+    dest: "{{ get_certificate_ownca_rv_getcert_private_key_path }}"
+    mode: "{{ get_certificate_ownca_rv_getcert_private_key_file_mode | default('0600', True) }}"
+    owner: "{{ get_certificate_ownca_rv_getcert_private_key_owner | default(omit, True) }}"
+    group: "{{ get_certificate_ownca_rv_getcert_private_key_group | default(omit, True) }}"
 
 - name: Get Certificate Ownca | Write Files | Write Certificate Full Chain
   when:
-    - rv_getcert_certificatefullchain_path is defined
-    - rv_getcert_certificatefullchain_path | length > 0
+    - get_certificate_ownca_rv_getcert_certificatefullchain_path is defined
+    - get_certificate_ownca_rv_getcert_certificatefullchain_path | length > 0
   ansible.builtin.copy:
     content: |+
-      {{ rv_getcert_certificate_content | trim }}
-      {{ rv_getcert_ownca_certificate_content }}
-    dest: "{{ rv_getcert_certificatefullchain_path }}"
-    mode: "{{ rv_getcert_certificatefullchain_file_mode | default('0600', True) }}"
-    owner: "{{ rv_getcert_certificatefullchain_owner | default(omit, True) }}"
-    group: "{{ rv_getcert_certificatefullchain_group | default(omit, True) }}"
+      {{ get_certificate_ownca_rv_getcert_certificate_content | trim }}
+      {{ get_certificate_ownca_rv_certificate_content }}
+    dest: "{{ get_certificate_ownca_rv_getcert_certificatefullchain_path }}"
+    mode: "{{ get_certificate_ownca_rv_getcert_certificatefullchain_file_mode | default('0600', True) }}"
+    owner: "{{ get_certificate_ownca_rv_getcert_certificatefullchain_owner | default(omit, True) }}"
+    group: "{{ get_certificate_ownca_rv_getcert_certificatefullchain_group | default(omit, True) }}"
 
 - name: Get Certificate Ownca | Write Files | Generate PKCS#12 file
   when:
-    - rv_getcert_pkcs12_path is defined
-    - rv_getcert_pkcs12_path | length > 0
+    - get_certificate_ownca_rv_getcert_pkcs12_path is defined
+    - get_certificate_ownca_rv_getcert_pkcs12_path | length > 0
   block:
     - name: Get Certificate Ownca | Write Files | Generate PKCS#12 file | Create Temp File for root ca
       changed_when: false
       ansible.builtin.tempfile:
         state: file
-      register: rv_getcert_tmp_pkcs12_ca_path
+      register: get_certificate_ownca_rv_getcert_tmp_pkcs12_ca_path
 
     - name: Get Certificate Ownca | Write Files | Generate PKCS#12 file | Write RootCA to temp file
       changed_when: false
       ansible.builtin.copy:
-        content: "{{ rv_getcert_ownca_certificate_content }}"
-        dest: "{{ rv_getcert_tmp_pkcs12_ca_path.path }}"
+        content: "{{ get_certificate_ownca_rv_certificate_content }}"
+        dest: "{{ get_certificate_ownca_rv_getcert_tmp_pkcs12_ca_path.path }}"
         mode: "0600"
 
     - name: Get Certificate Ownca | Write Files | Generate PKCS#12 file | Create Temp File for Certificate
       changed_when: false
       ansible.builtin.tempfile:
         state: file
-      register: rv_getcert_tmp_pkcs12_certificate_path
+      register: get_certificate_ownca_rv_getcert_tmp_pkcs12_certificate_path
 
     - name: Get Certificate Ownca | Write Files | Generate PKCS#12 file | Write Certificate to temp file
       changed_when: false
       ansible.builtin.copy:
-        content: "{{ rv_getcert_certificate_content }}"
-        dest: "{{ rv_getcert_tmp_pkcs12_certificate_path.path }}"
+        content: "{{ get_certificate_ownca_rv_getcert_certificate_content }}"
+        dest: "{{ get_certificate_ownca_rv_getcert_tmp_pkcs12_certificate_path.path }}"
         mode: "0600"
 
     - name: Get Certificate Ownca | Write Files | Generate PKCS#12 file | Write PKCS#12
       community.crypto.openssl_pkcs12:
         action: export
-        path: "{{ rv_getcert_pkcs12_path }}"
-        passphrase: "{{ rv_getcert_pkcs12_password | default(omit, true) }}"
-        friendly_name: "{{ rv_getcert_subject.commonName | default(omit, True) }}"
-        privatekey_content: "{{ rv_getcert_private_key_content }}"
-        privatekey_passphrase: "{{ rv_getcert_private_key_password | default(omit, True) }}"
-        certificate_path: "{{ rv_getcert_tmp_pkcs12_certificate_path.path }}"
+        path: "{{ get_certificate_ownca_rv_getcert_pkcs12_path }}"
+        passphrase: "{{ get_certificate_ownca_rv_getcert_pkcs12_password | default(omit, true) }}"
+        friendly_name: "{{ get_certificate_ownca_rv_getcert_subject.commonName | default(omit, True) }}"
+        privatekey_content: "{{ get_certificate_ownca_rv_getcert_private_key_content }}"
+        privatekey_passphrase: "{{ get_certificate_ownca_rv_getcert_private_key_password | default(omit, True) }}"
+        certificate_path: "{{ get_certificate_ownca_rv_getcert_tmp_pkcs12_certificate_path.path }}"
         other_certificates_parse_all: true
         other_certificates:
-          - "{{ rv_getcert_tmp_pkcs12_ca_path.path }}"
+          - "{{ get_certificate_ownca_rv_getcert_tmp_pkcs12_ca_path.path }}"
         state: present
-        owner: "{{ rv_getcert_pkcs12_owner | default(omit, true) }}"
-        group: "{{ rv_getcert_pkcs12_group | default(omit, true) }}"
-        mode: "{{ rv_getcert_pkcs12_file_mode | default('0600', true) }}"
+        owner: "{{ get_certificate_ownca_rv_getcert_pkcs12_owner | default(omit, true) }}"
+        group: "{{ get_certificate_ownca_rv_getcert_pkcs12_group | default(omit, true) }}"
+        mode: "{{ get_certificate_ownca_rv_getcert_pkcs12_file_mode | default('0600', true) }}"

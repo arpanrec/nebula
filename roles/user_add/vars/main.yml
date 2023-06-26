@@ -1,3 +1,3 @@
 ---
-rv_user_add_sudoers_dir: /etc/sudoers.d
-rv_user_add_sudoers_file: "{{ rv_user_add_sudoers_dir }}/10-{{ rv_user_add_username }}"
+user_add_rv_sudoers_dir: /etc/sudoers.d
+user_add_rv_sudoers_file: "{{ user_add_rv_sudoers_dir }}/10-{{ user_add_rv_username }}"

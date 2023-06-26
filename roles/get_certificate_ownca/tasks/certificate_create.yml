@@ -1,45 +1,45 @@
 ---
 - name: Get Certificate Ownca | Create Certificate | CSR
   community.crypto.openssl_csr_pipe:
-    privatekey_content: "{{ rv_getcert_private_key_content }}"
-    privatekey_passphrase: "{{ rv_getcert_private_key_password | default(omit, True) }}"
-    key_usage: "{{ rv_getcert_key_usage | default(omit, True) }}"
-    extended_key_usage: "{{ rv_getcert_extended_key_usage | default(omit, True) }}"
+    privatekey_content: "{{ get_certificate_ownca_rv_getcert_private_key_content }}"
+    privatekey_passphrase: "{{ get_certificate_ownca_rv_getcert_private_key_password | default(omit, True) }}"
+    key_usage: "{{ get_certificate_ownca_rv_getcert_key_usage | default(omit, True) }}"
+    extended_key_usage: "{{ get_certificate_ownca_rv_getcert_extended_key_usage | default(omit, True) }}"
     key_usage_critical: true
     extended_key_usage_critical: true
-    subject_alt_name: "{{ rv_getcert_subject_alt_name | default(omit, True) }}"
+    subject_alt_name: "{{ get_certificate_ownca_rv_getcert_subject_alt_name | default(omit, True) }}"
     subject_alt_name_critical: true
     use_common_name_for_san: false
-    commonName: "{{ rv_getcert_subject.commonName | default(omit, True) }}"
-    state_or_province_name: "{{ rv_getcert_subject.state_or_province_name | default(omit, True) }}"
-    locality_name: "{{ rv_getcert_subject.locality_name | default(omit, True) }}"
-    organization_name: "{{ rv_getcert_subject.organization_name | default(omit, True) }}"
-    organizational_unit_name: "{{ rv_getcert_subject.organizational_unit_name | default(omit, True) }}"
-    country_name: "{{ rv_getcert_subject.country_name | default(omit, True) }}"
-    email_address: "{{ rv_getcert_subject.email_address | default(omit, True) }}"
-    basic_constraints: "{{ rv_getcert_basic_constraints | default(omit, True) }}"
+    commonName: "{{ get_certificate_ownca_rv_getcert_subject.commonName | default(omit, True) }}"
+    state_or_province_name: "{{ get_certificate_ownca_rv_getcert_subject.state_or_province_name | default(omit, True) }}"
+    locality_name: "{{ get_certificate_ownca_rv_getcert_subject.locality_name | default(omit, True) }}"
+    organization_name: "{{ get_certificate_ownca_rv_getcert_subject.organization_name | default(omit, True) }}"
+    organizational_unit_name: "{{ get_certificate_ownca_rv_getcert_subject.organizational_unit_name | default(omit, True) }}"
+    country_name: "{{ get_certificate_ownca_rv_getcert_subject.country_name | default(omit, True) }}"
+    email_address: "{{ get_certificate_ownca_rv_getcert_subject.email_address | default(omit, True) }}"
+    basic_constraints: "{{ get_certificate_ownca_rv_getcert_basic_constraints | default(omit, True) }}"
     basic_constraints_critical: true
     create_subject_key_identifier: true
-  register: rv_getcert_tmp_csr
+  register: get_certificate_ownca_rv_getcert_tmp_csr
 
 - name: Get Certificate Ownca | Create Certificate | Certificate
   community.crypto.x509_certificate_pipe:
-    content: "{{ rv_getcert_certificate_content | default(omit, True) }}"
-    csr_content: "{{ rv_getcert_tmp_csr.csr }}"
-    ownca_content: "{{ rv_getcert_ownca_certificate_content }}"
-    ownca_privatekey_content: "{{ rv_getcert_ownca_private_key_content }}"
-    ownca_privatekey_passphrase: "{{ rv_getcert_ownca_private_key_password | default(omit, True) }}"
+    content: "{{ get_certificate_ownca_rv_getcert_certificate_content | default(omit, True) }}"
+    csr_content: "{{ get_certificate_ownca_rv_getcert_tmp_csr.csr }}"
+    ownca_content: "{{ get_certificate_ownca_rv_certificate_content }}"
+    ownca_privatekey_content: "{{ get_certificate_ownca_rv_private_key_content }}"
+    ownca_privatekey_passphrase: "{{ get_certificate_ownca_rv_private_key_password | default(omit, True) }}"
     provider: ownca
-    selfsigned_not_after: "+{{ rv_getcert_validity_days }}d"
+    selfsigned_not_after: "+{{ get_certificate_ownca_rv_getcert_validity_days }}d"
     selfsigned_not_before: "-1d"
-    force: "{{ rv_getcert_to_be_created }}"
-  register: rv_getcert_tmp_new_certificate_content
+    force: "{{ get_certificate_ownca_rv_getcert_to_be_created }}"
+  register: get_certificate_ownca_rv_getcert_tmp_new_certificate_content
 
 - name: Get Certificate Ownca | Create Certificate | Certificate Information
   ansible.builtin.debug:
-    var: rv_getcert_tmp_new_certificate_content
+    var: get_certificate_ownca_rv_getcert_tmp_new_certificate_content
 
 - name: Get Certificate Ownca | Create Certificate | Certificate Set Fact
-  when: rv_getcert_tmp_new_certificate_content.certificate is defined
+  when: get_certificate_ownca_rv_getcert_tmp_new_certificate_content.certificate is defined
   ansible.builtin.set_fact:
-    rv_getcert_certificate_content: "{{ rv_getcert_tmp_new_certificate_content.certificate }}"
+    get_certificate_ownca_rv_getcert_certificate_content: "{{ get_certificate_ownca_rv_getcert_tmp_new_certificate_content.certificate }}"

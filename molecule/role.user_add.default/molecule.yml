@@ -15,7 +15,7 @@ provisioner:
   inventory:
     host_vars:
       debian:
-        rv_user_add_username: test
+        user_add_rv_username: test
 verifier:
   name: ansible
 lint: |

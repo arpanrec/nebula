@@ -27,8 +27,8 @@ provisioner:
   inventory:
     group_vars:
       all:
-        rv_linux_patching_install_headers: false
-        rv_sshd_hardening_ssh_security_restart_service: false
+        linux_patching_rv_install_headers: false
+        ssh_hardening_rv_ssh_security_restart_service: false
 scenario:
   name: role.ssh_hardening.default
   create_sequence:

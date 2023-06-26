@@ -11,7 +11,7 @@ Open 22 UFW Port
 
 ### Added
 
-- `rv_linux_patching_ssh_port` is added to linux patching to open 22 port in ufw.
+- `linux_patching_rv_ssh_port` is added to linux patching to open 22 port in ufw.
 
 ### Changed
 

@@ -16,7 +16,7 @@
     file: certificate_to_be_created.yml
 
 - name: Get Certificate Ownca | Create Certificate
-  when: rv_getcert_to_be_created
+  when: get_certificate_ownca_rv_getcert_to_be_created
   ansible.builtin.import_tasks:
     file: certificate_create.yml
 

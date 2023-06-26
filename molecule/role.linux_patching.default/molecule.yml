@@ -26,13 +26,13 @@ provisioner:
   inventory:
     group_vars:
       all:
-        rv_linux_patching_install_headers: false
+        linux_patching_rv_install_headers: false
         endpoint_global_config: "https://raw.githubusercontent.com/arpanrecme/dotfiles/main/.config/global.json"
         global_config: "{{ lookup('ansible.builtin.url', \
           endpoint_global_config, \
           split_lines=False, \
           headers={'Content-Type':'application/json', 'Accept':'application/json'}) }}"
-        rv_linux_patching_root_ca_pem_content: "{{ global_config.ROOT_CA.CERTIFICATE }}"
+        linux_patching_rv_root_ca_pem_content: "{{ global_config.ROOT_CA.CERTIFICATE }}"
 scenario:
   name: role.linux_patching.default
   converge_sequence:

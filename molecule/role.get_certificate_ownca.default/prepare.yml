@@ -7,16 +7,16 @@
   tasks:
     - name: Get Certificate Ownca | Molecule | Prepare | Generate an OpenSSL private key
       community.crypto.openssl_privatekey:
-        path: "{{ rv_getcert_ownca_private_key_path }}"
-        passphrase: "{{ rv_getcert_ownca_private_key_password }}"
+        path: "{{ get_certificate_ownca_rv_private_key_path }}"
+        passphrase: "{{ get_certificate_ownca_rv_private_key_password }}"
         size: 8192
         cipher: auto
 
     - name: Get Certificate Ownca | Molecule | Prepare | Generate an OpenSSL Certificate Signing Request
       community.crypto.openssl_csr:
-        path: "{{ rv_getcert_molecule_prepare_csr_path }}"
-        privatekey_path: "{{ rv_getcert_ownca_private_key_path }}"
-        privatekey_passphrase: "{{ rv_getcert_ownca_private_key_password }}"
+        path: "{{ get_certificate_ownca_rv_getcert_molecule_prepare_csr_path }}"
+        privatekey_path: "{{ get_certificate_ownca_rv_private_key_path }}"
+        privatekey_passphrase: "{{ get_certificate_ownca_rv_private_key_password }}"
         country_name: IN
         state_or_province_name: STName
         locality_name: LName
@@ -48,10 +48,10 @@
 
     - name: Get Certificate Ownca | Molecule | Prepare | Generate an OpenSSL certificate signed with your own CA certificate
       community.crypto.x509_certificate:
-        path: "{{ rv_getcert_ownca_certificate_path }}"
-        csr_path: "{{ rv_getcert_molecule_prepare_csr_path }}"
-        privatekey_path: "{{ rv_getcert_ownca_private_key_path }}"
-        privatekey_passphrase: "{{ rv_getcert_ownca_private_key_password }}"
+        path: "{{ get_certificate_ownca_rv_certificate_path }}"
+        csr_path: "{{ get_certificate_ownca_rv_getcert_molecule_prepare_csr_path }}"
+        privatekey_path: "{{ get_certificate_ownca_rv_private_key_path }}"
+        privatekey_passphrase: "{{ get_certificate_ownca_rv_private_key_password }}"
         provider: selfsigned
         selfsigned_not_after: "+365d"
         selfsigned_not_before: "-1d"

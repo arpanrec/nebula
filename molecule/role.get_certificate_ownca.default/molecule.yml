@@ -23,22 +23,22 @@ provisioner:
   inventory:
     group_vars:
       all:
-        rv_getcert_ownca_private_key_path: ownca_private_key.pem
-        rv_getcert_ownca_certificate_path: ownca_certificate_path.pem
-        rv_getcert_ownca_private_key_password: password
-        rv_getcert_private_key_password: password
-        rv_getcert_private_key_path: private_key.pem
-        rv_getcert_certificate_path: certificate_path.pem
-        rv_getcert_molecule_prepare_csr_path: ownca_csr.pem
-        rv_getcert_certificatefullchain_path: certificate_chain_path.pem
-        rv_getcert_key_usage:
+        get_certificate_ownca_rv_private_key_path: ownca_private_key.pem
+        get_certificate_ownca_rv_certificate_path: ownca_certificate_path.pem
+        get_certificate_ownca_rv_private_key_password: password
+        get_certificate_ownca_rv_getcert_private_key_password: password
+        get_certificate_ownca_rv_getcert_private_key_path: private_key.pem
+        get_certificate_ownca_rv_getcert_certificate_path: certificate_path.pem
+        get_certificate_ownca_rv_getcert_molecule_prepare_csr_path: ownca_csr.pem
+        get_certificate_ownca_rv_getcert_certificatefullchain_path: certificate_chain_path.pem
+        get_certificate_ownca_rv_getcert_key_usage:
           - digitalSignature
           - nonRepudiation
           - keyEncipherment
           - dataEncipherment
           - keyCertSign
           - cRLSign
-        rv_getcert_extended_key_usage:
+        get_certificate_ownca_rv_getcert_extended_key_usage:
           - serverAuth
           - clientAuth
           - codeSigning
@@ -46,15 +46,15 @@ provisioner:
           - timeStamping
           - OCSPSigning
           - msCTLSign
-        rv_getcert_subject_alt_name:
+        get_certificate_ownca_rv_getcert_subject_alt_name:
           - DNS:www.arpanrec.com
           - IP:172.0.0.1
-        rv_getcert_subject:
+        get_certificate_ownca_rv_getcert_subject:
           commonName: www.arpanrec.com
-        rv_getcert_basic_constraints:
+        get_certificate_ownca_rv_getcert_basic_constraints:
           - CA:TRUE
           - pathlen:0
-        rv_getcert_private_key_file_mode: "0600"
+        get_certificate_ownca_rv_getcert_private_key_file_mode: "0600"
 scenario:
   name: role.get_certificate_ownca.default
   converge_sequence:

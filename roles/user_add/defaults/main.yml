@@ -1,36 +1,36 @@
 ---
 # Group Name : Primary Group of the user
 # Type: String
-# rv_user_add_user_primary_group:
+# user_add_rv_user_primary_group:
 
 # Group ID : GID for primary group
 # Type: int
-# rv_user_add_user_primary_gid:
+# user_add_rv_user_primary_gid:
 
 # Username
 # Type: String
-# rv_user_add_username:
+# user_add_rv_username:
 
 # User ID : UID
 # Type: int
-# rv_user_add_uid:
+# user_add_rv_uid:
 
 # Clear text password for the user
 # Type: String
-# rv_user_add_password
+# user_add_rv_password
 
 # Groups : Extra groups for user
 # Type: List<String>
-rv_user_add_user_extra_groups: []
+user_add_rv_user_extra_groups: []
 
 # Public key for remote ssh access
 # Type: List of String
-# rv_user_add_ssh_access_public_key_content_list
+# user_add_rv_ssh_access_public_key_content_list
 
 # Commands user will be able to run without password
 # Type: List<String>
-rv_user_add_user_nopasswd_commands: []
+user_add_rv_user_nopasswd_commands: []
 
 # Default shell for user
 # Type: String
-rv_user_add_user_default_shell: /bin/bash
+user_add_rv_user_default_shell: /bin/bash

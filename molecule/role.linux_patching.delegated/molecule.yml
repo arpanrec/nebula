@@ -33,7 +33,7 @@ provisioner:
         ansible_become_method: su
         ansible_become_user: root
         ansible_become_password: root
-        # rv_linux_patching_hostname: rb4-m1
+        # linux_patching_rv_hostname: rb4-m1
 scenario:
   name: role.linux_patching.delegated
   converge_sequence:

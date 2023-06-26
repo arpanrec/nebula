@@ -5,4 +5,4 @@
     name: sshd
     state: restarted
     enabled: true
-  when: rv_sshd_hardening_ssh_security_restart_service
+  when: ssh_hardening_rv_ssh_security_restart_service

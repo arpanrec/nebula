@@ -9,4 +9,4 @@
       ansible.builtin.import_role:
         name: arpanrec.utilities.linux_patching
       vars:
-        rv_linux_patching_install_headers: false
+        linux_patching_rv_install_headers: false

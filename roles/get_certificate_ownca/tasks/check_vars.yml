@@ -3,123 +3,123 @@
 - name: Get Certificate Ownca | Check Variables | Fail if OwnCA Private Key is not Present
   ansible.builtin.fail:
     msg: >-
-      rv_getcert_ownca_private_key_content or rv_getcert_ownca_private_key_path is required
+      get_certificate_ownca_rv_private_key_content or get_certificate_ownca_rv_private_key_path is required
   when:
-    - rv_getcert_ownca_private_key_content is not defined or rv_getcert_ownca_private_key_content | length < 2
-    - rv_getcert_ownca_private_key_path is not defined or rv_getcert_ownca_private_key_path | length < 2
+    - get_certificate_ownca_rv_private_key_content is not defined or get_certificate_ownca_rv_private_key_content | length < 2
+    - get_certificate_ownca_rv_private_key_path is not defined or get_certificate_ownca_rv_private_key_path | length < 2
 
 - name: Get Certificate Ownca | Check Variables | Fail if OwnCA private key path and content both Present
   ansible.builtin.fail:
     msg: >-
-      rv_getcert_ownca_private_key_content or rv_getcert_ownca_private_key_path is mutually exclusive
+      get_certificate_ownca_rv_private_key_content or get_certificate_ownca_rv_private_key_path is mutually exclusive
   when:
-    - rv_getcert_ownca_private_key_content is defined and rv_getcert_ownca_private_key_content | length > 2
-    - rv_getcert_ownca_private_key_path is defined and rv_getcert_ownca_private_key_path | length > 2
+    - get_certificate_ownca_rv_private_key_content is defined and get_certificate_ownca_rv_private_key_content | length > 2
+    - get_certificate_ownca_rv_private_key_path is defined and get_certificate_ownca_rv_private_key_path | length > 2
 
 - name: Get Certificate Ownca | Check Variables | Fail if OwnCA Certificate is not Present
   ansible.builtin.fail:
     msg: >-
-      rv_getcert_ownca_certificate_content or rv_getcert_ownca_certificate_path is required
+      get_certificate_ownca_rv_certificate_content or get_certificate_ownca_rv_certificate_path is required
   when:
-    - rv_getcert_ownca_certificate_content is not defined or rv_getcert_ownca_certificate_content | length < 2
-    - rv_getcert_ownca_certificate_path is not defined or rv_getcert_ownca_certificate_path | length < 2
+    - get_certificate_ownca_rv_certificate_content is not defined or get_certificate_ownca_rv_certificate_content | length < 2
+    - get_certificate_ownca_rv_certificate_path is not defined or get_certificate_ownca_rv_certificate_path | length < 2
 
 - name: Get Certificate Ownca | Check Variables | Fail if OwnCA certificate path and content both Present
   ansible.builtin.fail:
     msg: >-
-      rv_getcert_ownca_certificate_content or rv_getcert_ownca_certificate_path is mutually exclusive
+      get_certificate_ownca_rv_certificate_content or get_certificate_ownca_rv_certificate_path is mutually exclusive
   when:
-    - rv_getcert_ownca_certificate_content is defined and rv_getcert_ownca_certificate_content | length > 2
-    - rv_getcert_ownca_certificate_path is defined and rv_getcert_ownca_certificate_path | length > 2
+    - get_certificate_ownca_rv_certificate_content is defined and get_certificate_ownca_rv_certificate_content | length > 2
+    - get_certificate_ownca_rv_certificate_path is defined and get_certificate_ownca_rv_certificate_path | length > 2
 ## OWNCA Checks
 
 - name: Get Certificate Ownca | Check Variables | Fail if private key path and content both Present
   ansible.builtin.fail:
     msg: >-
-      rv_getcert_private_key_content or rv_getcert_private_key_path is mutually exclusive
+      get_certificate_ownca_rv_getcert_private_key_content or get_certificate_ownca_rv_getcert_private_key_path is mutually exclusive
   when:
-    - rv_getcert_private_key_content is defined and rv_getcert_private_key_content | length > 2
-    - rv_getcert_private_key_path is defined and rv_getcert_private_key_path | length > 2
+    - get_certificate_ownca_rv_getcert_private_key_content is defined and get_certificate_ownca_rv_getcert_private_key_content | length > 2
+    - get_certificate_ownca_rv_getcert_private_key_path is defined and get_certificate_ownca_rv_getcert_private_key_path | length > 2
 
 - name: Get Certificate Ownca | Check Variables | Fail if certificate path and content both Present
   ansible.builtin.fail:
     msg: >-
-      rv_getcert_certificate_content or rv_getcert_certificate_path is mutually exclusive
+      get_certificate_ownca_rv_getcert_certificate_content or get_certificate_ownca_rv_getcert_certificate_path is mutually exclusive
   when:
-    - rv_getcert_certificate_content is defined and rv_getcert_certificate_content | length > 2
-    - rv_getcert_certificate_path is defined and rv_getcert_certificate_path | length > 2
+    - get_certificate_ownca_rv_getcert_certificate_content is defined and get_certificate_ownca_rv_getcert_certificate_content | length > 2
+    - get_certificate_ownca_rv_getcert_certificate_path is defined and get_certificate_ownca_rv_getcert_certificate_path | length > 2
 
 - name: Get Certificate Ownca | Check Variables | Unknown key in subject
   ansible.builtin.fail:
     msg:
-      "Unknown key in subject {{ rv_getcert_subject.keys() | difference(rv_getcert_subject_keys_list) }},
-      Expected Keys {{ rv_getcert_subject_keys_list }}"
+      "Unknown key in subject {{ get_certificate_ownca_rv_getcert_subject.keys() | difference(get_certificate_ownca_rv_getcert_subject_keys_list) }},
+      Expected Keys {{ get_certificate_ownca_rv_getcert_subject_keys_list }}"
   when:
-    - rv_getcert_subject is defined and rv_getcert_subject | length > 0
-    - rv_getcert_subject_keys_expected
+    - get_certificate_ownca_rv_getcert_subject is defined and get_certificate_ownca_rv_getcert_subject | length > 0
+    - get_certificate_ownca_rv_getcert_subject_keys_expected
   vars:
-    rv_getcert_subject_keys_expected: "{{ rv_getcert_subject.keys() | difference(rv_getcert_subject_keys_list) | length != 0 }}"
+    get_certificate_ownca_rv_getcert_subject_keys_expected: "{{ get_certificate_ownca_rv_getcert_subject.keys() | difference(get_certificate_ownca_rv_getcert_subject_keys_list) | length != 0 }}"
 
 - name: Get Certificate Ownca | Check Variables | Required Path for Private Key
   ansible.builtin.fail:
     msg: >-
-      `rv_getcert_private_key_file_mode`, `rv_getcert_private_key_group` and `rv_getcert_private_key_owner` requires `rv_getcert_private_key_path`
+      `get_certificate_ownca_rv_getcert_private_key_file_mode`, `get_certificate_ownca_rv_getcert_private_key_group` and `get_certificate_ownca_rv_getcert_private_key_owner` requires `get_certificate_ownca_rv_getcert_private_key_path`
   when: >
     (
-      ( rv_getcert_private_key_file_mode is defined and rv_getcert_private_key_file_mode | length > 0 )
+      ( get_certificate_ownca_rv_getcert_private_key_file_mode is defined and get_certificate_ownca_rv_getcert_private_key_file_mode | length > 0 )
       or
-      ( rv_getcert_private_key_group is defined and rv_getcert_private_key_group | length > 0 )
+      ( get_certificate_ownca_rv_getcert_private_key_group is defined and get_certificate_ownca_rv_getcert_private_key_group | length > 0 )
       or
-      ( rv_getcert_private_key_owner is defined and rv_getcert_private_key_owner | length > 0 )
+      ( get_certificate_ownca_rv_getcert_private_key_owner is defined and get_certificate_ownca_rv_getcert_private_key_owner | length > 0 )
     )
     and
-    ( (not rv_getcert_private_key_path is defined) or (rv_getcert_private_key_path | length < 1) )
+    ( (not get_certificate_ownca_rv_getcert_private_key_path is defined) or (get_certificate_ownca_rv_getcert_private_key_path | length < 1) )
 
 - name: Get Certificate Ownca | Check Variables | Required Path for Certificate
   ansible.builtin.fail:
     msg: >-
-      `rv_getcert_certificate_file_mode`, `rv_getcert_certificate_owner` and `rv_getcert_certificate_group` requires `rv_getcert_certificate_path`
+      `get_certificate_ownca_rv_getcert_certificate_file_mode`, `get_certificate_ownca_rv_getcert_certificate_owner` and `get_certificate_ownca_rv_getcert_certificate_group` requires `get_certificate_ownca_rv_getcert_certificate_path`
   when: >
     (
-      ( rv_getcert_certificate_file_mode is defined and rv_getcert_certificate_file_mode | length > 0 )
+      ( get_certificate_ownca_rv_getcert_certificate_file_mode is defined and get_certificate_ownca_rv_getcert_certificate_file_mode | length > 0 )
       or
-      ( rv_getcert_certificate_owner is defined and rv_getcert_certificate_owner | length > 0 )
+      ( get_certificate_ownca_rv_getcert_certificate_owner is defined and get_certificate_ownca_rv_getcert_certificate_owner | length > 0 )
       or
-      ( rv_getcert_certificate_group is defined and rv_getcert_certificate_group | length > 0 )
+      ( get_certificate_ownca_rv_getcert_certificate_group is defined and get_certificate_ownca_rv_getcert_certificate_group | length > 0 )
     )
     and
-    ( (not rv_getcert_certificate_path is defined) or (rv_getcert_certificate_path | length < 1) )
+    ( (not get_certificate_ownca_rv_getcert_certificate_path is defined) or (get_certificate_ownca_rv_getcert_certificate_path | length < 1) )
 
 - name: Get Certificate Ownca | Check Variables | Required Path for Certificate Full Chain
   ansible.builtin.fail:
     msg:
-      rv_getcert_certificatefullchain_file_mode, rv_getcert_certificatefullchain_owner and rv_getcert_certificatefullchain_group \
-      requires rv_getcert_certificatefullchain_path
+      get_certificate_ownca_rv_getcert_certificatefullchain_file_mode, get_certificate_ownca_rv_getcert_certificatefullchain_owner and get_certificate_ownca_rv_getcert_certificatefullchain_group \
+      requires get_certificate_ownca_rv_getcert_certificatefullchain_path
   when: >
     (
-      ( rv_getcert_certificatefullchain_file_mode is defined and rv_getcert_certificatefullchain_file_mode | length > 0 )
+      ( get_certificate_ownca_rv_getcert_certificatefullchain_file_mode is defined and get_certificate_ownca_rv_getcert_certificatefullchain_file_mode | length > 0 )
       or
-      ( rv_getcert_certificatefullchain_owner is defined and rv_getcert_certificatefullchain_owner | length > 0 )
+      ( get_certificate_ownca_rv_getcert_certificatefullchain_owner is defined and get_certificate_ownca_rv_getcert_certificatefullchain_owner | length > 0 )
       or
-      ( rv_getcert_certificatefullchain_group is defined and rv_getcert_certificatefullchain_group | length > 0 )
+      ( get_certificate_ownca_rv_getcert_certificatefullchain_group is defined and get_certificate_ownca_rv_getcert_certificatefullchain_group | length > 0 )
     )
     and
-    ( (not rv_getcert_certificatefullchain_path is defined) or (rv_getcert_certificatefullchain_path | length < 1) )
+    ( (not get_certificate_ownca_rv_getcert_certificatefullchain_path is defined) or (get_certificate_ownca_rv_getcert_certificatefullchain_path | length < 1) )
 
 - name: Get Certificate Ownca | Check Variables | Required Path for Certificate PKCS12 Path
   ansible.builtin.fail:
     msg:
-      rv_getcert_pkcs12_password, rv_getcert_pkcs12_file_mode, rv_getcert_pkcs12_owner and rv_getcert_pkcs12_group \
-      requires rv_getcert_pkcs12_path
+      get_certificate_ownca_rv_getcert_pkcs12_password, get_certificate_ownca_rv_getcert_pkcs12_file_mode, get_certificate_ownca_rv_getcert_pkcs12_owner and get_certificate_ownca_rv_getcert_pkcs12_group \
+      requires get_certificate_ownca_rv_getcert_pkcs12_path
   when: >
     (
-      ( rv_getcert_pkcs12_password is defined and rv_getcert_pkcs12_password | length > 0 )
+      ( get_certificate_ownca_rv_getcert_pkcs12_password is defined and get_certificate_ownca_rv_getcert_pkcs12_password | length > 0 )
       or
-      ( rv_getcert_pkcs12_file_mode is defined and rv_getcert_pkcs12_file_mode | length > 0 )
+      ( get_certificate_ownca_rv_getcert_pkcs12_file_mode is defined and get_certificate_ownca_rv_getcert_pkcs12_file_mode | length > 0 )
       or
-      ( rv_getcert_pkcs12_owner is defined and rv_getcert_pkcs12_owner | length > 0 )
+      ( get_certificate_ownca_rv_getcert_pkcs12_owner is defined and get_certificate_ownca_rv_getcert_pkcs12_owner | length > 0 )
       or
-      ( rv_getcert_pkcs12_group is defined and rv_getcert_pkcs12_group | length > 0 )
+      ( get_certificate_ownca_rv_getcert_pkcs12_group is defined and get_certificate_ownca_rv_getcert_pkcs12_group | length > 0 )
     )
     and
-    ( (not rv_getcert_pkcs12_path is defined) or (rv_getcert_pkcs12_path | length < 1) )
+    ( (not get_certificate_ownca_rv_getcert_pkcs12_path is defined) or (get_certificate_ownca_rv_getcert_pkcs12_path | length < 1) )

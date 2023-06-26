@@ -3,7 +3,7 @@
   ansible.builtin.import_tasks: prerequisite.yml
 
 - name: Linux Patching | Network | CA Certificate
-  when: rv_linux_patching_root_ca_pem_content is defined and rv_linux_patching_root_ca_pem_content | length > 1
+  when: linux_patching_rv_root_ca_pem_content is defined and linux_patching_rv_root_ca_pem_content | length > 1
   block:
     - name: Linux Patching | Network | CA Certificate | Make sure the CA certificate folder exists
       ansible.builtin.file:
@@ -13,20 +13,20 @@
 
     - name: Linux Patching | Network | CA Certificate | Copy the certificate
       ansible.builtin.copy:
-        content: "{{ rv_linux_patching_root_ca_pem_content }}"
+        content: "{{ linux_patching_rv_root_ca_pem_content }}"
         dest: /usr/local/share/ca-certificates/arpanrec-root-ca.crt
         mode: "0775"
 
     - name: Linux Patching | Network | CA Certificate | Update CA Trust
       ansible.builtin.command: update-ca-certificates
-      register: rv_linux_patching_update_ca_trust_shell_result
+      register: linux_patching_rv_update_ca_trust_shell_result
       environment:
         PATH: /usr/sbin:{{ ansible_env.PATH }}
-      changed_when: rv_linux_patching_update_ca_trust_shell_result.stdout_lines[1] is not match("0 added.*")
+      changed_when: linux_patching_rv_update_ca_trust_shell_result.stdout_lines[1] is not match("0 added.*")
 
     - name: Linux Patching | Network | CA Certificate | Update CA Trust Shell Result
       ansible.builtin.debug:
-        var: rv_linux_patching_update_ca_trust_shell_result
+        var: linux_patching_rv_update_ca_trust_shell_result
 
 - name: Linux Patching | Network | Disable Wifi MAC randomization
   community.general.ini_file:
@@ -60,11 +60,11 @@
     value: "{{ item.value }}"
     state: present
     reload: true
-  register: rv_linux_patching_tmp_ipvsix_disable_sysctl
+  register: linux_patching_rv_tmp_ipvsix_disable_sysctl
   failed_when: >
-    rv_linux_patching_tmp_ipvsix_disable_sysctl.failed
+    linux_patching_rv_tmp_ipvsix_disable_sysctl.failed
     and
-    rv_linux_patching_tmp_ipvsix_disable_sysctl.msg is not search('disable_ipv6: No such file or directory')
+    linux_patching_rv_tmp_ipvsix_disable_sysctl.msg is not search('disable_ipv6: No such file or directory')
   with_items:
     - name: net.ipv6.conf.all.disable_ipv6
       value: "1"
@@ -99,13 +99,13 @@
 
 - name: Linux Patching | Network | Setup Host Network Information | Set Host-Name
   ansible.builtin.hostname:
-    name: "{{ rv_linux_patching_hostname }}"
+    name: "{{ linux_patching_rv_hostname }}"
     use: debian
-  register: rv_linux_patching_tmp_set_debian_hostname
+  register: linux_patching_rv_tmp_set_debian_hostname
   failed_when: >
-    rv_linux_patching_init_system_systemd
+    linux_patching_rv_init_system_systemd
     and
-    rv_linux_patching_tmp_set_debian_hostname.failed
+    linux_patching_rv_tmp_set_debian_hostname.failed
 
 - name: Linux Patching | Network | Setup Host Network Information | Set Hosts file
   ansible.builtin.lineinfile:
@@ -115,33 +115,33 @@
     mode: "0644"
     line: "{{ item.line }}"
     regexp: "{{ item.regexp }}"
-  register: rv_linux_patching_tmp_set_hosts_file_entry
+  register: linux_patching_rv_tmp_set_hosts_file_entry
   failed_when: >
-    rv_linux_patching_init_system_systemd
+    linux_patching_rv_init_system_systemd
     and
-    rv_linux_patching_tmp_set_hosts_file_entry.failed
+    linux_patching_rv_tmp_set_hosts_file_entry.failed
   loop:
     - regexp: '^127\.0\.0\.1'
       line: "127.0.0.1  localhost"
     - regexp: '^127\.0\.1\.1'
-      line: "127.0.1.1  {{ rv_linux_patching_hostname }}"
+      line: "127.0.1.1  {{ linux_patching_rv_hostname }}"
 
 - name: Linux Patching | Network | Setup Host Network Information | Enable network services
   ansible.builtin.service:
     name: "{{ item }}"
     enabled: true
-  with_items: "{{ rv_linux_patching_net_time_services }}"
+  with_items: "{{ linux_patching_rv_net_time_services }}"
 
 - name: Linux Patching | Network | Setup Host Network Information | Enable SSH Port
   community.general.ufw:
     rule: allow
-    port: "{{ rv_linux_patching_ssh_port }}"
+    port: "{{ linux_patching_rv_ssh_port }}"
     proto: tcp
-  register: rv_linux_patching_ufw_ssh_port_result
+  register: linux_patching_rv_ufw_ssh_port_result
   ignore_errors: true
 
 - name: Linux Patching | Network | Setup Host Network Information | UFW Iptables legacy
-  when: rv_linux_patching_ufw_ssh_port_result.failed
+  when: linux_patching_rv_ufw_ssh_port_result.failed
   block:
     - name: Linux Patching | Network | Setup Host Network Information | UFW Iptables legacy | Change iptables legacy for UFW
       community.general.alternatives:
@@ -151,5 +151,5 @@
     - name: Linux Patching | Network | Setup Host Network Information | UFW Iptables legacy | Enable SSH Port with iptables legacy
       community.general.ufw:
         rule: allow
-        port: "{{ rv_linux_patching_ssh_port }}"
+        port: "{{ linux_patching_rv_ssh_port }}"
         proto: tcp

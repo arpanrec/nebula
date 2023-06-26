@@ -1,11 +1,11 @@
 ---
 # defaults file for host_essentials
 
-rv_linux_patching_upgrade_existing_packages: true
+linux_patching_rv_upgrade_existing_packages: true
 
-rv_linux_patching_install_headers: true
+linux_patching_rv_install_headers: true
 
-rv_linux_patching_packages:
+linux_patching_rv_packages:
   - zip
   - unzip
   - net-tools
@@ -53,9 +53,9 @@ rv_linux_patching_packages:
   - neovim
   - python3-venv
 
-rv_linux_patching_timezone: Asia/Kolkata
+linux_patching_rv_timezone: Asia/Kolkata
 
-rv_linux_patching_hostname: "{{ ansible_facts['hostname'] | mandatory }}"
-# rv_linux_patching_root_ca_pem_content:
+linux_patching_rv_hostname: "{{ ansible_facts['hostname'] | mandatory }}"
+# linux_patching_rv_root_ca_pem_content:
 
-rv_linux_patching_ssh_port: 22
+linux_patching_rv_ssh_port: 22

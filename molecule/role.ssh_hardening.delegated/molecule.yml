@@ -24,7 +24,7 @@ provisioner:
   inventory:
     group_vars:
       all:
-        rv_sshd_hardening_ssh_port: 5484
+        ssh_hardening_rv_ssh_port: 5484
     host_vars:
       debian11:
         ansible_host: 192.168.145.128

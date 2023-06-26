@@ -11,23 +11,23 @@
 - name: Linux Patching | Install Packages | Upgrade existing all packages in Debian
   ansible.builtin.apt:
     update_cache: true
-  when: rv_linux_patching_upgrade_existing_packages
-  register: rv_linux_patching_upgrade_result
+  when: linux_patching_rv_upgrade_existing_packages
+  register: linux_patching_rv_upgrade_result
 
 - name: Linux Patching | Install Packages | Reboot After Packages Upgrade
-  when: rv_linux_patching_upgrade_result.changed and rv_linux_patching_init_system_systemd
+  when: linux_patching_rv_upgrade_result.changed and linux_patching_rv_init_system_systemd
   ansible.builtin.import_tasks:
     file: reboot.yml
 
 - name: Linux Patching | Install Packages | Install specific essential packages in Debian
   ansible.builtin.apt:
-    name: "{{ rv_linux_patching_packages | default([]) + rv_linux_patching_extra_packages | default([]) }}"
+    name: "{{ linux_patching_rv_packages | default([]) + linux_patching_rv_extra_packages | default([]) }}"
     state: present
     update_cache: true
-  register: rv_linux_patching_extra_install
+  register: linux_patching_rv_extra_install
 
 - name: Linux Patching | Install Packages | Reboot After Packages Install
-  when: rv_linux_patching_extra_install.changed and rv_linux_patching_init_system_systemd
+  when: linux_patching_rv_extra_install.changed and linux_patching_rv_init_system_systemd
   ansible.builtin.import_tasks:
     file: reboot.yml
 
@@ -36,26 +36,26 @@
     name: "linux-headers-{{ ansible_kernel }}"
     state: present
     update_cache: true
-  when: rv_linux_patching_install_headers
+  when: linux_patching_rv_install_headers
   ignore_errors: true
-  register: rv_linux_patching_install_headers_tmp_kernel_version_installed
+  register: linux_patching_rv_install_headers_tmp_kernel_version_installed
 
 - name: Linux Patching | Install Packages | Install generic headers linux-headers
   ansible.builtin.apt:
     name: "linux-headers"
     state: present
     update_cache: true
-  when: rv_linux_patching_install_headers and rv_linux_patching_install_headers_tmp_kernel_version_installed.failed
-  register: rv_linux_patching_install_generic_headers_tmp_kernel_version_installed
+  when: linux_patching_rv_install_headers and linux_patching_rv_install_headers_tmp_kernel_version_installed.failed
+  register: linux_patching_rv_install_generic_headers_tmp_kernel_version_installed
 
 - name: Linux Patching | Install Packages | Reboot after kernel install
   ansible.builtin.import_tasks:
     file: reboot.yml
   when: >
-    rv_linux_patching_init_system_systemd
+    linux_patching_rv_init_system_systemd
     and
     (
-      rv_linux_patching_install_generic_headers_tmp_kernel_version_installed.changed
+      linux_patching_rv_install_generic_headers_tmp_kernel_version_installed.changed
       or
-      rv_linux_patching_install_headers_tmp_kernel_version_installed.changed
+      linux_patching_rv_install_headers_tmp_kernel_version_installed.changed
     )

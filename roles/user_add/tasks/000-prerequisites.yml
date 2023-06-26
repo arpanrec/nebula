@@ -7,12 +7,12 @@
     fail_msg: "{{ item }} is not defined, it should be present"
     success_msg: "{{ item }} is defined"
   with_items:
-    - rv_user_add_username
+    - user_add_rv_username
 
 - name: Application User | Setting Group Name
   ansible.builtin.set_fact:
-    rv_user_add_user_primary_group: "{{ rv_user_add_username }}"
+    user_add_rv_user_primary_group: "{{ user_add_rv_username }}"
   when: >
-    rv_user_add_user_primary_group is not defined
+    user_add_rv_user_primary_group is not defined
     or
-    rv_user_add_user_primary_group | length < 1
+    user_add_rv_user_primary_group | length < 1

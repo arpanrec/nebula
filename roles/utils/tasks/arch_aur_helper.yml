@@ -22,11 +22,11 @@
     name: user_add
     tasks_from: 100-adduser.yml
   vars:
-    rv_user_add_user_primary_group: "{{ rv_common_arch_aur_helper_build_group }}"
-    rv_user_add_user_primary_gid: "{{ rv_common_arch_aur_helper_build_gid }}"
-    rv_user_add_username: "{{ rv_common_arch_aur_helper_build_user }}"
-    rv_user_add_uid: "{{ rv_common_arch_aur_helper_build_uid }}"
-    rv_user_add_user_nopasswd_commands: ["/usr/bin/pacman"]
+    user_add_rv_user_primary_group: "{{ rv_common_arch_aur_helper_build_group }}"
+    user_add_rv_user_primary_gid: "{{ rv_common_arch_aur_helper_build_gid }}"
+    user_add_rv_username: "{{ rv_common_arch_aur_helper_build_user }}"
+    user_add_rv_uid: "{{ rv_common_arch_aur_helper_build_uid }}"
+    user_add_rv_user_nopasswd_commands: ["/usr/bin/pacman"]
 
 - name: Common | AUR Helper | Installing yay
   become: true
