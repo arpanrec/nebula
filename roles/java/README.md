@@ -37,7 +37,7 @@ options:
     description: Release version of Gradle from https://gradle.org/releases/.
     required: false
     type: str
-    default: 8.1.1
+    default: 8.2
 ```
 
 ## Example Playbook Oracle Java
