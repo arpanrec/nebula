@@ -42,8 +42,3 @@ scenario:
     - destroy
 verifier:
   name: ansible
-lint: |
-  set -e
-  yamllint roles/go
-  ansible-lint roles/go
-  flake8 roles/go
