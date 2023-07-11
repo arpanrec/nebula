@@ -1,7 +1,0 @@
----
-rv_nvim_version: "v0.8.1"
-rv_nvim_nodejs_install_path: "{{ ansible_facts.user_dir }}/.local/share/node"
-rv_nvim_user_tmp_dir: "{{ ansible_facts.user_dir }}/.tmp/nvim"
-rv_nvim_config_dir: "{{ ansible_facts.user_dir }}/.config/nvim"
-rv_nvim_exec_path: "{{ ansible_facts.user_dir }}/.local/bin/nvim"
-rv_nvim_install_path: "{{ ansible_facts.user_dir }}/.local/share/nvim"

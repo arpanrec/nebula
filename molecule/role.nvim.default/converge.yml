@@ -1,8 +1,0 @@
----
-- name: NEOVIM | Molecule | Converge
-  hosts: all
-  gather_facts: false
-  tasks:
-    - name: NEOVIM | Molecule | Converge | Include nvim role
-      ansible.builtin.import_role:
-        name: arpanrec.utilities.nvim

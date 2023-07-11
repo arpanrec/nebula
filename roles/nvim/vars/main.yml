@@ -1,5 +1,0 @@
----
-rv_nvim_download_url_arch_map:
-  x86_64: "https://github.com/neovim/neovim/releases/download/{{ rv_nvim_version }}/nvim-linux64.tar.gz"
-rv_nvim_tarball_download_path: "{{ rv_nvim_user_tmp_dir }}/nvim-linux-{{ rv_nvim_version }}.tar.gz"
-rv_nvim_auto_load_dir: "{{ rv_nvim_install_path }}/site/autoload"

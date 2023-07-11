@@ -80,16 +80,6 @@
           tags:
             - nodejs
 
-    - name: USERAPPS | NeoVIM
-      ansible.builtin.include_role:
-        name: arpanrec.utilities.nvim
-      tags:
-        - nvim
-      args:
-        apply:
-          tags:
-            - nvim
-
     - name: USERAPPS | Postman
       ansible.builtin.include_role:
         name: arpanrec.utilities.postman

@@ -15,7 +15,6 @@ Extra variables will be applied to the original role.
 - [Mattermost Desktop](../roles/mattermost_desktop/README.md) -> mattermost_desktop [Disable By Default]
 - [Telegram](../roles/telegram/README.md) -> telegram [Disable By Default]
 - [Node JS](../roles/nodejs/README.md) -> nodejs
-- [NeoVim](../roles/nvim/README.md) -> nvim
 - [Postman](../roles/postman/README.md) -> postman [Disable By Default]
 - [Go Language](../roles/go/README.md) -> go
 - [Oracle JDK](../roles/java/README.md) -> java
