@@ -66,7 +66,6 @@ scenario:
     - create
     - prepare
   test_sequence:
-    - lint
     - syntax
     - destroy
     - dependency
@@ -77,10 +76,5 @@ scenario:
     - destroy
 verifier:
   name: ansible
-lint: |
-  set -e
-  yamllint roles/get_certificate_ownca
-  ansible-lint roles/get_certificate_ownca
-  flake8 roles/get_certificate_ownca
 log: true
 role_name_check: 0

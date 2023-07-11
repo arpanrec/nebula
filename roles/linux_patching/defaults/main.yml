@@ -9,7 +9,6 @@ linux_patching_rv_packages:
   - zip
   - unzip
   - net-tools
-  - resolvconf
   - build-essential
   - tar
   - wget
@@ -52,6 +51,9 @@ linux_patching_rv_packages:
   - vim
   - neovim
   - python3-venv
+
+linux_patching_rv_managed_packages:
+  - resolvconf
 
 linux_patching_rv_timezone: Asia/Kolkata
 

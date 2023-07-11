@@ -1,4 +1,0 @@
-ansible
-ansible-lint
-cryptography!=35,<40,>=2.6
-fido2==1.1.0

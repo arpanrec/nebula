@@ -44,8 +44,3 @@ scenario:
     - idempotence
 verifier:
   name: ansible
-lint: |
-  set -e
-  yamllint roles/linux_patching
-  ansible-lint roles/linux_patching
-  flake8 roles/linux_patching

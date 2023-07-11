@@ -46,11 +46,13 @@
   "git.enableSmartCommit": true,
   "security.workspace.trust.untrustedFiles": "open",
   "github.copilot.enable": {
-    "*": false,
-    "yaml": true,
+    "*": true,
     "plaintext": true,
     "markdown": true,
-    "shellscript": true
+    "scminput": false,
+    "yaml": true,
+    "shellscript": true,
+    "ansible": true
   },
   "terminal.integrated.fontFamily": "'Hack Nerd Font'",
   "editor.mouseWheelZoom": true,
@@ -98,7 +100,12 @@
     "**/ansible/**/*.yml": "ansible",
     "site*.yml": "ansible",
     "**/*.tf": "terraform",
-    "**/requirements.txt": "pip-requirements"
+    "**/requirements.txt": "pip-requirements",
+    "**/requirements-dev.in": "pip-requirements",
+    "**/requirements-dev.txt": "pip-requirements",
+    "**/.ansible-lint": "yaml",
+    "**/ansible.cfg": "ini",
+    "**/.yamllint": "yaml"
   },
   "ansible.validation": true,
   "ansible.ansibleLint.enabled": true,
@@ -152,4 +159,23 @@
   },
   "update.showReleaseNotes": false,
   "githubPullRequests.createOnPublishBranch": "never",
+  "git.openRepositoryInParentFolders": "always",
+  "workbench.editor.enablePreview": false,
+  "terminal.integrated.env.linux": {
+    "DEBUG": "true"
+  },
+  "githubPullRequests.pullBranch": "never",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "liveServer.settings.donotVerifyTags": true,
+  "liveServer.settings.donotShowInfoMsg": true,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "ansible.lightspeed.enabled": true,
+  "ansible.lightspeed.suggestions.enabled": true
 }

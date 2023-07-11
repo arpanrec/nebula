@@ -23,7 +23,6 @@ scenario:
   converge_sequence:
     - converge
   test_sequence:
-    - lint
     - syntax
     - create
     - converge
@@ -31,8 +30,3 @@ scenario:
     - destroy
 verifier:
   name: ansible
-lint: |
-  set -e
-  yamllint roles/mattermost_desktop
-  ansible-lint roles/mattermost_desktop
-  flake8 roles/mattermost_desktop

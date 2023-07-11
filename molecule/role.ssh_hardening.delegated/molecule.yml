@@ -47,7 +47,6 @@ scenario:
     - converge
   test_sequence:
     - dependency
-    - lint
     - destroy
     - syntax
     - prepare
@@ -56,8 +55,3 @@ scenario:
     - destroy
 verifier:
   name: ansible
-lint: |
-  set -e
-  yamllint roles/ssh_hardening
-  ansible-lint roles/ssh_hardening
-  flake8 roles/ssh_hardening

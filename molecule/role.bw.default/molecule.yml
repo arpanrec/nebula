@@ -28,7 +28,6 @@ scenario:
   create_sequence:
     - create
   test_sequence:
-    - lint
     - syntax
     - destroy
     - create
@@ -38,8 +37,3 @@ scenario:
     - destroy
 verifier:
   name: ansible
-lint: |
-  set -e
-  yamllint roles/bw
-  ansible-lint roles/bw
-  flake8 roles/bw

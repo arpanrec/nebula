@@ -6,7 +6,6 @@
     python3.11 -m venv venv
     source venv/bin/activate
     pip install pip-tools
-    pip-compile --output-file=requirements.txt --resolver=backtracking requirements.in
     pip-compile --output-file=requirements-dev.txt --resolver=backtracking requirements-dev.in
     ```
 

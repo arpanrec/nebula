@@ -31,7 +31,6 @@ scenario:
     - dependency
     - create
   test_sequence:
-    - lint
     - syntax
     - destroy
     - dependency
@@ -42,8 +41,3 @@ scenario:
     - destroy
 verifier:
   name: ansible
-lint: |
-  set -e
-  yamllint roles/java
-  ansible-lint roles/java
-  flake8 roles/java

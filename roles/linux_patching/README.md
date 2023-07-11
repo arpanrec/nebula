@@ -14,10 +14,15 @@ Set timezone, locale, and loopback ip in server
 
 - `linux_patching_rv_packages`
 
-  - Description: Install the packages in all the distributions.
+  - Description: Install the packages in the distributions.
   - Required: `false`
-  - Default: [ `zip`, `unzip`, `net-tools`, `resolvconf`, `build-essential`, `tar`, `wget`, `curl`, `ca-certificates`, `sudo`, `systemd`, `telnet`, `gnupg2`, `apt-transport-https`, `lsb-release`, `software-properties-common`, `locales`, `systemd-timesyncd`, `network-manager`, `gnupg2`, `gnupg`, `pigz`, `cron`, `acl`, `ufw`, `vim`, `git`, `fontconfig`, `gtk-update-icon-cache`, `libnss3`, `libatk1.0-0`, `libatk-bridge2.0-0`, `libgtk-3-0`, `bzip2`, `libgbm-dev`, `libglib2.0-dev`, `libdrm-dev`, `libasound2`, `jq`, `zsh`, `libcap2-bin`, `ntfs-3g`, `exfat-fuse`, `vim`, `neovim`, `python3-venv`]
+  - Default: [ `zip`, `unzip`, `net-tools`, `build-essential`, `tar`, `wget`, `curl`, `ca-certificates`, `sudo`, `systemd`, `telnet`, `gnupg2`, `apt-transport-https`, `lsb-release`, `software-properties-common`, `locales`, `systemd-timesyncd`, `network-manager`, `gnupg2`, `gnupg`, `pigz`, `cron`, `acl`, `ufw`, `vim`, `git`, `fontconfig`, `gtk-update-icon-cache`, `libnss3`, `libatk1.0-0`, `libatk-bridge2.0-0`, `libgtk-3-0`, `bzip2`, `libgbm-dev`, `libglib2.0-dev`, `libdrm-dev`, `libasound2`, `jq`, `zsh`, `libcap2-bin`, `ntfs-3g`, `exfat-fuse`, `vim`, `neovim`, `python3-venv`]
   - Type: `list[str]`
+
+- `linux_patching_rv_managed_packages`
+  - Description: Install the managed packages in the distributions.
+  - Required: `false`
+  - Default: [ `resolvconf` ]
 
 - `linux_patching_rv_extra_packages`
 
@@ -59,4 +64,10 @@ Set timezone, locale, and loopback ip in server
   any_errors_fatal: true
   ansible.builtin.import_role:
     name: arpanrec.utilities.linux_patching
+```
+
+## Testing
+
+```bash
+molecule test -s role.linux_patching.default
 ```

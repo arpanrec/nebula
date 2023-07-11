@@ -13,7 +13,6 @@ import requests
 from ansible.module_utils.basic import AnsibleModule
 from nacl import encoding, public
 
-# pylint: disable-next=invalid-name
 __metaclass__ = type
 
 
@@ -129,7 +128,6 @@ def encrypt(public_key: str, secret_value: str) -> str:
   return b64encode(encrypted).decode("utf-8")
 
 
-# pylint: disable-next=missing-function-docstring,too-many-arguments,too-many-locals,too-many-return-statements,too-many-branches,too-many-statements
 def crud(
     pat=None,
     owner=None,
@@ -237,7 +235,6 @@ def crud(
   return result
 
 
-# pylint: disable-next=inconsistent-return-statements
 
 
 def run_module():
@@ -289,7 +286,6 @@ def run_module():
       visibility=module.params["visibility"],
   )
 
-  # pylint: disable-next=consider-iterating-dictionary
   if "error" in github_update_response.keys():
     return module.fail_json(
         msg=github_update_response["error"], **github_update_response

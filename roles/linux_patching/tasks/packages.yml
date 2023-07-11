@@ -21,7 +21,7 @@
 
 - name: Linux Patching | Install Packages | Install specific essential packages in Debian
   ansible.builtin.apt:
-    name: "{{ linux_patching_rv_packages | default([]) + linux_patching_rv_extra_packages | default([]) }}"
+    name: "{{ linux_patching_rv_packages | default([]) + linux_patching_rv_extra_packages | default([]) + linux_patching_rv_managed_packages | default([]) }}"
     state: present
     update_cache: true
   register: linux_patching_rv_extra_install

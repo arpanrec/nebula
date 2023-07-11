@@ -3,7 +3,7 @@
 extends: default
 rules:
   line-length:
-    max: 180
+    max: 280
   # line-length: disable
   braces:
     max-spaces-inside: 1

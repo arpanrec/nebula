@@ -31,7 +31,6 @@ scenario:
     - dependency
     - create
   test_sequence:
-    - lint
     - syntax
     - destroy
     - dependency

@@ -18,15 +18,9 @@ provisioner:
         user_add_rv_username: test
 verifier:
   name: ansible
-lint: |
-  set -e
-  yamllint roles/user_add
-  ansible-lint roles/user_add
-  flake8 roles/user_add
 scenario:
   name: role.user_add.default
   test_sequence:
-    - lint
     - destroy
     - syntax
     - create

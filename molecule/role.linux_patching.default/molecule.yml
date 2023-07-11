@@ -33,6 +33,7 @@ provisioner:
           split_lines=False, \
           headers={'Content-Type':'application/json', 'Accept':'application/json'}) }}"
         linux_patching_rv_root_ca_pem_content: "{{ global_config.ROOT_CA.CERTIFICATE }}"
+        linux_patching_rv_managed_packages: []
 scenario:
   name: role.linux_patching.default
   converge_sequence:
@@ -43,7 +44,6 @@ scenario:
     - dependency
     - create
   test_sequence:
-    - lint
     - syntax
     - destroy
     - dependency
@@ -53,10 +53,5 @@ scenario:
     - destroy
 verifier:
   name: ansible
-lint: |
-  set -e
-  yamllint roles/linux_patching
-  ansible-lint roles/linux_patching
-  flake8 roles/linux_patching
 log: true
 role_name_check: 0

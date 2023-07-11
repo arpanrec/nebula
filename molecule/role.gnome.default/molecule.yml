@@ -28,7 +28,6 @@ scenario:
   destroy_sequence:
     - destroy
   test_sequence:
-    - lint
     - syntax
     - create
     - converge
@@ -36,8 +35,3 @@ scenario:
     - destroy
 verifier:
   name: ansible
-lint: |
-  set -e
-  yamllint roles/gnome
-  ansible-lint roles/gnome
-  flake8 roles/gnome

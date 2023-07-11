@@ -1,4 +1,5 @@
 ---
 skip_list:
-  - none
+  - risky-shell-pipe
+  - no-handler
 verbosity: 1

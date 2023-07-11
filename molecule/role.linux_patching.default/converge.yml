@@ -7,6 +7,6 @@
   tasks:
     - name: Linux Patching | Molecule | Converge | Role
       become: true
-      become_method: su
+      become_method: ansible.builtin.su
       ansible.builtin.import_role:
         name: arpanrec.utilities.linux_patching
