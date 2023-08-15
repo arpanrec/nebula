@@ -8,6 +8,18 @@
     state: directory
     mode: "0700"
 
+- name: Bitwarden Desktop | Get Version
+  when: rv_bitwarden_desktop_version is not defined
+  block:
+  - name: Bitwarden Desktop | Get Version
+    arpanrec.utilities.get_bitwarden_client_latest_github_release:
+    register: rv_bitwarden_desktop_dynamic_release
+    delegate_to: localhost
+
+  - name: Bitwarden Desktop | Set Version
+    set_fact:
+      rv_bitwarden_desktop_version: "{{ rv_bitwarden_desktop_dynamic_release.msg }}"
+
 - name: Bitwarden Desktop | Get archive info
   ansible.builtin.stat:
     path: "{{ rv_bitwarden_desktop_install_path }}/{{ pv_ua_bitwarden_download_url_map[ansible_facts.architecture] | basename }}"
