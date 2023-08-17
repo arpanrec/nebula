@@ -37,3 +37,6 @@
 
 - name: Oracle JDK | Groovy
   ansible.builtin.import_tasks: groovy.yml
+
+- name: Oracle JDK | Kotlin
+  ansible.builtin.import_tasks: kotlin.yml

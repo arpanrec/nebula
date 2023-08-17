@@ -1,0 +1,3 @@
+---
+- name: Oracle JDK | Kotlin | Kotlin Compiler
+  ansible.builtin.import_tasks: kotlinc.yml

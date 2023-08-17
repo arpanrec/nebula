@@ -17,3 +17,6 @@
     dest: "{{ java_rv_jdk_gradle_tmp_unzip_path }}"
     remote_src: true
   notify: Oracle JDK | Gradle | New Install
+
+- name: Oracle JDK | Gradle | Flush handlers
+  ansible.builtin.meta: flush_handlers

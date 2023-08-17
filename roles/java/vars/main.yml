@@ -16,4 +16,6 @@ java_rv_jdk_gradle_tarball_download_path: "{{ java_rv_jdk_tmp_dir }}/gradle-{{ j
 java_rv_jdk_groovy_download_url: "https://groovy.jfrog.io/artifactory/dist-release-local/groovy-zips/apache-groovy-sdk-{{ java_rv_jdk_groovy_version }}.zip"
 java_rv_jdk_groovy_tmp_unzip_path: "{{ java_rv_jdk_tmp_dir }}"
 java_rv_jdk_groovy_tarball_download_path: "{{ java_rv_jdk_tmp_dir }}/apache-groovy-sdk-{{ java_rv_jdk_groovy_version }}.zip"
-java_rv_jdk_groovy_home: "{{ java_rv_jdk_tmp_dir }}/apache-groovy-sdk-{{ java_rv_jdk_groovy_version }}.zip"
+
+java_rv_jdk_kotlinc_download_url: "https://github.com/JetBrains/kotlin/releases/download/v{{ java_rv_jdk_kotlinc_version }}/kotlin-compiler-{{ java_rv_jdk_kotlinc_version }}.zip"
+java_rv_jdk_kotlinc_tarball_download_path: "{{ java_rv_jdk_tmp_dir }}/kotlin-compiler-{{ java_rv_jdk_kotlinc_version }}.zip"

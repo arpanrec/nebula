@@ -43,7 +43,7 @@
         fail_msg: Apache Maven {{ java_rv_jdk_mvn_version }} is not installed, Shell result {{ java_rv_jdk_maven_tmp_version_shell_result.stdout }}
 
     - name: Oracle JDK | Gradle | Molecule | Verify | Get Gradle version from shell
-      ansible.builtin.command: gradle --version
+      ansible.builtin.command: gradle -version
       environment:
         PATH: "{{ java_rv_jdk_gradle_install_path }}/bin:{{ java_rv_jdk_install_path }}/bin:{{ ansible_env.PATH }}"
       register: java_rv_jdk_gradle_tmp_version_shell_result
@@ -75,3 +75,20 @@
         that: '"Groovy Version: {{ java_rv_jdk_groovy_version }}" in java_rv_jdk_groovy_tmp_version_shell_result.stdout'
         success_msg: Apache Groovy Version {{ java_rv_jdk_groovy_version }} is installed
         fail_msg: Apache Groovy Version {{ java_rv_jdk_groovy_version }} is not installed, Shell result {{ java_rv_jdk_groovy_tmp_version_shell_result.stdout }}
+
+    - name: Oracle JDK | Kotlin | Kotlin Compiler | Molecule | Verify | Get Kotlin | Kotlin Compiler version from shell
+      ansible.builtin.command: kotlinc -version
+      environment:
+        PATH: "{{ java_rv_jdk_kotlinc_install_path }}/bin:{{ java_rv_jdk_install_path }}/bin:{{ ansible_env.PATH }}"
+      register: java_rv_jdk_kotlinc_tmp_version_shell_result
+      changed_when: false
+
+    - name: Oracle JDK | Kotlin | Kotlin Compiler | Molecule | Verify | Kotlin | Kotlin Compiler version from shell result
+      ansible.builtin.debug:
+        var: java_rv_jdk_kotlinc_tmp_version_shell_result
+
+    - name: Oracle JDK | Kotlin | Kotlin Compiler | Molecule | Verify | Fail if Kotlin | Kotlin Compiler version is not present
+      ansible.builtin.assert:
+        that: '"kotlinc-jvm {{ java_rv_jdk_kotlinc_version }}" in java_rv_jdk_kotlinc_tmp_version_shell_result.stderr'
+        success_msg: Kotlin | Kotlin Compiler Version {{ java_rv_jdk_kotlinc_version }} is installed
+        fail_msg: Kotlin | Kotlin Compiler Version {{ java_rv_jdk_kotlinc_version }} is not installed, Shell result {{ java_rv_jdk_kotlinc_tmp_version_shell_result.stderr }}

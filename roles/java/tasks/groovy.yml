@@ -17,3 +17,6 @@
     dest: "{{ java_rv_jdk_groovy_tmp_unzip_path }}"
     remote_src: true
   notify: Oracle JDK | Apache Groovy | New Install
+
+- name: Oracle JDK | Apache Groovy | Flush handlers
+  ansible.builtin.meta: flush_handlers
