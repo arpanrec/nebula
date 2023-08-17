@@ -24,4 +24,4 @@
     state: directory
     mode: "0700"
   with_items:
-    - "{{ rv_jdk_tmp_dir }}"
+    - "{{ java_rv_jdk_tmp_dir }}"

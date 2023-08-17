@@ -130,3 +130,5 @@ dmypy.json
 arpanrec-utilities-1.0.0-rc.tar.gz
 .trunk
 .vscode/settings.json
+node_modules
+roles/geerlingguy.docker/*

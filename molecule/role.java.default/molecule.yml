@@ -17,13 +17,14 @@ platforms:
     pre_build_image: false
 provisioner:
   name: ansible
+  # env:
+  #   ANSIBLE_VERBOSITY: 5
   playbooks:
     converge: converge.yml
     verify: verify.yml
 scenario:
   name: role.java.default
   converge_sequence:
-    - dependency
     - converge
   destroy_sequence:
     - destroy

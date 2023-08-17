@@ -17,7 +17,7 @@
     delegate_to: localhost
 
   - name: Bitwarden Desktop | Set Version
-    set_fact:
+    ansible.builtin.set_fact:
       rv_bitwarden_desktop_version: "{{ rv_bitwarden_desktop_dynamic_release.msg }}"
 
 - name: Bitwarden Desktop | Get archive info

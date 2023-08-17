@@ -1,3 +1,6 @@
 ---
 - name: Oracle JDK | Gradle | New Install
   ansible.builtin.include_tasks: gradle_new_install.yml
+
+- name: Oracle JDK | Apache Groovy | New Install
+  ansible.builtin.include_tasks: groovy_new_install.yml

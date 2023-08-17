@@ -3,27 +3,26 @@
   block:
     - name: Oracle JDK | Gradle | New Install | Remove old directory
       ansible.builtin.file:
-        path: "{{ rv_jdk_gradle_install_path }}"
+        path: "{{ java_rv_jdk_gradle_install_path }}"
         state: absent
 
     - name: Oracle JDK | Gradle | New Install | Recreate Install Directory
       ansible.builtin.file:
-        path: "{{ rv_jdk_gradle_install_path }}"
+        path: "{{ java_rv_jdk_gradle_install_path }}"
         state: directory
         mode: "0700"
 
     - name: Oracle JDK | Gradle | New Install | Copy new files
       ansible.builtin.copy:
-        src: "{{ rv_jdk_gradle_tmp_unzip_path }}/gradle-{{ rv_jdk_gradle_version }}/"
-        dest: "{{ rv_jdk_gradle_install_path }}/"
+        src: "{{ java_rv_jdk_gradle_tmp_unzip_path }}/gradle-{{ java_rv_jdk_gradle_version }}/"
+        dest: "{{ java_rv_jdk_gradle_install_path }}/"
         remote_src: true
         mode: "0700"
-      register: pv_ua_gradle_shell_move_result
   rescue:
     - name: Oracle JDK | Gradle | Remove the zip
       ansible.builtin.file:
         path: "{{ item }}"
         state: absent
       with_items:
-        - "{{ rv_jdk_gradle_tmp_unzip_path }}/gradle-{{ rv_jdk_gradle_version }}/"
-        - "{{ rv_jdk_gradle_tarball_download_path }}"
+        - "{{ java_rv_jdk_gradle_tmp_unzip_path }}/gradle-{{ java_rv_jdk_gradle_version }}/"
+        - "{{ java_rv_jdk_gradle_tarball_download_path }}"

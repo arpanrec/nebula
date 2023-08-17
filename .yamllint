@@ -42,3 +42,4 @@ rules:
     check-keys: true
 ignore: |
   venv
+  node_modules

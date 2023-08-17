@@ -1,19 +1,19 @@
 ---
 - name: Oracle JDK | Gradle | Create install directory
   ansible.builtin.file:
-    path: "{{ rv_jdk_gradle_tmp_unzip_path }}"
+    path: "{{ java_rv_jdk_gradle_tmp_unzip_path }}"
     state: directory
     mode: "0700"
 
 - name: Oracle JDK | Gradle | Download tarball
   ansible.builtin.get_url:
-    url: "{{ rv_jdk_gradle_download_url }}"
-    dest: "{{ rv_jdk_gradle_tarball_download_path }}"
+    url: "{{ java_rv_jdk_gradle_download_url }}"
+    dest: "{{ java_rv_jdk_gradle_tarball_download_path }}"
     mode: "0700"
 
 - name: Oracle JDK | Gradle | Unarchive the zip
   ansible.builtin.unarchive:
-    src: "{{ rv_jdk_gradle_tarball_download_path }}"
-    dest: "{{ rv_jdk_gradle_tmp_unzip_path }}"
+    src: "{{ java_rv_jdk_gradle_tarball_download_path }}"
+    dest: "{{ java_rv_jdk_gradle_tmp_unzip_path }}"
     remote_src: true
   notify: Oracle JDK | Gradle | New Install

@@ -4,7 +4,7 @@ USER root
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y python3-venv wget tar curl
+RUN apt-get update && apt-get upgrade -y && apt-get install -y python3-venv wget tar curl bzip2 unzip xz-utils
 
 RUN useradd -m -s /bin/bash -d /home/molecule-user molecule-user
 

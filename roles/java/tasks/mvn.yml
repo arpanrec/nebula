@@ -1,27 +1,27 @@
 ---
 - name: Oracle JDK | Apache Maven | Create install directory
   ansible.builtin.file:
-    path: "{{ rv_jdk_mvn_install_path }}"
+    path: "{{ java_rv_jdk_mvn_install_path }}"
     state: directory
     mode: "0700"
 
 - name: Oracle JDK | Apache Maven | Get downloaded file stat
   ansible.builtin.stat:
-    path: "{{ rv_jdk_mvn_tarball_download_path }}"
-  register: rv_jdk_mvn_tmp_downloaded_file_stat
+    path: "{{ java_rv_jdk_mvn_tarball_download_path }}"
+  register: java_rv_jdk_mvn_tmp_downloaded_file_stat
 
 - name: Oracle JDK | Apache Maven | Newly Downloaded
-  when: not rv_jdk_mvn_tmp_downloaded_file_stat.stat.exists
+  when: not java_rv_jdk_mvn_tmp_downloaded_file_stat.stat.exists
   block:
     - name: Oracle JDK | Apache Maven | Newly Downloaded | Download tarball
       ansible.builtin.get_url:
-        url: "{{ rv_jdk_mvn_download_url }}"
-        dest: "{{ rv_jdk_mvn_tarball_download_path }}"
+        url: "{{ java_rv_jdk_mvn_download_url }}"
+        dest: "{{ java_rv_jdk_mvn_tarball_download_path }}"
         mode: "0700"
 
     - name: Oracle JDK | Apache Maven | Newly Downloaded | Unarchive the tarball
       ansible.builtin.unarchive:
-        src: "{{ rv_jdk_mvn_tarball_download_path }}"
-        dest: "{{ rv_jdk_mvn_install_path }}"
+        src: "{{ java_rv_jdk_mvn_tarball_download_path }}"
+        dest: "{{ java_rv_jdk_mvn_install_path }}"
         extra_opts: [--strip-components=1]
         remote_src: true

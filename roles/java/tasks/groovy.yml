@@ -1,0 +1,19 @@
+---
+- name: Oracle JDK | Apache Groovy | Create install directory
+  ansible.builtin.file:
+    path: "{{ java_rv_jdk_groovy_tmp_unzip_path }}"
+    state: directory
+    mode: "0700"
+
+- name: Oracle JDK | Apache Groovy | Download tarball
+  ansible.builtin.get_url:
+    url: "{{ java_rv_jdk_groovy_download_url }}"
+    dest: "{{ java_rv_jdk_groovy_tarball_download_path }}"
+    mode: "0700"
+
+- name: Oracle JDK | Apache Groovy | Unarchive the zip
+  ansible.builtin.unarchive:
+    src: "{{ java_rv_jdk_groovy_tarball_download_path }}"
+    dest: "{{ java_rv_jdk_groovy_tmp_unzip_path }}"
+    remote_src: true
+  notify: Oracle JDK | Apache Groovy | New Install

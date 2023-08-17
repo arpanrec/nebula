@@ -51,6 +51,7 @@ linux_patching_rv_packages:
   - vim
   - neovim
   - python3-venv
+  - xz-utils
 
 linux_patching_rv_managed_packages:
   - resolvconf
