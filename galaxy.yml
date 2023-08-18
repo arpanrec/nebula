@@ -18,6 +18,9 @@ build_ignore:
   - ".github"
   - ".trunk"
   - ".vscode"
+  - "venv"
+  - "node_modules"
+  - "molecule"
 tags:
   - "linux"
   - "debian"
