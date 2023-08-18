@@ -5,11 +5,30 @@
     state: directory
     mode: "0700"
 
-- name: Oracle JDK | Gradle | Download tarball
-  ansible.builtin.get_url:
-    url: "{{ java_rv_jdk_gradle_download_url }}"
-    dest: "{{ java_rv_jdk_gradle_tarball_download_path }}"
-    mode: "0700"
+- name: Oracle JDK | Gradle | Get downloaded file stat
+  ansible.builtin.stat:
+    path: "{{ java_rv_jdk_gradle_tarball_download_path }}"
+  register: java_rv_jdk_gradle_tarball_stat
+
+- name: Oracle JDK | Gradle | Download
+  when: not java_rv_jdk_gradle_tarball_stat.stat.exists
+  block:
+    - name: Oracle JDK | Gradle | Download tarball
+      ansible.builtin.get_url:
+        url: "{{ java_rv_jdk_gradle_download_url }}"
+        dest: "{{ java_rv_jdk_gradle_tarball_download_path }}"
+        mode: "0700"
+  rescue:
+    - name: Oracle JDK | Gradle | Remove tarball
+      ansible.builtin.file:
+        path: "{{ java_rv_jdk_gradle_tarball_download_path }}"
+        state: absent
+
+    - name: Oracle JDK | Gradle | Fail
+      ansible.builtin.fail:
+        msg: |+
+          Failed to download {{ java_rv_jdk_gradle_download_url }}
+          Check the errors above.
 
 - name: Oracle JDK | Gradle | Unarchive the zip
   ansible.builtin.unarchive:

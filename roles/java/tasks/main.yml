@@ -16,18 +16,28 @@
 - name: Oracle JDK | Newly Downloaded
   when: not pv_ua_jdk_downloaded_file_stat.stat.exists
   block:
-    - name: Oracle JDK | Download tarball
+    - name: Oracle JDK | Newly Downloaded | Download tarball
       ansible.builtin.get_url:
         url: "{{ java_rv_jdk_download_url_map[java_rv_jdk_version][ansible_facts.architecture] }}"
         dest: "{{ java_rv_jdk_tarball_download_path }}"
         mode: "0700"
 
-    - name: Oracle JDK | Unarchive the tarball
-      ansible.builtin.unarchive:
-        src: "{{ java_rv_jdk_tarball_download_path }}"
-        dest: "{{ java_rv_jdk_install_path }}"
-        extra_opts: [--strip-components=1]
-        remote_src: true
+  rescue:
+    - name: Oracle JDK | Newly Downloaded | Delete Downloaded tarball
+      ansible.builtin.file:
+        path: "{{ java_rv_jdk_tarball_download_path }}"
+        state: absent
+
+    - name: Oracle JDK | Newly Downloaded | Delete Install Directory
+      ansible.builtin.fail:
+        msg: "Failed to download JDK tarball. Check the above errors."
+
+- name: Oracle JDK | Newly Downloaded | Unarchive the tarball
+  ansible.builtin.unarchive:
+    src: "{{ java_rv_jdk_tarball_download_path }}"
+    dest: "{{ java_rv_jdk_install_path }}"
+    extra_opts: [--strip-components=1]
+    remote_src: true
 
 - name: Oracle JDK | Maven
   ansible.builtin.import_tasks: mvn.yml
@@ -39,4 +49,22 @@
   ansible.builtin.import_tasks: groovy.yml
 
 - name: Oracle JDK | Kotlin
-  ansible.builtin.import_tasks: kotlin.yml
+  ansible.builtin.include_tasks: kotlin.yml
+
+- name: Oracle JDK | Install Script
+  ansible.builtin.template:
+    src: template/source.sh.j2
+    dest: "{{ ansible_facts.user_dir }}/.jdk.env.sh"
+    mode: "0700"
+
+- name: Dotfiles | Ensure config alias is set in ~/.bashrc and ~/.zshrc
+  ansible.builtin.lineinfile:
+    path: "{{ item }}"
+    line: 'source {{ ansible_facts.user_dir }}/.jdk.env.sh'
+    create: true
+    state: present
+    regexp: '^source {{ ansible_facts.user_dir }}/.jdk.env.sh$'
+    mode: "0700"
+  loop:
+    - "{{ ansible_facts.user_dir }}/.bashrc"
+    - "{{ ansible_facts.user_dir }}/.zshrc"

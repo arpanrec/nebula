@@ -43,6 +43,12 @@ options:
     required: false
     type: str
     default: 4.0.2
+  java_rv_jdk_kotlin_version:
+    description:
+      - Release version of Kotlin from github
+    required: false
+    type: str
+    default: 1.9.0
 ```
 
 ## Example Playbook Oracle Java

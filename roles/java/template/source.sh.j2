@@ -1,0 +1,31 @@
+if [[ -f "{{ java_rv_jdk_install_path }}/bin/java" ]] && [[ ! "$PATH" =~ {{ java_rv_jdk_install_path }}/bin: ]]; then
+    PATH="{{ java_rv_jdk_install_path }}/bin:$PATH"
+    export PATH
+    JAVA_HOME="{{ java_rv_jdk_install_path }}"
+    export JAVA_HOME
+fi
+
+if [[ -f "{{ java_rv_jdk_mvn_install_path }}/bin/mvn" ]] && [[ ! "$PATH" =~ {{ java_rv_jdk_mvn_install_path }}/bin: ]]; then
+    PATH="{{ java_rv_jdk_mvn_install_path }}/bin:$PATH"
+    export PATH
+    M2_HOME="{{ java_rv_jdk_mvn_install_path }}"
+    export M2_HOME
+    export MAVEN_HOME="${M2_HOME}"
+fi
+
+if [[ -f "{{ java_rv_jdk_gradle_install_path }}/bin/gradle" ]] && [[ ! "$PATH" =~ {{ java_rv_jdk_gradle_install_path }}/bin: ]]; then
+    PATH="{{ java_rv_jdk_gradle_install_path }}/bin:$PATH"
+    export GRADLE_HOME="{{ java_rv_jdk_gradle_install_path }}"
+    export PATH
+fi
+
+if [[ -f "{{ java_rv_jdk_groovy_install_path }}/bin/groovy" ]] && [[ ! "$PATH" =~ {{ java_rv_jdk_groovy_install_path }}/bin: ]]; then
+    PATH="{{ java_rv_jdk_groovy_install_path }}/bin:$PATH"
+    export GROOVY_HOME="{{ java_rv_jdk_groovy_install_path }}"
+    export PATH
+fi
+
+if [[ -f "{{ java_rv_jdk_kotlinc_install_path }}/bin/kotlinc" ]] && [[ ! "$PATH" =~ {{ java_rv_jdk_kotlinc_install_path }}/bin: ]]; then
+    PATH="{{ java_rv_jdk_kotlinc_install_path }}/bin:$PATH"
+    export PATH
+fi

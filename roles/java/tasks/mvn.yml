@@ -18,10 +18,21 @@
         url: "{{ java_rv_jdk_mvn_download_url }}"
         dest: "{{ java_rv_jdk_mvn_tarball_download_path }}"
         mode: "0700"
+  rescue:
+    - name: Oracle JDK | Apache Maven | Newly Downloaded | Remove tarball
+      ansible.builtin.file:
+        path: "{{ java_rv_jdk_mvn_tarball_download_path }}"
+        state: absent
 
-    - name: Oracle JDK | Apache Maven | Newly Downloaded | Unarchive the tarball
-      ansible.builtin.unarchive:
-        src: "{{ java_rv_jdk_mvn_tarball_download_path }}"
-        dest: "{{ java_rv_jdk_mvn_install_path }}"
-        extra_opts: [--strip-components=1]
-        remote_src: true
+    - name: Oracle JDK | Apache Maven | Newly Downloaded | Fail
+      ansible.builtin.fail:
+        msg: |+
+          "Failed to download {{ java_rv_jdk_mvn_download_url }} to {{ java_rv_jdk_mvn_tarball_download_path }}"
+          Check the error above for more details
+
+- name: Oracle JDK | Apache Maven | Newly Downloaded | Unarchive the tarball
+  ansible.builtin.unarchive:
+    src: "{{ java_rv_jdk_mvn_tarball_download_path }}"
+    dest: "{{ java_rv_jdk_mvn_install_path }}"
+    extra_opts: [--strip-components=1]
+    remote_src: true

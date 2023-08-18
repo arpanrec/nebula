@@ -1,13 +1,29 @@
 ---
-- name: Oracle JDK | Kotlin Compiler | Download tarball
-  ansible.builtin.get_url:
-    url: "{{ java_rv_jdk_kotlinc_download_url }}"
-    dest: "{{ java_rv_jdk_kotlinc_tarball_download_path }}"
-    mode: "0700"
-    timeout: 60
-  timeout: 60
+- name: Oracle JDK | Kotlin Compiler | Get downloaded file stat
+  ansible.builtin.stat:
+    path: "{{ java_rv_jdk_kotlinc_tarball_download_path }}"
+  register: java_rv_jdk_kotlinc_tarball_stat
 
-- name: Oracle JDK | Kotlin Compiler | Unarchive the zip
+- name: Oracle JDK | Kotlin Compiler | New Install
+  when: not java_rv_jdk_kotlinc_tarball_stat.stat.exists
+  block:
+    - name: Oracle JDK | Kotlin Compiler | New Install | Download tarball
+      ansible.builtin.get_url:
+        url: "{{ java_rv_jdk_kotlinc_download_url }}"
+        dest: "{{ java_rv_jdk_kotlinc_tarball_download_path }}"
+        mode: "0700"
+
+  rescue:
+    - name: Oracle JDK | Kotlin Compiler | New Install | Remove tarball
+      ansible.builtin.file:
+        path: "{{ java_rv_jdk_kotlinc_tarball_download_path }}"
+        state: absent
+
+    - name: Oracle JDK | Kotlin Compiler | New Install | Fail
+      ansible.builtin.fail:
+        msg: "Failed to download and install Kotlin Compiler, Check the error above"
+
+- name: Oracle JDK | Kotlin Compiler | New Install | Unarchive the zip
   ansible.builtin.unarchive:
     src: "{{ java_rv_jdk_kotlinc_tarball_download_path }}"
     dest: "{{ java_rv_jdk_kotlinc_install_path | dirname }}"
