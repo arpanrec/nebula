@@ -1,3 +1,0 @@
----
-rl_tef_api_token: "{{ lookup('ansible.builtin.env', 'TF_PROD_TOKEN') }}"
-rl_tef_api_debug_no_log: true

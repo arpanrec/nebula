@@ -1,227 +1,62 @@
 ---
-- name: Themes | Theme | EliverLara Nordic
-  block:
-    - name: Themes | Theme | EliverLara Nordic | Clone git
-      ansible.builtin.git:
-        single_branch: true
-        repo: "https://github.com/EliverLara/Nordic.git"
-        dest: "{{ rv_themes_user_tmp_dir }}/EliverLara-Nordic-git"
-        depth: 1
-        version: master
-      register: pv_kde_tmp_eliverlara_nordic_updated
+- name: Themes | Theme | EliverLara Nordic | Clone git
+  ansible.builtin.git:
+    single_branch: true
+    repo: "https://github.com/EliverLara/Nordic.git"
+    dest: "{{ rv_themes_user_tmp_dir }}/EliverLara-Nordic-git"
+    depth: 1
+    version: master
+  notify: Themes | Theme | EliverLara Nordic | Copy Resources
 
-    - name: Themes | Theme | EliverLara Nordic | Copy Resources
-      when: pv_kde_tmp_eliverlara_nordic_updated.changed
-      block:
-        - name: Themes | Theme | EliverLara Nordic | Copy Resources | gtk themes
-          ansible.builtin.copy:
-            src: "{{ rv_themes_user_tmp_dir }}/EliverLara-Nordic-git/"
-            dest: "{{ rv_themes_user_share_dir }}/themes/Nordic/"
-            remote_src: true
-            mode: "0700"
+- name: Themes | Theme | EliverLara Nordic-kde | Git clone
+  ansible.builtin.git:
+    single_branch: true
+    repo: "https://github.com/EliverLara/Nordic-kde.git"
+    dest: "{{ rv_themes_user_tmp_dir }}/EliverLara-Nordic-kde-git"
+    depth: 1
+    version: master
+  notify:
+    - Themes | Theme | EliverLara Nordic-kde | Copy Resources | plasma desktoptheme
+    - Themes | Theme | EliverLara Nordic-kde | Copy Resources | Delete git tracker
 
-        - name: Themes | Theme | EliverLara Nordic | Copy Resources | Delete git tracker from gtk directory
-          ansible.builtin.file:
-            path: "{{ rv_themes_user_share_dir }}/themes/Nordic/.git"
-            state: absent
+- name: Themes | Theme | vinceliuice Layan | Git Clone
+  ansible.builtin.git:
+    single_branch: true
+    repo: "https://github.com/vinceliuice/Layan-kde.git"
+    dest: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Layan-kde"
+    depth: 1
+    version: master
+  notify:
+    - Themes | Theme | vinceliuice Layan | Install | Execute install script
+    - Themes | Theme | vinceliuice Layan | Install | Result
 
-        - name: Themes | Theme | EliverLara Nordic | Copy Resources | aurorae themes
-          ansible.builtin.copy:
-            src: "{{ rv_themes_user_share_dir }}/themes/Nordic/kde/aurorae/Nordic/"
-            dest: "{{ rv_themes_user_share_dir }}/aurorae/themes/Nordic/"
-            remote_src: true
-            mode: "0700"
+- name: Themes | Theme | vinceliuice Layan-gtk-theme | Git Clone
+  ansible.builtin.git:
+    single_branch: true
+    repo: "https://github.com/vinceliuice/Layan-gtk-theme.git"
+    dest: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Layan-gtk-theme"
+    depth: 1
+    version: master
+  notify:
+    - Themes | Theme | vinceliuice Layan-gtk-theme | Install | Execute install script
+    - Themes | Theme | vinceliuice Layan-gtk-theme | Install | Result
 
-        - name: Themes | Theme | EliverLara Nordic | Copy Resources | color schemes
-          ansible.builtin.copy:
-            src: "{{ rv_themes_user_share_dir }}/themes/Nordic/kde/colorschemes/"
-            dest: "{{ rv_themes_user_share_dir }}/color-schemes/"
-            remote_src: true
-            mode: "0700"
+- name: Themes | Theme | EliverLara Sweet Mars | Git Clone
+  ansible.builtin.git:
+    single_branch: true
+    repo: "https://github.com/EliverLara/Sweet.git"
+    dest: "{{ rv_themes_user_tmp_dir }}/EliverLara-Sweet-mars-git"
+    depth: 1
+    version: mars
+  notify: Themes | Theme | EliverLara Sweet Mars | Copy Resources
 
-        - name: Themes | Theme | EliverLara Nordic | Copy Resources | look-and-feel
-          ansible.builtin.copy:
-            src: "{{ rv_themes_user_share_dir }}/themes/Nordic/kde/plasma/look-and-feel/"
-            dest: "{{ rv_themes_user_share_dir }}/plasma/look-and-feel/"
-            remote_src: true
-            mode: "0700"
-
-        - name: Themes | Theme | EliverLara Nordic | Copy Resources | Kvantum
-          ansible.builtin.copy:
-            src: "{{ rv_themes_user_share_dir }}/themes/Nordic/kde/kvantum/"
-            dest: "{{ rv_themes_user_config_dir }}/Kvantum/"
-            remote_src: true
-            mode: "0700"
-
-        - name: Themes | Theme | EliverLara Nordic | Copy Resources | konsole Themes
-          ansible.builtin.copy:
-            src: "{{ rv_themes_user_share_dir }}/themes/Nordic/kde/konsole/"
-            dest: "{{ rv_themes_user_share_dir }}/konsole/"
-            remote_src: true
-            mode: "0700"
-
-        - name: Themes | Theme | EliverLara Nordic | Copy Resources | Nordic-cursors
-          ansible.builtin.copy:
-            src: "{{ rv_themes_user_share_dir }}/themes/Nordic/kde/cursors/Nordic-cursors/"
-            dest: "{{ rv_themes_user_share_dir }}/icons/Nordic-cursors/"
-            remote_src: true
-            mode: "0700"
-
-- name: Themes | Theme | EliverLara Nordic-kde
-  block:
-    - name: Themes | Theme | EliverLara Nordic-kde | Git clone
-      ansible.builtin.git:
-        single_branch: true
-        repo: "https://github.com/EliverLara/Nordic-kde.git"
-        dest: "{{ rv_themes_user_tmp_dir }}/EliverLara-Nordic-kde-git"
-        depth: 1
-        version: master
-      register: pv_kde_tmp_eliverlara_nordic_kde_updated
-
-    - name: Themes | Theme | EliverLara Nordic-kde | Copy Resources
-      when: pv_kde_tmp_eliverlara_nordic_kde_updated.changed
-      block:
-        - name: Themes | Theme | EliverLara Nordic-kde | Copy Resources | plasma desktoptheme
-          ansible.builtin.copy:
-            src: "{{ rv_themes_user_tmp_dir }}/EliverLara-Nordic-kde-git/"
-            dest: "{{ rv_themes_user_share_dir }}/plasma/desktoptheme/Nordic/"
-            remote_src: true
-            mode: "0700"
-
-        - name: Themes | Theme | EliverLara Nordic-kde | Copy Resources | Delete git tracker
-          ansible.builtin.file:
-            path: "{{ rv_themes_user_share_dir }}/plasma/desktoptheme/Nordic/.git"
-            state: absent
-
-- name: Themes | Theme | vinceliuice Layan-kde
-  block:
-    - name: Themes | Theme | vinceliuice Layan | Git Clone
-      ansible.builtin.git:
-        single_branch: true
-        repo: "https://github.com/vinceliuice/Layan-kde.git"
-        dest: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Layan-kde"
-        depth: 1
-        version: master
-      register: pv_kde_tmp_layan_kde_theme_updated
-
-    - name: Themes | Theme | vinceliuice Layan | Install
-      when: pv_kde_tmp_layan_kde_theme_updated.changed
-      block:
-        - name: Themes | Theme | vinceliuice Layan | Install | Execute install script
-          ansible.builtin.command: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Layan-kde/install.sh"
-          register: pv_kde_tmp_layan_kde_theme_shell_install_result
-          changed_when: true
-
-        - name: Themes | Theme | vinceliuice Layan | Install | Result
-          ansible.builtin.debug:
-            var: pv_kde_tmp_layan_kde_theme_shell_install_result
-
-- name: Themes | Theme | vinceliuice Layan-gtk-theme
-  block:
-    - name: Themes | Theme | vinceliuice Layan-gtk-theme | Git Clone
-      ansible.builtin.git:
-        single_branch: true
-        repo: "https://github.com/vinceliuice/Layan-gtk-theme.git"
-        dest: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Layan-gtk-theme"
-        depth: 1
-        version: master
-      register: pv_kde_tmp_layan_gtk_theme_updated
-
-    - name: Themes | Theme | vinceliuice Layan-gtk-theme | Install
-      when: pv_kde_tmp_layan_gtk_theme_updated.changed
-      block:
-        - name: Themes | Theme | vinceliuice Layan-gtk-theme | Install | Execute install script
-          ansible.builtin.command: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Layan-gtk-theme/install.sh"
-          register: pv_kde_tmp_layan_gtk_theme_shell_install_result
-          changed_when: true
-
-        - name: Themes | Theme | vinceliuice Layan-gtk-theme | Install | Result
-          ansible.builtin.debug:
-            var: pv_kde_tmp_layan_gtk_theme_shell_install_result
-
-- name: Themes | Theme | EliverLara Sweet Mars
-  block:
-    - name: Themes | Theme | EliverLara Sweet Mars | Git Clone
-      ansible.builtin.git:
-        single_branch: true
-        repo: "https://github.com/EliverLara/Sweet.git"
-        dest: "{{ rv_themes_user_tmp_dir }}/EliverLara-Sweet-mars-git"
-        depth: 1
-        version: mars
-      register: pv_kde_tmp_eliverlara_sweet_mars_updated
-
-    - name: Themes | Theme | EliverLara Sweet Mars | Copy Resources
-      when: pv_kde_tmp_eliverlara_sweet_mars_updated.changed
-      block:
-        - name: Themes | Theme | EliverLara Sweet Mars | Copy Resources | gtk themes
-          ansible.builtin.copy:
-            src: "{{ rv_themes_user_tmp_dir }}/EliverLara-Sweet-mars-git/"
-            dest: "{{ rv_themes_user_share_dir }}/themes/Sweet-mars/"
-            remote_src: true
-            mode: "0700"
-
-        - name: Themes | Theme | EliverLara Sweet Mars | Copy Resources | Delete git tracker from gtk directory
-          ansible.builtin.file:
-            path: "{{ rv_themes_user_share_dir }}/themes/Sweet-mars/.git"
-            state: absent
-
-        - name: Themes | Theme | EliverLara Sweet Mars | Copy Resources | Copy aurorae themes
-          ansible.builtin.copy:
-            src: "{{ rv_themes_user_share_dir }}/themes/Sweet-mars/kde/aurorae/"
-            dest: "{{ rv_themes_user_share_dir }}/aurorae/themes/"
-            remote_src: true
-            mode: "0700"
-
-        - name: Themes | Theme | EliverLara Sweet Mars | Copy Resources | Copy color schemes
-          ansible.builtin.copy:
-            src: "{{ rv_themes_user_share_dir }}/themes/Sweet-mars/kde/colorschemes/"
-            dest: "{{ rv_themes_user_share_dir }}/color-schemes/"
-            remote_src: true
-            mode: "0700"
-
-        - name: Themes | Theme | EliverLara Sweet Mars | Copy Resources | Copy plasma schemes
-          ansible.builtin.copy:
-            src: "{{ rv_themes_user_share_dir }}/themes/Sweet-mars/kde/plasma/"
-            dest: "{{ rv_themes_user_share_dir }}/plasma/"
-            remote_src: true
-            mode: "0700"
-
-        - name: Themes | Theme | EliverLara Sweet Mars | Copy Resources | Copy Kvantum schemes
-          ansible.builtin.copy:
-            src: "{{ rv_themes_user_share_dir }}/themes/Sweet-mars/kde/kvantum/"
-            dest: "{{ rv_themes_user_config_dir }}/Kvantum/"
-            remote_src: true
-            mode: "0700"
-
-        - name: Themes | Theme | EliverLara Sweet Mars | Copy Resources | Copy konsole schemes
-          ansible.builtin.copy:
-            src: "{{ rv_themes_user_share_dir }}/themes/Sweet-mars/kde/konsole/"
-            dest: "{{ rv_themes_user_share_dir }}/konsole/"
-            remote_src: true
-            mode: "0700"
-
-- name: Themes | Theme | EliverLara Sweet
-  block:
-    - name: Themes | Theme | EliverLara Sweet | Git Clone
-      ansible.builtin.git:
-        single_branch: true
-        repo: "https://github.com/EliverLara/Sweet.git"
-        dest: "{{ rv_themes_user_tmp_dir }}/EliverLara-Sweet-git"
-        depth: 1
-        version: master
-      register: pv_kde_tmp_eliverlara_sweet_updated
-
-    - name: Themes | Theme | EliverLara Sweet | Copy Resources
-      when: pv_kde_tmp_eliverlara_sweet_updated.changed
-      block:
-        - name: Themes | Theme | EliverLara Sweet | Copy Resources | gtk themes
-          ansible.builtin.copy:
-            src: "{{ rv_themes_user_tmp_dir }}/EliverLara-Sweet-git/"
-            dest: "{{ rv_themes_user_share_dir }}/themes/Sweet/"
-            remote_src: true
-            mode: "0700"
-
-        - name: Themes | Theme | EliverLara Sweet | Copy Resources | Delete git tracker from gtk directory
-          ansible.builtin.file:
-            path: "{{ rv_themes_user_share_dir }}/themes/Sweet/.git"
-            state: absent
+- name: Themes | Theme | EliverLara Sweet | Git Clone
+  ansible.builtin.git:
+    single_branch: true
+    repo: "https://github.com/EliverLara/Sweet.git"
+    dest: "{{ rv_themes_user_tmp_dir }}/EliverLara-Sweet-git"
+    depth: 1
+    version: master
+  notify:
+    - Themes | Theme | EliverLara Sweet | Copy Resources | gtk themes
+    - Themes | Theme | EliverLara Sweet | Copy Resources | Delete git tracker from gtk directory

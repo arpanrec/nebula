@@ -1,93 +1,42 @@
 ---
-- name: Themes | Icon | vinceliuice Tela
-  block:
-    - name: Themes | Icon | vinceliuice Tela | Git Clone
-      ansible.builtin.git:
-        single_branch: true
-        repo: "https://github.com/vinceliuice/Tela-icon-theme.git"
-        dest: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Tela-icon-theme"
-        depth: 1
-        version: master
-      register: pv_kde_tmp_tela_icon_updated
+- name: Themes | Icon | vinceliuice Tela | Git Clone
+  ansible.builtin.git:
+    single_branch: true
+    repo: "https://github.com/vinceliuice/Tela-icon-theme.git"
+    dest: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Tela-icon-theme"
+    depth: 1
+    version: master
+  notify:
+    - Themes | Icon | vinceliuice Tela | Install | Execute install script
+    - Themes | Icon | vinceliuice Tela | Install | Result
 
-    - name: Themes | Icon | vinceliuice Tela | Install
-      when: pv_kde_tmp_tela_icon_updated.changed
-      block:
-        - name: Themes | Icon | vinceliuice Tela | Install | Execute install script
-          ansible.builtin.command: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Tela-icon-theme/install.sh -a"
-          register: pv_kde_tmp_tela_icon_update_shell_result
-          changed_when: true
+- name: Themes | Icon | EliverLara Candy | Git clone
+  ansible.builtin.git:
+    single_branch: true
+    repo: "https://github.com/EliverLara/candy-icons.git"
+    dest: "{{ rv_themes_user_tmp_dir }}/EliverLara-candy-icons-git/"
+    depth: 1
+    version: master
+  notify:
+    - Themes | Icon | EliverLara Candy | Copy Resources | Copy icons
+    - Themes | Icon | EliverLara Candy | Copy Resources | Delete git tracker from gtk directory
 
-        - name: Themes | Icon | vinceliuice Tela | Install | Result
-          ansible.builtin.debug:
-            var: pv_kde_tmp_tela_icon_update_shell_result
+- name: Themes | Cursors | vinceliuice Layan-cursors | Git Clone
+  ansible.builtin.git:
+    single_branch: true
+    repo: "https://github.com/vinceliuice/Layan-cursors.git"
+    dest: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Layan-cursors"
+    depth: 1
+    version: master
+  notify:
+    - Themes | Cursors | vinceliuice Layan-cursors | Install | Execute install script
+    - Themes | Cursors | vinceliuice Layan-cursors | Install | Result
 
-- name: Themes | Icon | EliverLara Candy
-  block:
-    - name: Themes | Icon | EliverLara Candy | Git clone
-      ansible.builtin.git:
-        single_branch: true
-        repo: "https://github.com/EliverLara/candy-icons.git"
-        dest: "{{ rv_themes_user_tmp_dir }}/EliverLara-candy-icons-git/"
-        depth: 1
-        version: master
-      register: pv_kde_tmp_eliverlara_candy_icon_updated
-
-    - name: Themes | Icon | EliverLara Candy | Copy Resources
-      when: pv_kde_tmp_eliverlara_candy_icon_updated.changed
-      block:
-        - name: Themes | Icon | EliverLara Candy | Copy Resources | Copy icons
-          ansible.builtin.copy:
-            src: "{{ rv_themes_user_tmp_dir }}/EliverLara-candy-icons-git/"
-            dest: "{{ rv_themes_user_share_dir }}/icons/candy-icons/"
-            remote_src: true
-            mode: "0700"
-
-        - name: Themes | Icon | EliverLara Candy | Copy Resources | Delete git tracker from gtk directory
-          ansible.builtin.file:
-            path: "{{ rv_themes_user_share_dir }}/icons/candy-icons//.git"
-            state: absent
-
-- name: Themes | Cursors | vinceliuice Layan-cursors
-  block:
-    - name: Themes | Cursors | vinceliuice Layan-cursors | Git Clone
-      ansible.builtin.git:
-        single_branch: true
-        repo: "https://github.com/vinceliuice/Layan-cursors.git"
-        dest: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Layan-cursors"
-        depth: 1
-        version: master
-      register: pv_kde_tmp_layan_cursors_updated
-
-    - name: Themes | Cursors | vinceliuice Layan-cursors | Install
-      when: pv_kde_tmp_layan_cursors_updated.changed
-      block:
-        - name: Themes | Cursors | vinceliuice Layan-cursors | Install | Execute install script
-          ansible.builtin.command: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Layan-cursors/install.sh"
-          args:
-            chdir: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Layan-cursors"
-          register: pv_kde_tmp_layan_cursors_shell_install_result
-          changed_when: true
-
-        - name: Themes | Cursors | vinceliuice Layan-cursors | Install | Result
-          ansible.builtin.debug:
-            var: pv_kde_tmp_layan_cursors_shell_install_result
-
-- name: Themes | Icon | Gvolpe BeautyLine
-  block:
-    - name: Themes | Icon | Gvolpe BeautyLine | Git Clone
-      ansible.builtin.git:
-        single_branch: true
-        repo: "https://github.com/gvolpe/BeautyLine.git"
-        dest: "{{ rv_themes_user_tmp_dir }}/gvolpe-BeautyLine"
-        depth: 1
-        version: main
-      register: pv_kde_tmp_gvolpe_beautyline_updated
-
-    - name: Themes | Icon | Gvolpe BeautyLine | Copy Resources | Copy icons
-      when: pv_kde_tmp_gvolpe_beautyline_updated.changed
-      ansible.builtin.copy:
-        src: "{{ rv_themes_user_tmp_dir }}/gvolpe-BeautyLine/BeautyLine-V3/"
-        dest: "{{ rv_themes_user_share_dir }}/icons/BeautyLine-V3/"
-        remote_src: true
-        mode: "0700"
+- name: Themes | Icon | Gvolpe BeautyLine | Git Clone
+  ansible.builtin.git:
+    single_branch: true
+    repo: "https://github.com/gvolpe/BeautyLine.git"
+    dest: "{{ rv_themes_user_tmp_dir }}/gvolpe-BeautyLine"
+    depth: 1
+    version: main
+  notify: Themes | Icon | Gvolpe BeautyLine | Copy Resources | Copy icons
