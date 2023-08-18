@@ -132,3 +132,4 @@ arpanrec-utilities-1.0.0-rc.tar.gz
 .vscode/settings.json
 node_modules
 roles/geerlingguy.docker/*
+.semver-output
