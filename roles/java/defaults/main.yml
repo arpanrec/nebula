@@ -3,17 +3,17 @@ java_rv_jdk_install_path: "{{ ansible_facts.user_dir }}/.local/share/java"
 java_rv_jdk_version: 17
 
 java_rv_jdk_mvn_install_path: "{{ ansible_facts.user_dir }}/.local/share/maven"
-java_rv_jdk_mvn_version: 3.9.4
+# java_rv_jdk_mvn_version: 3.9.4
 
 java_rv_jdk_gradle_install_path: "{{ ansible_facts.user_dir }}/.local/share/gradle"
-java_rv_jdk_gradle_version: 8.2
+# java_rv_jdk_gradle_version: 8.2
 
 java_rv_jdk_tmp_dir: "{{ ansible_facts.user_dir }}/.tmp/java"
 
 java_rv_jdk_groovy_install_path: "{{ ansible_facts.user_dir }}/.local/share/groovy"
 java_rv_jdk_groovy_version: 4.0.2
 
-java_rv_jdk_kotlin_version: 1.9.0
+# java_rv_jdk_kotlin_version: 1.9.0
 
 java_rv_jdk_kotlinc_install_path: "{{ ansible_facts.user_dir }}/.local/share/kotlinc"
 java_rv_jdk_kotlinc_version: "{{ java_rv_jdk_kotlin_version }}"

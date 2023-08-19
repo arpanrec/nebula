@@ -6,7 +6,7 @@
     python3.11 -m venv venv
     source venv/bin/activate
     pip install pip-tools
-    pip-compile --output-file=requirements-dev.txt --resolver=backtracking requirements-dev.in
+    pip-compile --output-file=requirements.txt --resolver=backtracking requirements.in
     ```
 
 ## Install Dependencies
@@ -14,7 +14,7 @@
     ```bash
     python3.11 -m venv venv
     source venv/bin/activate
-    pip install -r requirements-dev.txt
+    pip install -r requirements.txt
     ```
 
 ## Run Playbook

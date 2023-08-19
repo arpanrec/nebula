@@ -3,11 +3,24 @@
   hosts: all
   gather_facts: false
   tasks:
-
     - name: Terraform | Molecule | Verify | Import Roles for variables
       ansible.builtin.import_role:
         name: arpanrec.utilities.terraform
         tasks_from: prerequisites
+
+    - name: Terraform | Molecule | Get Release
+      when: rv_terraform_version is not defined
+      block:
+        - name: Terrafrom | Molecule | Get Terraform Release from Github API
+          ansible.builtin.uri:
+            url: "https://api.github.com/repos/hashicorp/terraform/releases/latest"
+            return_content: true
+            status_code: 200
+          register: rv_terraform_release_from_github
+
+        - name: Terrafrom | Molecule | Set releases
+          ansible.builtin.set_fact:
+            rv_terraform_version: "{{ rv_terraform_release_from_github.json.tag_name[1:] }}"
 
     - name: Terraform | Molecule | Verify | Get terraform version from shell
       ansible.builtin.command: terraform --version

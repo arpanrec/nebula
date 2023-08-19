@@ -5,6 +5,21 @@
     state: directory
     mode: "0700"
 
+- name: Oracle JDK | Gradle | Get Dynamic Version
+  when: java_rv_jdk_gradle_version is not defined
+  block:
+    - name: Oracle JDK | Gradle | Get Latest Release from github
+      ansible.builtin.uri:
+        url: "https://api.github.com/repos/gradle/gradle/releases/latest"
+        return_content: true
+        headers:
+          Accept: "application/vnd.github.v3+json"
+      register: java_rv_gradle_latest_release_from_github
+
+    - name: Oracle JDK | Gradle | Set Dynamic Version
+      ansible.builtin.set_fact:
+        java_rv_jdk_gradle_version: "{{ java_rv_gradle_latest_release_from_github.json.name }}"
+
 - name: Oracle JDK | Gradle | Get downloaded file stat
   ansible.builtin.stat:
     path: "{{ java_rv_jdk_gradle_tarball_download_path }}"
@@ -13,7 +28,7 @@
 - name: Oracle JDK | Gradle | Download
   when: not java_rv_jdk_gradle_tarball_stat.stat.exists
   block:
-    - name: Oracle JDK | Gradle | Download tarball
+    - name: "Oracle JDK | Gradle | Download tarball Version {{ java_rv_jdk_gradle_version }}"
       ansible.builtin.get_url:
         url: "{{ java_rv_jdk_gradle_download_url }}"
         dest: "{{ java_rv_jdk_gradle_tarball_download_path }}"

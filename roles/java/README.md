@@ -29,15 +29,19 @@ options:
     type: str
     default: "{{ pv_ua_user_share_dir }}/maven"
   java_rv_jdk_mvn_version:
-    description: Exact release version of maven.
+    description:
+      - Exact release version of maven.
+      - By default it will be latest release version from [Github](https://api.github.com/repos/apache/maven/releases/latest)
+      - Example format `3.9.4`
     required: false
     type: str
-    default: 3.9.4
   java_rv_jdk_gradle_version:
-    description: Release version of Gradle from https://gradle.org/releases/.
+    description:
+      - Release version of Gradle from https://gradle.org/releases/.
+      - Default Get latest release name from [github](https://api.github.com/repos/gradle/gradle/releases/latest)
+      - Example format `7.3.3`
     required: false
     type: str
-    default: 8.2
   java_rv_jdk_groovy_version:
     description: Release version of Groovy from https://groovy.apache.org/download.html.
     required: false
@@ -46,9 +50,10 @@ options:
   java_rv_jdk_kotlin_version:
     description:
       - Release version of Kotlin from github
+      - Default Get latest release name from [github](https://api.github.com/repos/JetBrains/kotlin/releases/latest)
+      - Example format `1.5.31`
     required: false
     type: str
-    default: 1.9.0
 ```
 
 ## Example Playbook Oracle Java

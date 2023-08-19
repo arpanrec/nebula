@@ -1,4 +1,6 @@
 ---
+name: Molecule Test
+
 "on":
   push:
     branches:
@@ -12,37 +14,41 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           if [ -f requirements.yml ]; then ansible-galaxy install -r requirements.yml; fi
 
       - name: ansible lint
-        run: ansible-lint
+        run: |+
+          ansible-lint
+          yamllint .
 
   molecule_test_role_linux_patching:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+
@@ -52,17 +58,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+
@@ -72,17 +79,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+
@@ -92,17 +100,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+
@@ -112,17 +121,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+
@@ -132,17 +142,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+
@@ -152,17 +163,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+
@@ -172,17 +184,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+
@@ -192,17 +205,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+
@@ -212,17 +226,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+
@@ -232,17 +247,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+
@@ -252,17 +268,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+
@@ -272,17 +289,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+
@@ -292,17 +310,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+
@@ -312,17 +331,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+
@@ -332,17 +352,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+
@@ -352,17 +373,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+
@@ -372,17 +394,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+
@@ -392,17 +415,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.3.1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: "3.11"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |+
           python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Molecule Test
         run: |+

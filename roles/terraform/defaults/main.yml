@@ -1,4 +1,4 @@
 ---
 rv_terraform_install_path: "{{ ansible_facts.user_dir }}/.local/bin"
 rv_terraform_tmp_install_cache_dir: "{{ ansible_facts.user_dir }}/.tmp/terraform"
-rv_terraform_version: 1.4.4
+# rv_terraform_version: 1.4.4

@@ -25,6 +25,21 @@
         success_msg: Java Version {{ java_rv_jdk_version }} is installed
         fail_msg: Java Version {{ java_rv_jdk_version }} is not installed, Shell result {{ java_rv_jdk_tmp_version_shell_result.stdout }}
 
+    - name: Oracle JDK | Apache Maven | Molecule | Get Dynamic Version
+      when: java_rv_jdk_mvn_version is not defined
+      block:
+        - name: Oracle JDK | Apache Maven | Molecule | Get Latest Release from github
+          ansible.builtin.uri:
+            url: "https://api.github.com/repos/apache/maven/releases/latest"
+            return_content: true
+            headers:
+              Accept: "application/vnd.github.v3+json"
+          register: java_rv_mvn_latest_release_from_github
+
+        - name: Oracle JDK | Apache Maven | Molecule | Set Dynamic Version
+          ansible.builtin.set_fact:
+            java_rv_jdk_mvn_version: "{{ java_rv_mvn_latest_release_from_github.json.name }}"
+
     - name: Oracle JDK | Apache Maven | Molecule | Verify | Get mvn version from shell
       ansible.builtin.command: mvn --version
       environment:
@@ -41,6 +56,21 @@
         that: java_rv_jdk_maven_tmp_version_shell_result.stdout_lines[0] is match("Apache Maven {{ java_rv_jdk_mvn_version }}.*")
         success_msg: Apache Maven {{ java_rv_jdk_mvn_version }} is installed
         fail_msg: Apache Maven {{ java_rv_jdk_mvn_version }} is not installed, Shell result {{ java_rv_jdk_maven_tmp_version_shell_result.stdout }}
+
+    - name: Oracle JDK | Gradle | Molecule | Get Dynamic Version
+      when: java_rv_jdk_gradle_version is not defined
+      block:
+        - name: Oracle JDK | Gradle | Molecule | Get Latest Release from github
+          ansible.builtin.uri:
+            url: "https://api.github.com/repos/gradle/gradle/releases/latest"
+            return_content: true
+            headers:
+              Accept: "application/vnd.github.v3+json"
+          register: java_rv_gradle_latest_release_from_github
+
+        - name: Oracle JDK | Gradle | Molecule | Set Dynamic Version
+          ansible.builtin.set_fact:
+            java_rv_jdk_gradle_version: "{{ java_rv_gradle_latest_release_from_github.json.name }}"
 
     - name: Oracle JDK | Gradle | Molecule | Verify | Get Gradle version from shell
       ansible.builtin.command: gradle -version
@@ -75,6 +105,21 @@
         that: '"Groovy Version: {{ java_rv_jdk_groovy_version }}" in java_rv_jdk_groovy_tmp_version_shell_result.stdout'
         success_msg: Apache Groovy Version {{ java_rv_jdk_groovy_version }} is installed
         fail_msg: Apache Groovy Version {{ java_rv_jdk_groovy_version }} is not installed, Shell result {{ java_rv_jdk_groovy_tmp_version_shell_result.stdout }}
+
+    - name: Oracle JDK | Kotlin | Kotlin Compiler | Molecule | Get Dynamic Version
+      when: java_rv_jdk_kotlinc_version is not defined
+      block:
+        - name: Oracle JDK | Kotlin | Kotlin Compiler | Molecule | Get Latest Release from github
+          ansible.builtin.uri:
+            url: "https://api.github.com/repos/JetBrains/kotlin/releases/latest"
+            return_content: true
+            headers:
+              Accept: "application/vnd.github.v3+json"
+          register: java_rv_kotlinc_latest_release_from_github
+
+        - name: Oracle JDK | Kotlin | Kotlin Compiler | Molecule | Set Dynamic Version
+          ansible.builtin.set_fact:
+            java_rv_jdk_kotlinc_version: "{{ java_rv_kotlinc_latest_release_from_github.json.tag_name[1:] }}"
 
     - name: Oracle JDK | Kotlin | Kotlin Compiler | Molecule | Verify | Get Kotlin | Kotlin Compiler version from shell
       ansible.builtin.command: kotlinc -version

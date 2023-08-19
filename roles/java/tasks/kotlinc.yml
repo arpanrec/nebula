@@ -1,4 +1,19 @@
 ---
+- name: Oracle JDK | Kotlin Compiler | Get Dynamic Version
+  when: java_rv_jdk_kotlinc_version is not defined
+  block:
+    - name: Oracle JDK | Kotlin Compiler | Get Latest Release from github
+      ansible.builtin.uri:
+        url: "https://api.github.com/repos/JetBrains/kotlin/releases/latest"
+        return_content: true
+        headers:
+          Accept: "application/vnd.github.v3+json"
+      register: java_rv_kotlinc_latest_release_from_github
+
+    - name: Oracle JDK | Kotlin Compiler | Set Dynamic Version
+      ansible.builtin.set_fact:
+        java_rv_jdk_kotlinc_version: "{{ java_rv_kotlinc_latest_release_from_github.json.tag_name[1:] }}"
+
 - name: Oracle JDK | Kotlin Compiler | Get downloaded file stat
   ansible.builtin.stat:
     path: "{{ java_rv_jdk_kotlinc_tarball_download_path }}"
@@ -7,7 +22,7 @@
 - name: Oracle JDK | Kotlin Compiler | New Install
   when: not java_rv_jdk_kotlinc_tarball_stat.stat.exists
   block:
-    - name: Oracle JDK | Kotlin Compiler | New Install | Download tarball
+    - name: Oracle JDK | Kotlin Compiler | New Install | Download tarball Version {{ java_rv_jdk_kotlinc_version }}
       ansible.builtin.get_url:
         url: "{{ java_rv_jdk_kotlinc_download_url }}"
         dest: "{{ java_rv_jdk_kotlinc_tarball_download_path }}"

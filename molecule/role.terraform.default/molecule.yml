@@ -22,7 +22,6 @@ provisioner:
     verify: verify.yml
 scenario:
   converge_sequence:
-    - dependency
     - converge
   destroy_sequence:
     - destroy

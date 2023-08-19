@@ -101,8 +101,8 @@
     "site*.yml": "ansible",
     "**/*.tf": "terraform",
     "**/requirements.txt": "pip-requirements",
-    "**/requirements-dev.in": "pip-requirements",
-    "**/requirements-dev.txt": "pip-requirements",
+    "**/requirements.in": "pip-requirements",
+    "**/requirements.txt": "pip-requirements",
     "**/.ansible-lint": "yaml",
     "**/ansible.cfg": "ini",
     "**/.yamllint": "yaml"

@@ -5,6 +5,21 @@
     state: directory
     mode: "0700"
 
+- name: Oracle JDK | Apache Maven | Get Dynamic Version
+  when: java_rv_jdk_mvn_version is not defined
+  block:
+    - name: Oracle JDK | Apache Maven | Get Latest Release from github
+      ansible.builtin.uri:
+        url: "https://api.github.com/repos/apache/maven/releases/latest"
+        return_content: true
+        headers:
+          Accept: "application/vnd.github.v3+json"
+      register: java_rv_mvn_latest_release_from_github
+
+    - name: Oracle JDK | Apache Maven | Set Dynamic Version
+      ansible.builtin.set_fact:
+        java_rv_jdk_mvn_version: "{{ java_rv_mvn_latest_release_from_github.json.name }}"
+
 - name: Oracle JDK | Apache Maven | Get downloaded file stat
   ansible.builtin.stat:
     path: "{{ java_rv_jdk_mvn_tarball_download_path }}"
@@ -13,7 +28,7 @@
 - name: Oracle JDK | Apache Maven | Newly Downloaded
   when: not java_rv_jdk_mvn_tmp_downloaded_file_stat.stat.exists
   block:
-    - name: Oracle JDK | Apache Maven | Newly Downloaded | Download tarball
+    - name: Oracle JDK | Apache Maven | Newly Downloaded | Download tarball Version {{ java_rv_jdk_mvn_version }}
       ansible.builtin.get_url:
         url: "{{ java_rv_jdk_mvn_download_url }}"
         dest: "{{ java_rv_jdk_mvn_tarball_download_path }}"

@@ -15,8 +15,10 @@ Install Terraform in user space
 
 - `rv_terraform_version`
 
-  - Description: Release version.
-  - Default: `1.4.4`
+  - Description:
+    - Release version.
+    - Get latest release from [Github releases](https://api.github.com/repos/hashicorp/terraform/releases/latest)
+    - Example format `1.0.9`
   - Required: `false`
   - Type: `str`
 
