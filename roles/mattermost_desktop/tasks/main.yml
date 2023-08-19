@@ -31,11 +31,28 @@
     state: directory
     mode: "0700"
 
-- name: Mattermost Desktop | Download in tmp path
-  ansible.builtin.get_url:
-    url: "{{ rv_mattermost_desktop_download_url_appimage_map[ansible_facts.architecture] }}"
-    dest: "{{ rv_mattermost_desktop_archive_download_path }}"
-    mode: "0700"
+- name: Mattermost Desktop | Get file stat
+  ansible.builtin.stat:
+    path: "{{ rv_mattermost_desktop_archive_download_path }}"
+  register: pv_ua_mm_archive_stat
+
+- name: Mattermost Desktop | New Download
+  when: not pv_ua_mm_archive_stat.stat.exists
+  block:
+    - name: Mattermost Desktop | Download in tmp path
+      ansible.builtin.get_url:
+        url: "{{ rv_mattermost_desktop_download_url_appimage_map[ansible_facts.architecture] }}"
+        dest: "{{ rv_mattermost_desktop_archive_download_path }}"
+        mode: "0700"
+  rescue:
+    - name: Mattermost Desktop | Delete file
+      ansible.builtin.file:
+        path: "{{ rv_mattermost_desktop_archive_download_path }}"
+        state: absent
+
+    - name: Mattermost Desktop | Fail
+      ansible.builtin.fail:
+        msg: "Download failed, check the errors abouve"
 
 - name: Mattermost Desktop | Unarchive the tar ball
   ansible.builtin.unarchive:

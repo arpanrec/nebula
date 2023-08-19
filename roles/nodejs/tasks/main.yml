@@ -13,27 +13,22 @@
     path: "{{ rv_nodejs_tarball_download_path }}"
   register: rv_nodejs_tmp_downloaded_file_stat
 
+- name: NodeJS | New Download | Create download directory
+  ansible.builtin.file:
+    path: "{{ rv_nodejs_tmp_install_cache_dir }}"
+    state: directory
+    mode: "0700"
+
 - name: NodeJS | New Download
   when: not rv_nodejs_tmp_downloaded_file_stat.stat.exists
   block:
-    - name: NodeJS | New Download | Create download directory
-      ansible.builtin.file:
-        path: "{{ rv_nodejs_tmp_install_cache_dir }}"
-        state: directory
-        mode: "0700"
-
     - name: NodeJS | New Download | Download tarball
       ansible.builtin.get_url:
         url: "{{ rv_nodejs_download_url }}"
         dest: "{{ rv_nodejs_tarball_download_path }}"
         mode: "0700"
-
-    - name: NodeJS | New Download | Unarchive the tarball
-      ansible.builtin.unarchive:
-        src: "{{ rv_nodejs_tarball_download_path }}"
-        dest: "{{ rv_nodejs_install_path }}"
-        extra_opts: [--strip-components=1]
-        remote_src: true
+        timeout: 300
+      timeout: 300
   rescue:
     - name: NodeJS | New Download | Fail | Cleanup
       ansible.builtin.file:
@@ -43,3 +38,10 @@
     - name: NodeJS | New Download | Fail | Fail
       ansible.builtin.fail:
         msg: Something went wrong, check the errors above
+
+- name: NodeJS | New Download | Unarchive the tarball
+  ansible.builtin.unarchive:
+    src: "{{ rv_nodejs_tarball_download_path }}"
+    dest: "{{ rv_nodejs_install_path }}"
+    extra_opts: [--strip-components=1]
+    remote_src: true

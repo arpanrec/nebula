@@ -24,12 +24,29 @@
     status_code: 200
   register: pv_ua_postman_url_head_run
 
-- name: Postman | Download tarball
-  ansible.builtin.get_url:
-    url: "{{ rv_postman_download_url_map[ansible_facts.architecture] }}"
-    dest: "{{ rv_postman_tarball_download_path }}"
-    mode: "0700"
-  notify: Postman | Unarchive the tarball
+- name: Postman | Check if file is there with file stat
+  ansible.builtin.stat:
+    path: "{{ rv_postman_tarball_download_path }}"
+  register: pv_ua_postman_tarball_stat
+
+- name: Postman | New Download
+  when: not pv_ua_postman_tarball_stat.stat.exists
+  block:
+    - name: Postman | Download tarball
+      ansible.builtin.get_url:
+        url: "{{ rv_postman_download_url_map[ansible_facts.architecture] }}"
+        dest: "{{ rv_postman_tarball_download_path }}"
+        mode: "0700"
+      notify: Postman | Unarchive the tarball
+  rescue:
+    - name: Postman | Remove tarball
+      ansible.builtin.file:
+        path: "{{ rv_postman_tarball_download_path }}"
+        state: absent
+
+    - name: Postman | Fail
+      ansible.builtin.fail:
+        msg: Postman, Download failed, check the error above
 
 - name: Postman | Create desktop icon
   ansible.builtin.template:
