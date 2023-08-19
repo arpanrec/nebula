@@ -23,7 +23,6 @@ provisioner:
 scenario:
   name: role.go.default
   converge_sequence:
-    - dependency
     - converge
   destroy_sequence:
     - destroy

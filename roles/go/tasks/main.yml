@@ -2,6 +2,19 @@
 - name: Golang | Prerequisites
   ansible.builtin.import_tasks: prerequisites.yml
 
+- name: Golang | Get Latest Version
+  when: rv_golang_version is not defined
+  block:
+    - name: Golang | Get Latest Version | Download
+      ansible.builtin.uri:
+        url: https://golang.org/VERSION?m=text
+        return_content: true
+      register: pv_ua_golang_latest_version
+
+    - name: Golang | Get Latest Version | Set
+      ansible.builtin.set_fact:
+        rv_golang_version: "{{ pv_ua_golang_latest_version.content | split('\n') | first | regex_replace('^go', '') }}"
+
 - name: Golang | Create install directory
   ansible.builtin.file:
     path: "{{ rv_golang_install_path }}"
@@ -22,7 +35,7 @@
 - name: Golang | Newly downloaded
   when: not pv_ua_golang_downloaded_file_stat.stat.exists
   block:
-    - name: Golang | Newly downloaded | Download tarball
+    - name: "Golang | Newly downloaded | Download tarball version: {{ rv_golang_version }}"
       ansible.builtin.get_url:
         url: "{{ rv_golang_download_url_arch_map[ansible_facts.architecture] }}"
         dest: "{{ rv_golang_tarball_download_path }}"

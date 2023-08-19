@@ -8,6 +8,19 @@
         name: arpanrec.utilities.go
         tasks_from: prerequisites
 
+    - name: Golang | Molecule | Get Latest Version
+      when: rv_golang_version is not defined
+      block:
+        - name: Golang | Molecule | Get Latest Version | Download
+          ansible.builtin.uri:
+            url: https://golang.org/VERSION?m=text
+            return_content: true
+          register: pv_ua_golang_latest_version
+
+        - name: Golang | Molecule | Get Latest Version | Set
+          ansible.builtin.set_fact:
+            rv_golang_version: "{{ pv_ua_golang_latest_version.content | split('\n') | first | regex_replace('^go', '') }}"
+
     - name: Golang | Molecule | Verify | Get go version from shell
       ansible.builtin.command: go version
       environment:

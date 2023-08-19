@@ -14,10 +14,12 @@ options:
     type: str
     default: "{{ ansible_facts.user_dir }}/.local/share/go"
   rv_golang_version:
-    description: Exact release version of go language.
+    description: 
+      - Exact release version of go language.
+      - Default is, latest release version from [golang](https://golang.org/VERSION?m=text)
+      - Example Format `1.20.5`
     required: false
     type: str
-    default: 1.20.5
   rv_golang_tmp_dir:
     description: Temporary cache directory for install.
     required: false
