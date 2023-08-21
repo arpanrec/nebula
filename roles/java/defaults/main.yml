@@ -16,4 +16,4 @@ java_rv_jdk_groovy_version: 4.0.2
 # java_rv_jdk_kotlin_version: 1.9.0
 
 java_rv_jdk_kotlinc_install_path: "{{ ansible_facts.user_dir }}/.local/share/kotlinc"
-java_rv_jdk_kotlinc_version: "{{ java_rv_jdk_kotlin_version }}"
+java_rv_jdk_kotlinc_version: "{{ java_rv_jdk_kotlin_version | default(omit) }}"

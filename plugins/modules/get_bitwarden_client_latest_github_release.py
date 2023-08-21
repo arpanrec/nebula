@@ -16,16 +16,12 @@ DOCUMENTATION = r"""
 ---
 module: get_bitwarden_client_latest_github_release
 """
-
-def run_module():
+def get_tag_version(which="desktop"):
     """
-    Ansible main module
+    Get the latest bitwarden client release version from github
     """
-    module = AnsibleModule(
-        argument_spec={}
-    )
+    tag_version = None
     url = "https://api.github.com/repos/bitwarden/clients/releases"
-    which = "desktop"
 
     headers = {
         "Accept": "application/vnd.github.v3+json",
@@ -42,11 +38,8 @@ def run_module():
         params["page"] = PAGE_NUM
         response = requests.get(url, headers=headers, params=params, timeout=10)
         if response.status_code != 200:
-            return module.fail_json(
-                msg="Something went wrong", **response.json()
-            )
+            raise ValueError(f"Error fetching releases: {response.status_code}, {response.text}")
         response_data = response.json()
-
         if len(response_data) == 0:
             break
         for release in response_data:
@@ -58,15 +51,27 @@ def run_module():
         if TAG_FOUND:
             break
         PAGE_NUM += 1
+        print(f"Page {PAGE_NUM} processed")
+    if not TAG_FOUND:
+        raise ValueError(f"No tag found for f{which}")
+    return tag_version
 
-    module.exit_json(**{"msg": tag_version})
+def run_module():
+    """
+    Ansible main module
+    """
+    module = AnsibleModule(
+        argument_spec={}
+    )
+
+    module.exit_json(**{"msg": get_tag_version()})
 
 def main():
   """
   Python Main Module
   """
-  run_module()
+  return get_tag_version("cali")
 
 
 if __name__ == "__main__":
-  main()
+  print(main())
