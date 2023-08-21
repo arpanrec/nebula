@@ -47,7 +47,7 @@ options:
     required: false
     type: str
     default: 4.0.2
-  java_rv_jdk_kotlin_version:
+  java_rv_jdk_kotlinc_version:
     description:
       - Release version of Kotlin from github
       - Default Get latest release name from [github](https://api.github.com/repos/JetBrains/kotlin/releases/latest)
