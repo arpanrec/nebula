@@ -22,7 +22,7 @@ Set timezone, locale, and loopback ip in server
 - `linux_patching_rv_managed_packages`
   - Description: Install the managed packages in the distributions.
   - Required: `false`
-  - Default: [ `resolvconf` ]
+  - Default: []
 
 - `linux_patching_rv_extra_packages`
 

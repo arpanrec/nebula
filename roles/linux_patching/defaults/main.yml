@@ -53,8 +53,7 @@ linux_patching_rv_packages:
   - python3-venv
   - xz-utils
 
-linux_patching_rv_managed_packages:
-  - resolvconf
+linux_patching_rv_managed_packages: []
 
 linux_patching_rv_timezone: Asia/Kolkata
 
