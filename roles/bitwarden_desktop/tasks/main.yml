@@ -14,6 +14,7 @@
   - name: Bitwarden Desktop | Get Version
     arpanrec.utilities.get_bitwarden_client_latest_github_release:
     register: rv_bitwarden_desktop_dynamic_release
+    delegate_to: localhost
 
   - name: Bitwarden Desktop | Set Version
     ansible.builtin.set_fact:
