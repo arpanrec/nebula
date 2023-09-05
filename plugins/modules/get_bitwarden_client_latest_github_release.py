@@ -16,10 +16,13 @@ DOCUMENTATION = r"""
 ---
 module: get_bitwarden_client_latest_github_release
 """
-def get_tag_version(which="desktop"):
+def run_module(which="desktop"):
     """
     Get the latest bitwarden client release version from github
     """
+    module_args = dict(
+    )
+
     tag_version = None
     url = "https://api.github.com/repos/bitwarden/clients/releases"
 
@@ -54,23 +57,27 @@ def get_tag_version(which="desktop"):
         print(f"Page {PAGE_NUM} processed")
     if not TAG_FOUND:
         raise ValueError(f"No tag found for f{which}")
-    return tag_version
 
-def run_module():
-    """
-    Ansible main module
-    """
-    module = AnsibleModule(
-        argument_spec={}
+    result = dict(
+        changed=False,
+        original_message='',
+        message=''
     )
 
-    module.exit_json(**{"msg": get_tag_version()})
+    module = AnsibleModule(
+        argument_spec=module_args,
+        supports_check_mode=True
+    )
+
+    result['msg'] = tag_version
+
+    module.exit_json(**result)
 
 def main():
   """
   Python Main Module
   """
-  get_tag_version()
+  run_module()
 
 
 if __name__ == "__main__":
