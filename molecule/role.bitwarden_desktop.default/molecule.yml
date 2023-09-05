@@ -19,6 +19,8 @@ provisioner:
   name: ansible
   playbooks:
     converge: converge.yml
+  # env:
+  #   ANSIBLE_VERBOSITY: 5
 scenario:
   name: role.bitwarden_desktop.default
   create_sequence:

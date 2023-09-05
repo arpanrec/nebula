@@ -70,8 +70,8 @@ def main():
   """
   Python Main Module
   """
-  return get_tag_version("cali")
+  get_tag_version()
 
 
 if __name__ == "__main__":
-  print(main())
+  main()
