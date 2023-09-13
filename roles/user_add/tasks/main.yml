@@ -1,4 +1,7 @@
 ---
+- name: Application User | Gathering Facts
+  ansible.builtin.setup:
+
 - name: Application User | Checking Mandatory Variables
   ansible.builtin.import_tasks: 000-prerequisites.yml
 
