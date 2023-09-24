@@ -20,7 +20,7 @@ filter_name:
   - return: The result of the encryption or decryption operation.
 '''
 
-def __gpg_ops(
+def d_gpg_ops(
         gnupg_home: str = None,
         key_server: str = 'hkps://keys.openpgp.org',
         fingerprint: str = None,
@@ -137,7 +137,7 @@ def gpg_enc(data,
             passphrase=None,
             key_contents=None,
             recv_keys=False):
-    return __gpg_ops(fingerprint=fingerprint,
+    return d_gpg_ops(fingerprint=fingerprint,
               gnupg_home=gnupg_home,
               key_server=key_server,
               key_path=key_path,
@@ -155,7 +155,7 @@ def gpg_dec(data,
             key_path=None,
             passphrase=None,
             key_contents=None):
-    return __gpg_ops(fingerprint=fingerprint,
+    return d_gpg_ops(fingerprint=fingerprint,
               gnupg_home=gnupg_home,
               key_server=key_server,
               key_path=key_path,
