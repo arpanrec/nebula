@@ -3,6 +3,7 @@ import os
 import tempfile
 import gnupg
 from pathlib import Path
+import tempfile
 
 DOCUMENTATION = '''
 filter_name:
@@ -96,7 +97,7 @@ def d_gpg_ops(
     if mode == 'encrypt':
         keys_list = gpg.list_keys()
     elif mode == 'decrypt':
-        keys_list = gpg.list_keys()
+        keys_list = gpg.list_keys(True)
     else:
         raise Exception('mode must be either encrypt or decrypt')
 
@@ -110,19 +111,30 @@ def d_gpg_ops(
     if not fingerprint:
         fingerprint = keys_list[0]['fingerprint']
 
-    gpg.trust_keys([fingerprint], 'TRUST_ULTIMATE')
+    gpg.trust_keys(fingerprints=fingerprint, trustlevel='TRUST_ULTIMATE')
+
+    with tempfile.NamedTemporaryFile(delete=True) as data_file_temp:
+        data_file_name = data_file_temp.name
+        data_file_out_name = data_file_name + '.out'
+        data_file_temp.write(data)
 
     if mode == 'encrypt':
-        ascii_data = gpg.encrypt(data, fingerprint)
+        ascii_data = gpg.encrypt_file(fileobj_or_path=data_file_name, recipients=fingerprint, output=data_file_out_name,)
 
     if mode == 'decrypt':
-        ascii_data = gpg.decrypt(
-            data,
+        ascii_data = gpg.decrypt_file(
+            fileobj_or_path=data_file_name,
+            output=data_file_out_name,
             passphrase=passphrase,
             extra_args=['--pinentry-mode', 'loopback', '--recipient', fingerprint]
             )
 
-    final_result = str(ascii_data)
+    os.remove(data_file_name)
+
+    with open(data_file_out_name, "r", encoding='utf-8') as file_read_handle:
+        final_result = file_read_handle.read()
+
+    os.remove(data_file_out_name)
 
     if not ascii_data.ok or len(final_result) == 0:
         raise Exception('decryption failed : ' + ascii_data.status)
