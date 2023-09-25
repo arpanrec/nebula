@@ -7,3 +7,4 @@ molecule>=5.0.0
 cryptography!=35,<40,>=2.6
 urllib3<2.0.0 # https://github.com/docker/docker-py/pull/3114
 requests>=2.31.0
+python-gnupg>=0.5.1
