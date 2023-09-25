@@ -3,7 +3,6 @@ import os
 import tempfile
 import gnupg
 from pathlib import Path
-import tempfile
 
 DOCUMENTATION = '''
 filter_name:
@@ -69,13 +68,8 @@ def d_gpg_ops(
         else:
             gnupg_home = Path.joinpath(Path.home(), '.gnupg')
     elif gnupg_home.lower() == 'temp':
-        temporary_directory = tempfile.TemporaryDirectory(
-            suffix=None,
-            prefix=None,
-            dir=None,
-            ignore_cleanup_errors=False
-        )
-        gnupg_home = temporary_directory.name
+        with tempfile.TemporaryDirectory(suffix=None, prefix=None, dir=None, ignore_cleanup_errors=False) as temporary_directory:
+            gnupg_home = temporary_directory
     else:
         pass
     if not os.path.exists(gnupg_home):
@@ -116,7 +110,9 @@ def d_gpg_ops(
     with tempfile.NamedTemporaryFile(delete=True) as data_file_temp:
         data_file_name = data_file_temp.name
         data_file_out_name = data_file_name + '.out'
-        data_file_temp.write(data)
+
+    with open(data_file_name, "w", encoding='utf-8') as file_write_handle:
+        file_write_handle.write(data)
 
     if mode == 'encrypt':
         ascii_data = gpg.encrypt_file(fileobj_or_path=data_file_name, recipients=fingerprint, output=data_file_out_name,)
