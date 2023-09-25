@@ -51,7 +51,7 @@ def d_gpg_ops(
     if data is None or len(data) == 0:
         raise Exception('data is required')
 
-    if input_do_base64:
+    if input_do_base64 and mode == 'encrypt':
         data = base64.b64encode(data.encode('ascii')).decode('ascii')
 
     if key_contents and key_path:
@@ -129,7 +129,7 @@ def d_gpg_ops(
     if not ascii_data.ok or len(final_result) == 0:
         raise Exception('decryption failed : ' + ascii_data.status)
 
-    if input_do_base64:
+    if input_do_base64 and mode == 'decrypt':
         final_result = base64.b64decode(final_result.encode('ascii')).decode('ascii')
 
     return final_result
