@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import base64
 import os
 import tempfile
 import gnupg
@@ -29,7 +30,8 @@ def d_gpg_ops(
         passphrase: str = None,
         mode: str = None,
         data: str = None,
-        recv_keys: bool = False
+        recv_keys: bool = False,
+        input_do_base64: bool = True,
 ) -> str:
     """
     __gpg_ops:
@@ -48,6 +50,9 @@ def d_gpg_ops(
     """
     if data is None or len(data) == 0:
         raise Exception('data is required')
+
+    if input_do_base64:
+        data = base64.b64encode(data.encode('ascii')).decode('ascii')
 
     if key_contents and key_path:
         raise Exception('key_contents and key_path are mutually exclusive')
@@ -107,33 +112,25 @@ def d_gpg_ops(
 
     gpg.trust_keys(fingerprints=fingerprint, trustlevel='TRUST_ULTIMATE')
 
-    with tempfile.NamedTemporaryFile(delete=True) as data_file_temp:
-        data_file_name = data_file_temp.name
-        data_file_out_name = data_file_name + '.out'
 
-    with open(data_file_name, "w", encoding='utf-8') as file_write_handle:
-        file_write_handle.write(data)
 
     if mode == 'encrypt':
-        ascii_data = gpg.encrypt_file(fileobj_or_path=data_file_name, recipients=fingerprint, output=data_file_out_name,)
+        ascii_data = gpg.encrypt(data=data, recipients=fingerprint)
 
     if mode == 'decrypt':
-        ascii_data = gpg.decrypt_file(
-            fileobj_or_path=data_file_name,
-            output=data_file_out_name,
+        ascii_data = gpg.decrypt(
+            message=data,
             passphrase=passphrase,
             extra_args=['--pinentry-mode', 'loopback', '--recipient', fingerprint]
             )
 
-    os.remove(data_file_name)
-
-    with open(data_file_out_name, "r", encoding='utf-8') as file_read_handle:
-        final_result = file_read_handle.read()
-
-    os.remove(data_file_out_name)
+    final_result = str(ascii_data)
 
     if not ascii_data.ok or len(final_result) == 0:
         raise Exception('decryption failed : ' + ascii_data.status)
+
+    if input_do_base64:
+        final_result = base64.b64decode(final_result.encode('ascii')).decode('ascii')
 
     return final_result
 
