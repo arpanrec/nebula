@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import base64
 import os
 import tempfile
 import gnupg
@@ -31,7 +30,6 @@ def d_gpg_ops(
         mode: str = None,
         data: str = None,
         recv_keys: bool = False,
-        input_do_base64: bool = True,
 ) -> str:
     """
     __gpg_ops:
@@ -50,9 +48,6 @@ def d_gpg_ops(
     """
     if data is None or len(data) == 0:
         raise Exception('data is required')
-
-    if input_do_base64 and mode == 'encrypt':
-        data = base64.b64encode(data.encode('ascii')).decode('ascii')
 
     if key_contents and key_path:
         raise Exception('key_contents and key_path are mutually exclusive')
@@ -128,9 +123,6 @@ def d_gpg_ops(
 
     if not ascii_data.ok or len(final_result) == 0:
         raise Exception('decryption failed : ' + ascii_data.status)
-
-    if input_do_base64 and mode == 'decrypt':
-        final_result = base64.b64decode(final_result.encode('ascii')).decode('ascii')
 
     return final_result
 
