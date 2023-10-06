@@ -1,0 +1,58 @@
+---
+- name: Vault | Prerequisites
+  ansible.builtin.import_tasks: prerequisites.yml
+
+- name: Vault | Create install directory
+  ansible.builtin.file:
+    path: "{{ vault_rv_install_path }}"
+    state: directory
+    mode: "0700"
+
+- name: Vault | Get Release
+  when: vault_rv_version is not defined
+  block:
+    - name: Terrafrom | Get Vault Release from Github API
+      ansible.builtin.uri:
+        url: "https://api.github.com/repos/hashicorp/vault/releases/latest"
+        return_content: true
+        status_code: 200
+      register: vault_rv_release_from_github
+
+    - name: Terrafrom | Set releases
+      ansible.builtin.set_fact:
+        vault_rv_version: "{{ vault_rv_release_from_github.json.tag_name[1:] }}"
+
+- name: Vault | Get downloaded file stat
+  ansible.builtin.stat:
+    path: "{{ vault_rv_tarball_download_path }}"
+  register: vault_rv_tmp_downloaded_file_stat
+
+- name: Vault | New Download | Create download directory
+  ansible.builtin.file:
+    path: "{{ vault_rv_tmp_install_cache_dir }}"
+    state: directory
+    mode: "0700"
+
+- name: Vault | New Download
+  when: not vault_rv_tmp_downloaded_file_stat.stat.exists
+  block:
+    - name: "Vault | New Download | Download tarball version: {{ vault_rv_version }}"
+      ansible.builtin.get_url:
+        url: "{{ vault_rv_download_url }}"
+        dest: "{{ vault_rv_tarball_download_path }}"
+        mode: "0700"
+  rescue:
+    - name: Vault | New Download | Fail | Cleanup
+      ansible.builtin.file:
+        path: "{{ vault_rv_tarball_download_path }}"
+        state: absent
+
+    - name: Vault | New Download | Fail | Fail
+      ansible.builtin.fail:
+        msg: Something went wrong, check the errors above
+
+- name: Vault | New Download | Unarchive the tarball
+  ansible.builtin.unarchive:
+    src: "{{ vault_rv_tarball_download_path }}"
+    dest: "{{ vault_rv_install_path }}"
+    remote_src: true

@@ -1,0 +1,40 @@
+---
+- name: Vault | Molecule | Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Vault | Molecule | Verify | Import Roles for variables
+      ansible.builtin.import_role:
+        name: arpanrec.utilities.vault
+        tasks_from: prerequisites
+
+    - name: Vault | Molecule | Get Release
+      when: vault_rv_version is not defined
+      block:
+        - name: Terrafrom | Molecule | Get Vault Release from Github API
+          ansible.builtin.uri:
+            url: "https://api.github.com/repos/hashicorp/vault/releases/latest"
+            return_content: true
+            status_code: 200
+          register: vault_rv_release_from_github
+
+        - name: Terrafrom | Molecule | Set releases
+          ansible.builtin.set_fact:
+            vault_rv_version: "{{ vault_rv_release_from_github.json.tag_name[1:] }}"
+
+    - name: Vault | Molecule | Verify | Get vault version from shell
+      ansible.builtin.command: vault --version
+      environment:
+        PATH: "{{ vault_rv_install_path }}:{{ ansible_env.PATH }}"
+      register: vault_rv_version_shell_result
+      changed_when: false
+
+    - name: Vault | Molecule | Verify | vault version from shell result
+      ansible.builtin.debug:
+        var: vault_rv_version_shell_result
+
+    - name: Vault | Molecule | Verify | Fail if vault version is not present
+      ansible.builtin.assert:
+        that: vault_rv_version_shell_result.stdout_lines[0] is match('Vault v{{ vault_rv_version }}*')
+        success_msg: Vault Version {{ vault_rv_version }} is installed
+        fail_msg: Vault Version {{ vault_rv_version }} is not installed, Shell result {{ vault_rv_version_shell_result.stdout }}

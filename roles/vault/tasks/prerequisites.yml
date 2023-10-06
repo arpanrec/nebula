@@ -1,0 +1,17 @@
+---
+- name: Vault | Prerequisites | Fail if Root User
+  ansible.builtin.command: whoami
+  register: rl_sw_current_shelluser_shell_result
+  failed_when: rl_sw_current_shelluser_shell_result.stdout == "root"
+  changed_when: false
+
+- name: Vault | Prerequisites | Packages are present
+  ansible.builtin.shell: "command -v {{ item }} >/dev/null 2>&1"
+  changed_when: false
+  with_items:
+    - curl
+    - wget
+    - unzip
+
+- name: Vault | Prerequisites | Gather Facts
+  ansible.builtin.setup:

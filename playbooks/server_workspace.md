@@ -22,3 +22,4 @@ Extra variables will be applied to the original role.
 - [KDE Settings](../roles/kde/README.md) -> kde
 - [Gnome Settings](../roles/gnome/README.md) -> gnome [Disable By Default]
 - [Terraform](../roles/terraform/README.md) -> terraform
+- [Vault](../roles/vault/README.md) -> vault

@@ -155,3 +155,13 @@
         apply:
           tags:
             - terraform
+
+    - name: USERAPPS | Hashicorp Vault
+      ansible.builtin.include_role:
+        name: arpanrec.utilities.vault
+      tags:
+        - vault
+      args:
+        apply:
+          tags:
+            - vault

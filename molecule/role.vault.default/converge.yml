@@ -1,0 +1,10 @@
+---
+- name: Vault | Molecule | Converge
+  hosts: all
+  gather_facts: false
+  any_errors_fatal: true
+  become: false
+  tasks:
+    - name: Vault | Molecule | Converge | Include vault role
+      ansible.builtin.import_role:
+        name: arpanrec.utilities.vault
