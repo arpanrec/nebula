@@ -20,7 +20,7 @@
 
 - name: Gnome | Extension | Install | Set extension directory | {{ pv_gnome_extension_name }}
   ansible.builtin.set_fact:
-    pv_gnome_extension_user_dir: "{{ rv_gnome_user_share_dir }}/gnome-shell/extensions/{{ pv_gnome_extension_uuid }}"
+    pv_gnome_extension_user_dir: "{{ gnome_rv_user_share_dir }}/gnome-shell/extensions/{{ pv_gnome_extension_uuid }}"
 
 - name: Gnome | Extension | Install | Check for directory | {{ pv_gnome_extension_name }}
   ansible.builtin.stat:
@@ -32,7 +32,7 @@
   block:
     - name: Gnome | Extension | Install | New Install | Set Download location | {{ pv_gnome_extension_name }}
       ansible.builtin.set_fact:
-        pv_gnome_extension_download_path: "{{ rv_gnome_user_cache_tmp_dir }}/{{ pv_gnome_extension_uuid }}-{{ pv_gnome_extension_version }}.zip"
+        pv_gnome_extension_download_path: "{{ gnome_rv_user_cache_tmp_dir }}/{{ pv_gnome_extension_uuid }}-{{ pv_gnome_extension_version }}.zip"
 
     - name: Gnome | Extension | Install | New Install | Check for existing archive | {{ pv_gnome_extension_name }}
       ansible.builtin.stat:

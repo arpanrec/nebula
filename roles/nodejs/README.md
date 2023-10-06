@@ -6,21 +6,21 @@ Install NodeJS in user space
 
 ## Variable
 
-- `rv_nodejs_install_path`
+- `nodejs_rv_install_path`
 
   - Description: Install path for nodejs.
   - Default: `"{{ ansible_facts.user_dir }}/.local/share/node"`
   - Required: `false`
   - Type: `str`
 
-- `rv_nodejs_version`
+- `nodejs_rv_version`
 
   - Description: Release version.
   - Default: `v18.16.0`
   - Required: `false`
   - Type: `str`
 
-- `rv_nodejs_tmp_install_cache_dir`
+- `nodejs_rv_tmp_install_cache_dir`
   - Description: Cache install directory.
   - Default: `"{{ ansible_facts.user_dir }}/.tmp/nodejs"`
   - Required: `false`

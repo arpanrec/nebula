@@ -3,7 +3,7 @@
   ansible.builtin.git:
     single_branch: true
     repo: "https://github.com/vinceliuice/Tela-icon-theme.git"
-    dest: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Tela-icon-theme"
+    dest: "{{ themes_rv_user_tmp_dir }}/vinceliuice-Tela-icon-theme"
     depth: 1
     version: master
   notify:
@@ -14,7 +14,7 @@
   ansible.builtin.git:
     single_branch: true
     repo: "https://github.com/EliverLara/candy-icons.git"
-    dest: "{{ rv_themes_user_tmp_dir }}/EliverLara-candy-icons-git/"
+    dest: "{{ themes_rv_user_tmp_dir }}/EliverLara-candy-icons-git/"
     depth: 1
     version: master
   notify:
@@ -25,7 +25,7 @@
   ansible.builtin.git:
     single_branch: true
     repo: "https://github.com/vinceliuice/Layan-cursors.git"
-    dest: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Layan-cursors"
+    dest: "{{ themes_rv_user_tmp_dir }}/vinceliuice-Layan-cursors"
     depth: 1
     version: master
   notify:
@@ -36,7 +36,7 @@
   ansible.builtin.git:
     single_branch: true
     repo: "https://github.com/gvolpe/BeautyLine.git"
-    dest: "{{ rv_themes_user_tmp_dir }}/gvolpe-BeautyLine"
+    dest: "{{ themes_rv_user_tmp_dir }}/gvolpe-BeautyLine"
     depth: 1
     version: main
   notify: Themes | Icon | Gvolpe BeautyLine | Copy Resources | Copy icons

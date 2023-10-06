@@ -1,6 +1,6 @@
 ---
-rv_dotfiles_user_home_dir: "{{ ansible_facts.user_dir }}"
+dotfiles_rv_user_home_dir: "{{ ansible_facts.user_dir }}"
 
-rv_dotfiles_git_remote: https://github.com/arpanrecme/dotfiles
-rv_dotfiles_git_version: main
-rv_dotfiles_bare_relative_dir: .dotfiles
+dotfiles_rv_git_remote: https://github.com/arpanrecme/dotfiles
+dotfiles_rv_git_version: main
+dotfiles_rv_bare_relative_dir: .dotfiles

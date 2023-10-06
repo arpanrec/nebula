@@ -4,7 +4,7 @@
     - name: Themes | Terminal Themes | Initialize p10k gitstatus | Execute install script
       ansible.builtin.shell: |
         set timeout 100
-        {{ rv_themes_user_home_dir }}/.oh-my-zsh/custom/themes/powerlevel10k/gitstatus/install -f
+        {{ themes_rv_user_home_dir }}/.oh-my-zsh/custom/themes/powerlevel10k/gitstatus/install -f
       changed_when: true
       register: pv_ua_tmp_p10k_shell_install_result
 
@@ -17,7 +17,7 @@
     - name: Themes | Terminal Themes | Initialize fzf | Execute install script
       ansible.builtin.shell: |
         set timeout 100
-        {{ rv_themes_user_home_dir }}/.fzf/install --all
+        {{ themes_rv_user_home_dir }}/.fzf/install --all
       changed_when: true
       register: pv_ua_tmp_fzf_shell_install_result
 
@@ -30,18 +30,18 @@
 
 - name: Themes | Theme | EliverLara Nordic-kde | Copy Resources | plasma desktoptheme
   ansible.builtin.copy:
-    src: "{{ rv_themes_user_tmp_dir }}/EliverLara-Nordic-kde-git/"
-    dest: "{{ rv_themes_user_share_dir }}/plasma/desktoptheme/Nordic/"
+    src: "{{ themes_rv_user_tmp_dir }}/EliverLara-Nordic-kde-git/"
+    dest: "{{ themes_rv_user_share_dir }}/plasma/desktoptheme/Nordic/"
     remote_src: true
     mode: "0700"
 
 - name: Themes | Theme | EliverLara Nordic-kde | Copy Resources | Delete git tracker
   ansible.builtin.file:
-    path: "{{ rv_themes_user_share_dir }}/plasma/desktoptheme/Nordic/.git"
+    path: "{{ themes_rv_user_share_dir }}/plasma/desktoptheme/Nordic/.git"
     state: absent
 
 - name: Themes | Theme | vinceliuice Layan | Install | Execute install script
-  ansible.builtin.command: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Layan-kde/install.sh"
+  ansible.builtin.command: "{{ themes_rv_user_tmp_dir }}/vinceliuice-Layan-kde/install.sh"
   register: pv_kde_tmp_layan_kde_theme_shell_install_result
   changed_when: true
 
@@ -50,7 +50,7 @@
     var: pv_kde_tmp_layan_kde_theme_shell_install_result
 
 - name: Themes | Icon | vinceliuice Tela | Install | Execute install script
-  ansible.builtin.command: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Tela-icon-theme/install.sh -a"
+  ansible.builtin.command: "{{ themes_rv_user_tmp_dir }}/vinceliuice-Tela-icon-theme/install.sh -a"
   register: pv_kde_tmp_tela_icon_update_shell_result
   changed_when: true
 
@@ -60,20 +60,20 @@
 
 - name: Themes | Icon | EliverLara Candy | Copy Resources | Copy icons
   ansible.builtin.copy:
-    src: "{{ rv_themes_user_tmp_dir }}/EliverLara-candy-icons-git/"
-    dest: "{{ rv_themes_user_share_dir }}/icons/candy-icons/"
+    src: "{{ themes_rv_user_tmp_dir }}/EliverLara-candy-icons-git/"
+    dest: "{{ themes_rv_user_share_dir }}/icons/candy-icons/"
     remote_src: true
     mode: "0700"
 
 - name: Themes | Icon | EliverLara Candy | Copy Resources | Delete git tracker from gtk directory
   ansible.builtin.file:
-    path: "{{ rv_themes_user_share_dir }}/icons/candy-icons//.git"
+    path: "{{ themes_rv_user_share_dir }}/icons/candy-icons//.git"
     state: absent
 
 - name: Themes | Cursors | vinceliuice Layan-cursors | Install | Execute install script
-  ansible.builtin.command: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Layan-cursors/install.sh"
+  ansible.builtin.command: "{{ themes_rv_user_tmp_dir }}/vinceliuice-Layan-cursors/install.sh"
   args:
-    chdir: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Layan-cursors"
+    chdir: "{{ themes_rv_user_tmp_dir }}/vinceliuice-Layan-cursors"
   register: pv_kde_tmp_layan_cursors_shell_install_result
   changed_when: true
 
@@ -83,28 +83,28 @@
 
 - name: Themes | Icon | Gvolpe BeautyLine | Copy Resources | Copy icons
   ansible.builtin.copy:
-    src: "{{ rv_themes_user_tmp_dir }}/gvolpe-BeautyLine/BeautyLine-V3/"
-    dest: "{{ rv_themes_user_share_dir }}/icons/BeautyLine-V3/"
+    src: "{{ themes_rv_user_tmp_dir }}/gvolpe-BeautyLine/BeautyLine-V3/"
+    dest: "{{ themes_rv_user_share_dir }}/icons/BeautyLine-V3/"
     remote_src: true
     mode: "0700"
 
 - name: Themes | Theme | EliverLara Sweet | Copy Resources | gtk themes
   ansible.builtin.copy:
-    src: "{{ rv_themes_user_tmp_dir }}/EliverLara-Sweet-git/"
-    dest: "{{ rv_themes_user_share_dir }}/themes/Sweet/"
+    src: "{{ themes_rv_user_tmp_dir }}/EliverLara-Sweet-git/"
+    dest: "{{ themes_rv_user_share_dir }}/themes/Sweet/"
     remote_src: true
     mode: "0700"
 
 - name: Themes | Theme | EliverLara Sweet | Copy Resources | Delete git tracker from gtk directory
   ansible.builtin.file:
-    path: "{{ rv_themes_user_share_dir }}/themes/Sweet/.git"
+    path: "{{ themes_rv_user_share_dir }}/themes/Sweet/.git"
     state: absent
 
 - name: Themes | Theme | EliverLara Sweet Mars | Copy Resources
   ansible.builtin.include_tasks: themes_eliverlara_sweet_mars.yml
 
 - name: Themes | Theme | vinceliuice Layan-gtk-theme | Install | Execute install script
-  ansible.builtin.command: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Layan-gtk-theme/install.sh"
+  ansible.builtin.command: "{{ themes_rv_user_tmp_dir }}/vinceliuice-Layan-gtk-theme/install.sh"
   register: pv_kde_tmp_layan_gtk_theme_shell_install_result
   changed_when: true
 

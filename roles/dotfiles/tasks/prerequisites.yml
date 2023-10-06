@@ -1,8 +1,8 @@
 ---
 - name: Dotfiles | Prerequisites | Fail if Root User
   ansible.builtin.command: whoami
-  register: rv_dotfiles_current_shelluser_shell_result
-  failed_when: rv_dotfiles_current_shelluser_shell_result.stdout == "root"
+  register: dotfiles_rv_current_shelluser_shell_result
+  failed_when: dotfiles_rv_current_shelluser_shell_result.stdout == "root"
   changed_when: false
 
 - name: Dotfiles | Prerequisites | Packages are present

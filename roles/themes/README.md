@@ -8,7 +8,7 @@ Install themes for ZSH and Bash
 - [oh-my-zsh](https://ohmyz.sh/) ([powerlevel10k](https://github.com/romkatv/powerlevel10k), [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting), [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions), [zsh-completions](https://github.com/zsh-users/zsh-completions))
 - [fzf](https://github.com/junegunn/fzf)
 
-Install below fonts in `{{ rv_themes_user_share_dir }}/fonts/<font-name>`
+Install below fonts in `{{ themes_rv_user_share_dir }}/fonts/<font-name>`
 
 - [Hack Font](https://github.com/source-foundry/Hack)
 - [Cascadia Code](https://github.com/microsoft/cascadia-code)

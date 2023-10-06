@@ -1,4 +1,4 @@
 ---
-rv_golang_install_path: "{{ ansible_facts.user_dir }}/.local/share/go"
-# rv_golang_version: 1.20.5
-rv_golang_tmp_dir: "{{ ansible_facts.user_dir }}/.tmp/go"
+go_rv_install_path: "{{ ansible_facts.user_dir }}/.local/share/go"
+# go_rv_version: 1.20.5
+go_rv_tmp_dir: "{{ ansible_facts.user_dir }}/.tmp/go"

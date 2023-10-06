@@ -1,4 +1,4 @@
 ---
-rv_postman_install_path: "{{ ansible_facts.user_dir }}/.local/share/Postman"
-rv_postman_xdg_icon_path: "{{ ansible_facts.user_dir }}/.local/share/applications/postman-userapps.desktop"
-rv_postman_user_tmp_dir: "{{ ansible_facts.user_dir }}/.tmp/postman_app"
+postman_rv_install_path: "{{ ansible_facts.user_dir }}/.local/share/Postman"
+postman_rv_xdg_icon_path: "{{ ansible_facts.user_dir }}/.local/share/applications/postman-userapps.desktop"
+postman_rv_user_tmp_dir: "{{ ansible_facts.user_dir }}/.tmp/postman_app"

@@ -1,47 +1,47 @@
 ---
 - name: Themes | Theme | EliverLara Sweet Mars | Copy Resources | gtk themes
   ansible.builtin.copy:
-    src: "{{ rv_themes_user_tmp_dir }}/EliverLara-Sweet-mars-git/"
-    dest: "{{ rv_themes_user_share_dir }}/themes/Sweet-mars/"
+    src: "{{ themes_rv_user_tmp_dir }}/EliverLara-Sweet-mars-git/"
+    dest: "{{ themes_rv_user_share_dir }}/themes/Sweet-mars/"
     remote_src: true
     mode: "0700"
 
 - name: Themes | Theme | EliverLara Sweet Mars | Copy Resources | Delete git tracker from gtk directory
   ansible.builtin.file:
-    path: "{{ rv_themes_user_share_dir }}/themes/Sweet-mars/.git"
+    path: "{{ themes_rv_user_share_dir }}/themes/Sweet-mars/.git"
     state: absent
 
 - name: Themes | Theme | EliverLara Sweet Mars | Copy Resources | Copy aurorae themes
   ansible.builtin.copy:
-    src: "{{ rv_themes_user_share_dir }}/themes/Sweet-mars/kde/aurorae/"
-    dest: "{{ rv_themes_user_share_dir }}/aurorae/themes/"
+    src: "{{ themes_rv_user_share_dir }}/themes/Sweet-mars/kde/aurorae/"
+    dest: "{{ themes_rv_user_share_dir }}/aurorae/themes/"
     remote_src: true
     mode: "0700"
 
 - name: Themes | Theme | EliverLara Sweet Mars | Copy Resources | Copy color schemes
   ansible.builtin.copy:
-    src: "{{ rv_themes_user_share_dir }}/themes/Sweet-mars/kde/colorschemes/"
-    dest: "{{ rv_themes_user_share_dir }}/color-schemes/"
+    src: "{{ themes_rv_user_share_dir }}/themes/Sweet-mars/kde/colorschemes/"
+    dest: "{{ themes_rv_user_share_dir }}/color-schemes/"
     remote_src: true
     mode: "0700"
 
 - name: Themes | Theme | EliverLara Sweet Mars | Copy Resources | Copy plasma schemes
   ansible.builtin.copy:
-    src: "{{ rv_themes_user_share_dir }}/themes/Sweet-mars/kde/plasma/"
-    dest: "{{ rv_themes_user_share_dir }}/plasma/"
+    src: "{{ themes_rv_user_share_dir }}/themes/Sweet-mars/kde/plasma/"
+    dest: "{{ themes_rv_user_share_dir }}/plasma/"
     remote_src: true
     mode: "0700"
 
 - name: Themes | Theme | EliverLara Sweet Mars | Copy Resources | Copy Kvantum schemes
   ansible.builtin.copy:
-    src: "{{ rv_themes_user_share_dir }}/themes/Sweet-mars/kde/kvantum/"
-    dest: "{{ rv_themes_user_config_dir }}/Kvantum/"
+    src: "{{ themes_rv_user_share_dir }}/themes/Sweet-mars/kde/kvantum/"
+    dest: "{{ themes_rv_user_config_dir }}/Kvantum/"
     remote_src: true
     mode: "0700"
 
 - name: Themes | Theme | EliverLara Sweet Mars | Copy Resources | Copy konsole schemes
   ansible.builtin.copy:
-    src: "{{ rv_themes_user_share_dir }}/themes/Sweet-mars/kde/konsole/"
-    dest: "{{ rv_themes_user_share_dir }}/konsole/"
+    src: "{{ themes_rv_user_share_dir }}/themes/Sweet-mars/kde/konsole/"
+    dest: "{{ themes_rv_user_share_dir }}/konsole/"
     remote_src: true
     mode: "0700"

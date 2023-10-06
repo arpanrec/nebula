@@ -1,4 +1,4 @@
 ---
-rv_bitwarden_desktop_install_path: "{{ ansible_facts.user_dir }}/.local/share/bitwarden-desktop"
-rv_bitwarden_desktop_xdg_icon_path: "{{ ansible_facts.user_dir }}/.local/share/applications/bitwarden-desktop-userapps.desktop"
-# rv_bitwarden_desktop_version: v2023.5.1
+bitwarden_desktop_rv_install_path: "{{ ansible_facts.user_dir }}/.local/share/bitwarden-desktop"
+bitwarden_desktop_rv_xdg_icon_path: "{{ ansible_facts.user_dir }}/.local/share/applications/bitwarden-desktop-userapps.desktop"
+# bitwarden_desktop_rv_version: v2023.5.1

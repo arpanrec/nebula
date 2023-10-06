@@ -4,47 +4,47 @@
 
 - name: Terraform | Create install directory
   ansible.builtin.file:
-    path: "{{ rv_terraform_install_path }}"
+    path: "{{ terraform_rv_install_path }}"
     state: directory
     mode: "0700"
 
 - name: Terraform | Get Release
-  when: rv_terraform_version is not defined
+  when: terraform_rv_version is not defined
   block:
     - name: Terrafrom | Get Terraform Release from Github API
       ansible.builtin.uri:
         url: "https://api.github.com/repos/hashicorp/terraform/releases/latest"
         return_content: true
         status_code: 200
-      register: rv_terraform_release_from_github
+      register: terraform_rv_release_from_github
 
     - name: Terrafrom | Set releases
       ansible.builtin.set_fact:
-        rv_terraform_version: "{{ rv_terraform_release_from_github.json.tag_name[1:] }}"
+        terraform_rv_version: "{{ terraform_rv_release_from_github.json.tag_name[1:] }}"
 
 - name: Terraform | Get downloaded file stat
   ansible.builtin.stat:
-    path: "{{ rv_terraform_tarball_download_path }}"
-  register: rv_terraform_tmp_downloaded_file_stat
+    path: "{{ terraform_rv_tarball_download_path }}"
+  register: terraform_rv_tmp_downloaded_file_stat
 
 - name: Terraform | New Download | Create download directory
   ansible.builtin.file:
-    path: "{{ rv_terraform_tmp_install_cache_dir }}"
+    path: "{{ terraform_rv_tmp_install_cache_dir }}"
     state: directory
     mode: "0700"
 
 - name: Terraform | New Download
-  when: not rv_terraform_tmp_downloaded_file_stat.stat.exists
+  when: not terraform_rv_tmp_downloaded_file_stat.stat.exists
   block:
-    - name: "Terraform | New Download | Download tarball version: {{ rv_terraform_version }}"
+    - name: "Terraform | New Download | Download tarball version: {{ terraform_rv_version }}"
       ansible.builtin.get_url:
-        url: "{{ rv_terraform_download_url }}"
-        dest: "{{ rv_terraform_tarball_download_path }}"
+        url: "{{ terraform_rv_download_url }}"
+        dest: "{{ terraform_rv_tarball_download_path }}"
         mode: "0700"
   rescue:
     - name: Terraform | New Download | Fail | Cleanup
       ansible.builtin.file:
-        path: "{{ rv_terraform_tarball_download_path }}"
+        path: "{{ terraform_rv_tarball_download_path }}"
         state: absent
 
     - name: Terraform | New Download | Fail | Fail
@@ -53,6 +53,6 @@
 
 - name: Terraform | New Download | Unarchive the tarball
   ansible.builtin.unarchive:
-    src: "{{ rv_terraform_tarball_download_path }}"
-    dest: "{{ rv_terraform_install_path }}"
+    src: "{{ terraform_rv_tarball_download_path }}"
+    dest: "{{ terraform_rv_install_path }}"
     remote_src: true

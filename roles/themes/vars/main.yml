@@ -1,7 +1,7 @@
 ---
-rv_themes_fonts_cascadia_download_path: "{{ rv_themes_user_tmp_dir }}/CascadiaCode-{{ pv_ua_fonts_cascadia_latest_release.json.tag_name[1:] }}.zip"
-rv_themes_fonts_cascadia_download_url:
+themes_rv_fonts_cascadia_download_path: "{{ themes_rv_user_tmp_dir }}/CascadiaCode-{{ pv_ua_fonts_cascadia_latest_release.json.tag_name[1:] }}.zip"
+themes_rv_fonts_cascadia_download_url:
   "https://github.com/microsoft/cascadia-code/releases/download/{{ pv_ua_fonts_cascadia_latest_release.json.tag_name }}\
   /CascadiaCode-{{ pv_ua_fonts_cascadia_latest_release.json.tag_name[1:] }}.zip"
-rv_themes_fonts_hack_download_path: "{{ rv_themes_user_tmp_dir }}/Hack-{{ pv_ua_fonts_github_latest_release.json.tag_name }}.zip"
-rv_themes_fonts_ryanoasis_nerd_fonts_download_url: "https://github.com/ryanoasis/nerd-fonts/releases/download/{{ pv_ua_fonts_github_latest_release.json.tag_name }}/Hack.zip"
+themes_rv_fonts_hack_download_path: "{{ themes_rv_user_tmp_dir }}/Hack-{{ pv_ua_fonts_github_latest_release.json.tag_name }}.zip"
+themes_rv_fonts_ryanoasis_nerd_fonts_download_url: "https://github.com/ryanoasis/nerd-fonts/releases/download/{{ pv_ua_fonts_github_latest_release.json.tag_name }}/Hack.zip"

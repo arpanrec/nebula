@@ -13,20 +13,20 @@
     state: directory
     mode: "0700"
   with_items:
-    - "{{ rv_postman_install_path }}"
-    - "{{ rv_postman_user_tmp_dir }}"
-    - "{{ rv_postman_xdg_icon_path | dirname }}"
+    - "{{ postman_rv_install_path }}"
+    - "{{ postman_rv_user_tmp_dir }}"
+    - "{{ postman_rv_xdg_icon_path | dirname }}"
 
 - name: Postman | URI Head for file name
   ansible.builtin.uri:
-    url: "{{ rv_postman_download_url_map[ansible_facts.architecture] }}"
+    url: "{{ postman_rv_download_url_map[ansible_facts.architecture] }}"
     method: HEAD
     status_code: 200
   register: pv_ua_postman_url_head_run
 
 - name: Postman | Check if file is there with file stat
   ansible.builtin.stat:
-    path: "{{ rv_postman_tarball_download_path }}"
+    path: "{{ postman_rv_tarball_download_path }}"
   register: pv_ua_postman_tarball_stat
 
 - name: Postman | New Download
@@ -34,14 +34,14 @@
   block:
     - name: Postman | Download tarball
       ansible.builtin.get_url:
-        url: "{{ rv_postman_download_url_map[ansible_facts.architecture] }}"
-        dest: "{{ rv_postman_tarball_download_path }}"
+        url: "{{ postman_rv_download_url_map[ansible_facts.architecture] }}"
+        dest: "{{ postman_rv_tarball_download_path }}"
         mode: "0700"
       notify: Postman | Unarchive the tarball
   rescue:
     - name: Postman | Remove tarball
       ansible.builtin.file:
-        path: "{{ rv_postman_tarball_download_path }}"
+        path: "{{ postman_rv_tarball_download_path }}"
         state: absent
 
     - name: Postman | Fail
@@ -51,5 +51,5 @@
 - name: Postman | Create desktop icon
   ansible.builtin.template:
     src: templates/postman-userapps.desktop.j2
-    dest: "{{ rv_postman_xdg_icon_path }}"
+    dest: "{{ postman_rv_xdg_icon_path }}"
     mode: "0600"

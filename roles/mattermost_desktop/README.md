@@ -12,21 +12,21 @@ Install [Mattermost Desktop](https://github.com/mattermost/desktop/releases)
   - Default: [Latest Github Release](https://api.github.com/repos/mattermost/desktop/releases/latest).tag_name
   - Example: `v5.1.0`
 
-- `rv_mattermost_desktop_user_tmp_dir`
+- `mattermost_desktop_rv_user_tmp_dir`
 
   - Description: Install cache directory
   - Type: `str`
   - Required: `false`
   - Default: `{{ ansible_facts.user_dir }}/.tmp/mattermost_desktop`
 
-- `rv_mattermost_desktop_install_path`
+- `mattermost_desktop_rv_install_path`
 
   - Description: Install directory
   - Type: `str`
   - Required: `false`
   - Default: `{{ ansible_facts.user_dir }}/.local/share/mattermost-desktop`
 
-- `rv_mattermost_desktop_xdg_icon_path`
+- `mattermost_desktop_rv_xdg_icon_path`
   - Description: Linux desktop icon path.
   - Type: `str`
   - Required: `false`

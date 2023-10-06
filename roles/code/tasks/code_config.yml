@@ -1,20 +1,20 @@
 ---
 - name: Visual Studio Code | Config | Create directory
   ansible.builtin.file:
-    path: "{{ rv_code_user_config_dir }}"
+    path: "{{ code_rv_user_config_dir }}"
     state: directory
     mode: "0700"
 
 - name: Visual Studio Code | Config | Copy config
   ansible.builtin.copy:
     src: "files/settings.json"
-    dest: "{{ rv_code_user_config_dir }}/settings.json"
+    dest: "{{ code_rv_user_config_dir }}/settings.json"
     remote_src: false
     mode: "0700"
 
 - name: Visual Studio Code | Config | Copy KeyMap
   ansible.builtin.copy:
     src: "files/keybindings.json"
-    dest: "{{ rv_code_user_config_dir }}/keybindings.json"
+    dest: "{{ code_rv_user_config_dir }}/keybindings.json"
     remote_src: false
     mode: "0700"

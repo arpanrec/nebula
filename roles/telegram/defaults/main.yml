@@ -1,6 +1,6 @@
 ---
-rv_telegram_desktop_install_path: "{{ ansible_facts.user_dir }}/.local/share/telegram_desktop_userapp"
-rv_telegram_xdg_icon_path: "{{ ansible_facts.user_dir }}/.local/share/applications/telegram_desktop_userapps.desktop"
-rv_telegram_desktop_user_tmp_dir: "{{ ansible_facts.user_dir }}/.tmp/telegram_desktop_userapp"
-# rv_telegram_desktop_version_number
-rv_telegram_desktop_work_directory: "{{ ansible_facts.user_dir }}/.local/share/TelegramDesktop"
+telegram_desktop_rv_install_path: "{{ ansible_facts.user_dir }}/.local/share/telegram_desktop_userapp"
+telegram_desktop_rv_xdg_icon_path: "{{ ansible_facts.user_dir }}/.local/share/applications/telegram_desktop_userapps.desktop"
+telegram_desktop_rv_user_tmp_dir: "{{ ansible_facts.user_dir }}/.tmp/telegram_desktop_userapp"
+# telegram_desktop_rv_version_number
+telegram_desktop_rv_work_directory: "{{ ansible_facts.user_dir }}/.local/share/TelegramDesktop"

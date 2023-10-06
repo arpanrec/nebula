@@ -8,12 +8,12 @@
     state: directory
     mode: "0700"
   with_items:
-    - "{{ rv_telegram_desktop_install_path }}"
-    - "{{ rv_telegram_xdg_icon_path | dirname }}"
-    - "{{ rv_telegram_desktop_user_tmp_dir }}"
+    - "{{ telegram_desktop_rv_install_path }}"
+    - "{{ telegram_desktop_rv_xdg_icon_path | dirname }}"
+    - "{{ telegram_desktop_rv_user_tmp_dir }}"
 
 - name: Telegram Desktop | Get latest releases
-  when: rv_telegram_desktop_version_number is undefined
+  when: telegram_desktop_rv_version_number is undefined
   block:
     - name: Telegram Desktop | Get latest releases | Get from github
       ansible.builtin.uri:
@@ -23,24 +23,24 @@
         headers:
           Accept: "application/vnd.github.v3+json"
         status_code: 200
-      register: rv_telegram_desktop_tmp_latest_release
+      register: telegram_desktop_rv_tmp_latest_release
 
     - name: Telegram Desktop | Get latest releases | Set version
       ansible.builtin.set_fact:
-        rv_telegram_desktop_version_number: "{{ rv_telegram_desktop_tmp_latest_release.json.tag_name[1:] }}"
+        telegram_desktop_rv_version_number: "{{ telegram_desktop_rv_tmp_latest_release.json.tag_name[1:] }}"
 
 - name: Telegram Desktop | Check existing tarball
   ansible.builtin.stat:
-    path: "{{ rv_telegram_desktop_tarball_download_path }}"
-  register: rv_telegram_desktop_tmp_existing_tarball
+    path: "{{ telegram_desktop_rv_tarball_download_path }}"
+  register: telegram_desktop_rv_tmp_existing_tarball
 
 - name: Telegram Desktop | New Download
-  when: not rv_telegram_desktop_tmp_existing_tarball.stat.exists
+  when: not telegram_desktop_rv_tmp_existing_tarball.stat.exists
   block:
     - name: Telegram Desktop | New Download | Download tarball
       ansible.builtin.get_url:
-        url: "{{ rv_telegram_desktop_download_url_arch_map[ansible_facts.architecture] }}"
-        dest: "{{ rv_telegram_desktop_tarball_download_path }}"
+        url: "{{ telegram_desktop_rv_download_url_arch_map[ansible_facts.architecture] }}"
+        dest: "{{ telegram_desktop_rv_tarball_download_path }}"
         mode: "0700"
 
   rescue:
@@ -49,8 +49,8 @@
         path: "{{ item }}"
         state: absent
       with_items:
-        - "{{ rv_telegram_desktop_tarball_download_path }}"
-        - "{{ rv_telegram_desktop_install_path }}"
+        - "{{ telegram_desktop_rv_tarball_download_path }}"
+        - "{{ telegram_desktop_rv_install_path }}"
 
     - name: Telegram Desktop | New Download | Fail
       ansible.builtin.fail:
@@ -58,13 +58,13 @@
 
 - name: Telegram Desktop | Unarchive the tarball
   ansible.builtin.unarchive:
-    src: "{{ rv_telegram_desktop_tarball_download_path }}"
-    dest: "{{ rv_telegram_desktop_install_path }}"
+    src: "{{ telegram_desktop_rv_tarball_download_path }}"
+    dest: "{{ telegram_desktop_rv_install_path }}"
     extra_opts: [--strip-components=1]
     remote_src: true
 
 - name: Telegram Desktop | Create desktop icon
   ansible.builtin.template:
     src: templates/telegram_desktop_userapps.desktop.j2
-    dest: "{{ rv_telegram_xdg_icon_path }}"
+    dest: "{{ telegram_desktop_rv_xdg_icon_path }}"
     mode: "0600"

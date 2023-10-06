@@ -4,7 +4,7 @@
 
 - name: Mattermost Desktop | Create install directory
   ansible.builtin.file:
-    path: "{{ rv_mattermost_desktop_install_path }}"
+    path: "{{ mattermost_desktop_rv_install_path }}"
     state: directory
     mode: "0700"
 
@@ -27,13 +27,13 @@
 
 - name: Mattermost Desktop | Prerequisites | Create a directory if it does not exist
   ansible.builtin.file:
-    path: "{{ rv_mattermost_desktop_user_tmp_dir }}"
+    path: "{{ mattermost_desktop_rv_user_tmp_dir }}"
     state: directory
     mode: "0700"
 
 - name: Mattermost Desktop | Get file stat
   ansible.builtin.stat:
-    path: "{{ rv_mattermost_desktop_archive_download_path }}"
+    path: "{{ mattermost_desktop_rv_archive_download_path }}"
   register: pv_ua_mm_archive_stat
 
 - name: Mattermost Desktop | New Download
@@ -41,13 +41,13 @@
   block:
     - name: Mattermost Desktop | Download in tmp path
       ansible.builtin.get_url:
-        url: "{{ rv_mattermost_desktop_download_url_appimage_map[ansible_facts.architecture] }}"
-        dest: "{{ rv_mattermost_desktop_archive_download_path }}"
+        url: "{{ mattermost_desktop_rv_download_url_appimage_map[ansible_facts.architecture] }}"
+        dest: "{{ mattermost_desktop_rv_archive_download_path }}"
         mode: "0700"
   rescue:
     - name: Mattermost Desktop | Delete file
       ansible.builtin.file:
-        path: "{{ rv_mattermost_desktop_archive_download_path }}"
+        path: "{{ mattermost_desktop_rv_archive_download_path }}"
         state: absent
 
     - name: Mattermost Desktop | Fail
@@ -56,20 +56,20 @@
 
 - name: Mattermost Desktop | Unarchive the tar ball
   ansible.builtin.unarchive:
-    src: "{{ rv_mattermost_desktop_archive_download_path }}"
-    dest: "{{ rv_mattermost_desktop_install_path }}"
+    src: "{{ mattermost_desktop_rv_archive_download_path }}"
+    dest: "{{ mattermost_desktop_rv_install_path }}"
     extra_opts: [--strip-components=1]
     mode: "0700"
     remote_src: true
 
 - name: Mattermost Desktop | Prerequisites | Create a directory if it does not exist
   ansible.builtin.file:
-    path: "{{ rv_mattermost_desktop_xdg_icon_path | dirname }}"
+    path: "{{ mattermost_desktop_rv_xdg_icon_path | dirname }}"
     state: directory
     mode: "0700"
 
 - name: Mattermost Desktop | Create desktop icon
   ansible.builtin.template:
     src: templates/mattermost-desktop-userapps.desktop.j2
-    dest: "{{ rv_mattermost_desktop_xdg_icon_path }}"
+    dest: "{{ mattermost_desktop_rv_xdg_icon_path }}"
     mode: "0600"

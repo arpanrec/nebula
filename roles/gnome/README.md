@@ -4,7 +4,7 @@ Install Gnome Extensions and setup
 
 ## Variables
 
-- `rv_gnome_extension_list`
+- `gnome_rv_extension_list`
 
   - Description: List of Extensions
   - Type: Array
@@ -23,16 +23,16 @@ Install Gnome Extensions and setup
     - name: "vitals"
       id: 1460
 
-- `rv_gnome_user_share_dir`
+- `gnome_rv_user_share_dir`
 
   - Description:
     - User share directory.
-    - Extensions will be install in `{{ rv_gnome_user_share_dir }}/gnome-shell/extensions/<uuid>`
+    - Extensions will be install in `{{ gnome_rv_user_share_dir }}/gnome-shell/extensions/<uuid>`
   - Type: `str`
   - Required: `false`
   - Default: `{{ ansible_facts.user_dir }}/.local/share`
 
-- `rv_gnome_user_cache_tmp_dir`
+- `gnome_rv_user_cache_tmp_dir`
   - Description: Install cache and temporary directory.
   - Type: `str`
   - Required: `false`

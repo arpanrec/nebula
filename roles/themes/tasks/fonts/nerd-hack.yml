@@ -11,7 +11,7 @@
 
 - name: Themes | Fonts | Hack | Get downloaded file stat
   ansible.builtin.stat:
-    path: "{{ rv_themes_fonts_hack_download_path }}"
+    path: "{{ themes_rv_fonts_hack_download_path }}"
   register: pv_ua_fonts_tmp_downloaded_file_stat
 
 - name: Themes | Fonts | Hack | Install
@@ -19,24 +19,24 @@
   block:
     - name: Themes | Fonts | Hack | Install | Download bin
       ansible.builtin.get_url:
-        url: "{{ rv_themes_fonts_ryanoasis_nerd_fonts_download_url }}"
-        dest: "{{ rv_themes_fonts_hack_download_path }}"
+        url: "{{ themes_rv_fonts_ryanoasis_nerd_fonts_download_url }}"
+        dest: "{{ themes_rv_fonts_hack_download_path }}"
         mode: "0700"
 
     - name: Themes | Fonts | Hack | Install | Create Directory
       ansible.builtin.file:
-        path: "{{ rv_themes_user_share_dir }}/fonts/hack"
+        path: "{{ themes_rv_user_share_dir }}/fonts/hack"
         state: directory
         mode: "0700"
 
     - name: Themes | Fonts | Hack | Install | Copy to Fonts Directory
       ansible.builtin.unarchive:
-        src: "{{ rv_themes_fonts_hack_download_path }}"
-        dest: "{{ rv_themes_user_share_dir }}/fonts/hack"
+        src: "{{ themes_rv_fonts_hack_download_path }}"
+        dest: "{{ themes_rv_user_share_dir }}/fonts/hack"
         remote_src: true
 
     - name: Themes | Fonts | Hack | Install | Update font cache
-      ansible.builtin.command: "fc-cache -f -v {{ rv_themes_user_share_dir }}/fonts/hack"
+      ansible.builtin.command: "fc-cache -f -v {{ themes_rv_user_share_dir }}/fonts/hack"
       register: pv_ua_fonts_hack_fonts_update_cache_result
       changed_when: true
 

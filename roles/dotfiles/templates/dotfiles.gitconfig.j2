@@ -3,12 +3,12 @@
 	filemode = true
 	bare = true
 [remote "origin"]
-	url = {{ rv_dotfiles_git_remote }}
+	url = {{ dotfiles_rv_git_remote }}
 [status]
 	showUntrackedFiles = no
-[branch "{{ rv_dotfiles_git_version }}"]
+[branch "{{ dotfiles_rv_git_version }}"]
 	remote = origin
-	merge = refs/heads/{{ rv_dotfiles_git_version }}
+	merge = refs/heads/{{ dotfiles_rv_git_version }}
 [branch "testing"]
 	remote = origin
 	merge = refs/heads/testing

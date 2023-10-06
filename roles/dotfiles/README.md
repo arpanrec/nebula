@@ -13,23 +13,23 @@ config push # Push to remote
 
 ```yaml
 options:
-  rv_dotfiles_user_home_dir:
+  dotfiles_rv_user_home_dir:
     description: User home directory.
     required: false
     type: str
     default: "{{ ansible_facts.user_dir }}"
-  rv_dotfiles_git_remote:
+  dotfiles_rv_git_remote:
     description: Git remote.
     required: false
     type: str
     default: https://github.com/arpanrec/dotfiles
-  rv_dotfiles_git_version:
+  dotfiles_rv_git_version:
     description: Git Branch.
     required: false
     type: str
     default: main
-  rv_dotfiles_bare_relative_dir:
-    description: "Git bare directory in {{ rv_dotfiles_user_home_dir }}."
+  dotfiles_rv_bare_relative_dir:
+    description: "Git bare directory in {{ dotfiles_rv_user_home_dir }}."
     required: false
     type: str
     default: ".dotfiles"

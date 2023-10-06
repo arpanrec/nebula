@@ -24,7 +24,7 @@ provisioner:
   inventory:
     group_vars:
       all:
-        rv_code_ext_to_be_installed:
+        code_rv_ext_to_be_installed:
           - "akamud.vscode-theme-onedark"
 scenario:
   name: role.code.default

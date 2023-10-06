@@ -4,7 +4,7 @@ Install bitwarden AppImage [Bitwarden Desktop](https://github.com/bitwarden/clie
 
 ## Variables
 
-- `rv_bitwarden_desktop_version`
+- `bitwarden_desktop_rv_version`
 
   - Description:
     - [Bitwarden Desktop Release](https://github.com/bitwarden/clients/releases?q=Desktop&expanded=true) version like `desktop_*`
@@ -12,14 +12,14 @@ Install bitwarden AppImage [Bitwarden Desktop](https://github.com/bitwarden/clie
   - Type: `str`
   - Required: `false`
 
-- `rv_bitwarden_desktop_install_path`
+- `bitwarden_desktop_rv_install_path`
 
   - Description: Install directory
   - Default: `{{ pv_ua_user_share_dir }}/bitwarden-desktop`
   - Type: `str`
   - Required: `false`
 
-- `rv_bitwarden_desktop_xdg_icon_path`
+- `bitwarden_desktop_rv_xdg_icon_path`
   - Description: `.desktop` icon file location
   - Default: `{{ pv_ua_user_share_dir }}/applications/bitwarden-desktop-userapps.desktop`
   - Type: `str`

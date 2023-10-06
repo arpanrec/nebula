@@ -4,42 +4,42 @@
 
 - name: Bitwarden Desktop | Create install directory
   ansible.builtin.file:
-    path: "{{ rv_bitwarden_desktop_install_path }}"
+    path: "{{ bitwarden_desktop_rv_install_path }}"
     state: directory
     mode: "0700"
 
 - name: Bitwarden Desktop | Get Version
-  when: rv_bitwarden_desktop_version is not defined
+  when: bitwarden_desktop_rv_version is not defined
   block:
   - name: Bitwarden Desktop | Get Version
     arpanrec.utilities.get_bitwarden_client_latest_github_release:
-    register: rv_bitwarden_desktop_dynamic_release
+    register: bitwarden_desktop_rv_dynamic_release
     delegate_to: localhost
 
   - name: Bitwarden Desktop | Set Version
     ansible.builtin.set_fact:
-      rv_bitwarden_desktop_version: "{{ rv_bitwarden_desktop_dynamic_release.msg }}"
+      bitwarden_desktop_rv_version: "{{ bitwarden_desktop_rv_dynamic_release.msg }}"
 
 - name: Bitwarden Desktop | Get archive info
   ansible.builtin.stat:
-    path: "{{ rv_bitwarden_desktop_install_path }}/{{ pv_ua_bitwarden_download_url_map[ansible_facts.architecture] | basename }}"
+    path: "{{ bitwarden_desktop_rv_install_path }}/{{ bitwarden_desktop_rv_download_url_map[ansible_facts.architecture] | basename }}"
   register: pv_ua_bw_archive_stat
 
 - name: Bitwarden Desktop | Download AppImage
   when: not pv_ua_bw_archive_stat.stat.exists
   ansible.builtin.get_url:
-    url: "{{ pv_ua_bitwarden_download_url_map[ansible_facts.architecture] }}"
-    dest: "{{ rv_bitwarden_desktop_install_path }}/{{ pv_ua_bitwarden_download_url_map[ansible_facts.architecture] | basename }}"
+    url: "{{ bitwarden_desktop_rv_download_url_map[ansible_facts.architecture] }}"
+    dest: "{{ bitwarden_desktop_rv_install_path }}/{{ bitwarden_desktop_rv_download_url_map[ansible_facts.architecture] | basename }}"
     mode: "0700"
 
 - name: Bitwarden Desktop | Create desktop icon directory
   ansible.builtin.file:
-    path: "{{ rv_bitwarden_desktop_xdg_icon_path | dirname }}"
+    path: "{{ bitwarden_desktop_rv_xdg_icon_path | dirname }}"
     state: directory
     mode: "0700"
 
 - name: Bitwarden Desktop | Create desktop icon
   ansible.builtin.template:
     src: templates/bitwarden-desktop-userapps.desktop.j2
-    dest: "{{ rv_bitwarden_desktop_xdg_icon_path }}"
+    dest: "{{ bitwarden_desktop_rv_xdg_icon_path }}"
     mode: "0600"

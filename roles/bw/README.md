@@ -6,14 +6,14 @@ Install [Bitwarden ClI](https://www.npmjs.com/package/@bitwarden/cli)
 
 Variables:
 
-- `rv_bw_cli_version`
+- `bw_cli_rv_version`
 
   - Description: Version of [Bitwarden ClI](https://www.npmjs.com/package/@bitwarden/cli) npm module.
   - Type: `str`
   - Required: `false`
   - Default: `2023.3.0`
 
-- `rv_bw_cli_node_dependency_bin_dir`
+- `bw_cli_rv_node_dependency_bin_dir`
 
   - Description: NPM Directory.
   - Type: `str`

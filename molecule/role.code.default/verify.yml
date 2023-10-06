@@ -11,22 +11,22 @@
 
     - name: Visual Studio Code | Molecule | Verify | Set Fact for code bin environment
       ansible.builtin.set_fact:
-        rv_code_tmp_bin_env:
+        code_rv_tmp_bin_env:
           DONT_PROMPT_WSL_INSTALL: true
-          PATH: "{{ rv_code_bin_dir }}:{{ ansible_env.PATH }}"
+          PATH: "{{ code_rv_bin_dir }}:{{ ansible_env.PATH }}"
 
     - name: Visual Studio Code | Molecule | Verify | Get code version from shell
       ansible.builtin.command: code --version
-      environment: "{{ rv_code_tmp_bin_env }}"
-      register: rv_code_tmp_version_shell_result
+      environment: "{{ code_rv_tmp_bin_env }}"
+      register: code_rv_tmp_version_shell_result
       changed_when: false
 
     - name: Visual Studio Code | Molecule | Verify | code version from shell result
       ansible.builtin.debug:
-        var: rv_code_tmp_version_shell_result
+        var: code_rv_tmp_version_shell_result
 
     - name: Visual Studio Code | Molecule | Verify | Set Version
-      when: rv_code_version is undefined
+      when: code_rv_version is undefined
       block:
         - name: Visual Studio Code | Molecule | Verify | Set Version | Get latest releases from github
           ansible.builtin.uri:
@@ -36,14 +36,14 @@
             headers:
               Accept: "application/vnd.github.v3+json"
             status_code: 200
-          register: rv_code_tmp_latest_release
+          register: code_rv_tmp_latest_release
 
         - name: Visual Studio Code | Molecule | Verify | Set Version | Set Version Number
           ansible.builtin.set_fact:
-            rv_code_version: "{{ rv_code_tmp_latest_release.json.tag_name }}"
+            code_rv_version: "{{ code_rv_tmp_latest_release.json.tag_name }}"
 
     - name: Visual Studio Code | Molecule | Verify | Fail if code version is not present
       ansible.builtin.assert:
-        that: rv_code_tmp_version_shell_result.stdout_lines[0] is match("{{ rv_code_version }}.*")
-        success_msg: Visual Studio Code {{ rv_code_version }} is installed
-        fail_msg: Visual Studio Code {{ rv_code_version }} is not installed, Shell result {{ rv_code_tmp_version_shell_result.stdout }}
+        that: code_rv_tmp_version_shell_result.stdout_lines[0] is match("{{ code_rv_version }}.*")
+        success_msg: Visual Studio Code {{ code_rv_version }} is installed
+        fail_msg: Visual Studio Code {{ code_rv_version }} is not installed, Shell result {{ code_rv_tmp_version_shell_result.stdout }}

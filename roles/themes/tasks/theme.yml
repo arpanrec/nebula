@@ -3,7 +3,7 @@
   ansible.builtin.git:
     single_branch: true
     repo: "https://github.com/EliverLara/Nordic.git"
-    dest: "{{ rv_themes_user_tmp_dir }}/EliverLara-Nordic-git"
+    dest: "{{ themes_rv_user_tmp_dir }}/EliverLara-Nordic-git"
     depth: 1
     version: master
   notify: Themes | Theme | EliverLara Nordic | Copy Resources
@@ -12,7 +12,7 @@
   ansible.builtin.git:
     single_branch: true
     repo: "https://github.com/EliverLara/Nordic-kde.git"
-    dest: "{{ rv_themes_user_tmp_dir }}/EliverLara-Nordic-kde-git"
+    dest: "{{ themes_rv_user_tmp_dir }}/EliverLara-Nordic-kde-git"
     depth: 1
     version: master
   notify:
@@ -23,7 +23,7 @@
   ansible.builtin.git:
     single_branch: true
     repo: "https://github.com/vinceliuice/Layan-kde.git"
-    dest: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Layan-kde"
+    dest: "{{ themes_rv_user_tmp_dir }}/vinceliuice-Layan-kde"
     depth: 1
     version: master
   notify:
@@ -34,7 +34,7 @@
   ansible.builtin.git:
     single_branch: true
     repo: "https://github.com/vinceliuice/Layan-gtk-theme.git"
-    dest: "{{ rv_themes_user_tmp_dir }}/vinceliuice-Layan-gtk-theme"
+    dest: "{{ themes_rv_user_tmp_dir }}/vinceliuice-Layan-gtk-theme"
     depth: 1
     version: master
   notify:
@@ -45,7 +45,7 @@
   ansible.builtin.git:
     single_branch: true
     repo: "https://github.com/EliverLara/Sweet.git"
-    dest: "{{ rv_themes_user_tmp_dir }}/EliverLara-Sweet-mars-git"
+    dest: "{{ themes_rv_user_tmp_dir }}/EliverLara-Sweet-mars-git"
     depth: 1
     version: mars
   notify: Themes | Theme | EliverLara Sweet Mars | Copy Resources
@@ -54,7 +54,7 @@
   ansible.builtin.git:
     single_branch: true
     repo: "https://github.com/EliverLara/Sweet.git"
-    dest: "{{ rv_themes_user_tmp_dir }}/EliverLara-Sweet-git"
+    dest: "{{ themes_rv_user_tmp_dir }}/EliverLara-Sweet-git"
     depth: 1
     version: master
   notify:

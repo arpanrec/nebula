@@ -8,7 +8,7 @@
     name: "@bitwarden/cli"
     global: true
     state: present
-    version: "{{ rv_bw_cli_version }}"
-    executable: "{{ rv_bw_cli_node_dependency_bin_dir }}/npm"
+    version: "{{ bw_cli_rv_version }}"
+    executable: "{{ bw_cli_rv_node_dependency_bin_dir }}/npm"
   environment:
-    PATH: "{{ rv_bw_cli_node_dependency_bin_dir }}:{{ ansible_env.PATH }}"
+    PATH: "{{ bw_cli_rv_node_dependency_bin_dir }}:{{ ansible_env.PATH }}"

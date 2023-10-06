@@ -1,9 +1,9 @@
 ---
-rv_code_tmp_dir: "{{ ansible_facts.user_dir }}/.tmp/code"
-rv_code_bin_dir: "{{ ansible_facts.user_dir }}/.local/bin"
-rv_code_install_path: "{{ ansible_facts.user_dir }}/.local/share/vscode"
-rv_code_xdg_icon_dir: "{{ ansible_facts.user_dir }}/.local/share/applications"
-rv_code_ext_to_be_installed:
+code_rv_tmp_dir: "{{ ansible_facts.user_dir }}/.tmp/code"
+code_rv_bin_dir: "{{ ansible_facts.user_dir }}/.local/bin"
+code_rv_install_path: "{{ ansible_facts.user_dir }}/.local/share/vscode"
+code_rv_xdg_icon_dir: "{{ ansible_facts.user_dir }}/.local/share/applications"
+code_rv_ext_to_be_installed:
   - "Angular.ng-template"
   - "DavidAnson.vscode-markdownlint"
   - "dhruv.maven-dependency-explorer"

@@ -1,15 +1,15 @@
 ---
-rv_nodejs_ansible_architecture_map:
+nodejs_rv_ansible_architecture_map:
   amd64: x64
   x86_64: x64
   armv7l: armv7l
   aarch64: arm64
 
-rv_nodejs_install_select_architecture: "{{ rv_nodejs_ansible_architecture_map[ansible_facts.architecture] }}"
-rv_nodejs_select_ansible_system: "{{ ansible_system | lower }}"
+nodejs_rv_install_select_architecture: "{{ nodejs_rv_ansible_architecture_map[ansible_facts.architecture] }}"
+nodejs_rv_select_ansible_system: "{{ ansible_system | lower }}"
 
-rv_nodejs_download_url:
-  "https://nodejs.org/download/release/{{ rv_nodejs_version }}\
-  /node-{{ rv_nodejs_version }}-{{ rv_nodejs_select_ansible_system }}-{{ rv_nodejs_install_select_architecture }}.tar.gz"
+nodejs_rv_download_url:
+  "https://nodejs.org/download/release/{{ nodejs_rv_version }}\
+  /node-{{ nodejs_rv_version }}-{{ nodejs_rv_select_ansible_system }}-{{ nodejs_rv_install_select_architecture }}.tar.gz"
 
-rv_nodejs_tarball_download_path: "{{ rv_nodejs_tmp_install_cache_dir }}/node-{{ rv_nodejs_version }}.tar.gz"
+nodejs_rv_tarball_download_path: "{{ nodejs_rv_tmp_install_cache_dir }}/node-{{ nodejs_rv_version }}.tar.gz"

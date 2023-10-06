@@ -1,54 +1,54 @@
 ---
 - name: Themes | Theme | EliverLara Nordic | Copy Resources | gtk themes
   ansible.builtin.copy:
-    src: "{{ rv_themes_user_tmp_dir }}/EliverLara-Nordic-git/"
-    dest: "{{ rv_themes_user_share_dir }}/themes/Nordic/"
+    src: "{{ themes_rv_user_tmp_dir }}/EliverLara-Nordic-git/"
+    dest: "{{ themes_rv_user_share_dir }}/themes/Nordic/"
     remote_src: true
     mode: "0700"
 
 - name: Themes | Theme | EliverLara Nordic | Copy Resources | Delete git tracker from gtk directory
   ansible.builtin.file:
-    path: "{{ rv_themes_user_share_dir }}/themes/Nordic/.git"
+    path: "{{ themes_rv_user_share_dir }}/themes/Nordic/.git"
     state: absent
 
 - name: Themes | Theme | EliverLara Nordic | Copy Resources | aurorae themes
   ansible.builtin.copy:
-    src: "{{ rv_themes_user_share_dir }}/themes/Nordic/kde/aurorae/Nordic/"
-    dest: "{{ rv_themes_user_share_dir }}/aurorae/themes/Nordic/"
+    src: "{{ themes_rv_user_share_dir }}/themes/Nordic/kde/aurorae/Nordic/"
+    dest: "{{ themes_rv_user_share_dir }}/aurorae/themes/Nordic/"
     remote_src: true
     mode: "0700"
 
 - name: Themes | Theme | EliverLara Nordic | Copy Resources | color schemes
   ansible.builtin.copy:
-    src: "{{ rv_themes_user_share_dir }}/themes/Nordic/kde/colorschemes/"
-    dest: "{{ rv_themes_user_share_dir }}/color-schemes/"
+    src: "{{ themes_rv_user_share_dir }}/themes/Nordic/kde/colorschemes/"
+    dest: "{{ themes_rv_user_share_dir }}/color-schemes/"
     remote_src: true
     mode: "0700"
 
 - name: Themes | Theme | EliverLara Nordic | Copy Resources | look-and-feel
   ansible.builtin.copy:
-    src: "{{ rv_themes_user_share_dir }}/themes/Nordic/kde/plasma/look-and-feel/"
-    dest: "{{ rv_themes_user_share_dir }}/plasma/look-and-feel/"
+    src: "{{ themes_rv_user_share_dir }}/themes/Nordic/kde/plasma/look-and-feel/"
+    dest: "{{ themes_rv_user_share_dir }}/plasma/look-and-feel/"
     remote_src: true
     mode: "0700"
 
 - name: Themes | Theme | EliverLara Nordic | Copy Resources | Kvantum
   ansible.builtin.copy:
-    src: "{{ rv_themes_user_share_dir }}/themes/Nordic/kde/kvantum/"
-    dest: "{{ rv_themes_user_config_dir }}/Kvantum/"
+    src: "{{ themes_rv_user_share_dir }}/themes/Nordic/kde/kvantum/"
+    dest: "{{ themes_rv_user_config_dir }}/Kvantum/"
     remote_src: true
     mode: "0700"
 
 - name: Themes | Theme | EliverLara Nordic | Copy Resources | konsole Themes
   ansible.builtin.copy:
-    src: "{{ rv_themes_user_share_dir }}/themes/Nordic/kde/konsole/"
-    dest: "{{ rv_themes_user_share_dir }}/konsole/"
+    src: "{{ themes_rv_user_share_dir }}/themes/Nordic/kde/konsole/"
+    dest: "{{ themes_rv_user_share_dir }}/konsole/"
     remote_src: true
     mode: "0700"
 
 - name: Themes | Theme | EliverLara Nordic | Copy Resources | Nordic-cursors
   ansible.builtin.copy:
-    src: "{{ rv_themes_user_share_dir }}/themes/Nordic/kde/cursors/Nordic-cursors/"
-    dest: "{{ rv_themes_user_share_dir }}/icons/Nordic-cursors/"
+    src: "{{ themes_rv_user_share_dir }}/themes/Nordic/kde/cursors/Nordic-cursors/"
+    dest: "{{ themes_rv_user_share_dir }}/icons/Nordic-cursors/"
     remote_src: true
     mode: "0700"

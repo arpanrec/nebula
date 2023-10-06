@@ -18,7 +18,7 @@
 
 - name: Gnome | Extension | Install
   ansible.builtin.include_tasks: extension-install.yml
-  with_items: "{{ rv_gnome_extension_list }}"
+  with_items: "{{ gnome_rv_extension_list }}"
   vars:
     pv_gnome_extension_id: "{{ item.id }}"
     pv_gnome_extension_name: "{{ item.name }}"

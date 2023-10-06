@@ -3,8 +3,8 @@
 Version=1.0
 Name=Telegram Desktop - Userapps
 Comment=Official desktop version of Telegram messaging app
-TryExec={{ rv_telegram_desktop_install_path }}/Telegram
-Exec={{ rv_telegram_desktop_install_path }}/Telegram -workdir {{ rv_telegram_desktop_work_directory }}/ -- %u
+TryExec={{ telegram_desktop_rv_install_path }}/Telegram
+Exec={{ telegram_desktop_rv_install_path }}/Telegram -workdir {{ telegram_desktop_rv_work_directory }}/ -- %u
 Icon=telegram
 Terminal=false
 StartupWMClass=TelegramDesktop
@@ -18,6 +18,6 @@ X-GNOME-UsesNotifications=true
 X-GNOME-SingleWindow=true
 
 [Desktop Action Quit]
-Exec={{ rv_telegram_desktop_install_path }}/Telegram -workdir {{ rv_telegram_desktop_work_directory }}/ -quit
+Exec={{ telegram_desktop_rv_install_path }}/Telegram -workdir {{ telegram_desktop_rv_work_directory }}/ -quit
 Name=Quit Telegram - Userapps
 Icon=application-exit

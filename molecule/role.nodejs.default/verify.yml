@@ -11,16 +11,16 @@
     - name: NodeJS | Molecule | Verify | Get node version from shell
       ansible.builtin.command: node --version
       environment:
-        PATH: "{{ rv_nodejs_install_path }}/bin:{{ ansible_env.PATH }}"
-      register: rv_nodejs_version_shell_result
+        PATH: "{{ nodejs_rv_install_path }}/bin:{{ ansible_env.PATH }}"
+      register: nodejs_rv_version_shell_result
       changed_when: false
 
     - name: NodeJS | Molecule | Verify | nodejs version from shell result
       ansible.builtin.debug:
-        var: rv_nodejs_version_shell_result
+        var: nodejs_rv_version_shell_result
 
     - name: NodeJS | Molecule | Verify | Fail if nodejs version is not present
       ansible.builtin.assert:
-        that: rv_nodejs_version_shell_result.stdout == "{{ rv_nodejs_version }}"
-        success_msg: NodeJS Version {{ rv_nodejs_version }} is installed
-        fail_msg: NodeJS Version {{ rv_nodejs_version }} is not installed, Shell result {{ rv_nodejs_version_shell_result.stdout }}
+        that: nodejs_rv_version_shell_result.stdout == "{{ nodejs_rv_version }}"
+        success_msg: NodeJS Version {{ nodejs_rv_version }} is installed
+        fail_msg: NodeJS Version {{ nodejs_rv_version }} is not installed, Shell result {{ nodejs_rv_version_shell_result.stdout }}

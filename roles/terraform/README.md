@@ -6,14 +6,14 @@ Install Terraform in user space
 
 ## Variable
 
-- `rv_terraform_install_path`
+- `terraform_rv_install_path`
 
   - Description: Install path for terraform.
   - Default: `"{{ ansible_facts.user_dir }}/.local/bin"`
   - Required: `false`
   - Type: `str`
 
-- `rv_terraform_version`
+- `terraform_rv_version`
 
   - Description:
     - Release version.
@@ -22,7 +22,7 @@ Install Terraform in user space
   - Required: `false`
   - Type: `str`
 
-- `rv_terraform_tmp_install_cache_dir`
+- `terraform_rv_tmp_install_cache_dir`
   - Description: Cache install directory.
   - Default: `"{{ ansible_facts.user_dir }}/.tmp/terraform"`
   - Required: `false`

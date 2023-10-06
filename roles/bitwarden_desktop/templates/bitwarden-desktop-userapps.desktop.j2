@@ -1,7 +1,7 @@
 # Managed by Ansible
 [Desktop Entry]
 Name=Bitwarden - Userapps
-Exec="{{  rv_bitwarden_desktop_install_path  }}/{{  pv_ua_bitwarden_download_url_map[ansible_facts.architecture] | basename  }}"
+Exec="{{  bitwarden_desktop_rv_install_path  }}/{{  bitwarden_desktop_rv_download_url_map[ansible_facts.architecture] | basename  }}"
 Icon=com.bitwarden.desktop
 Version=1.0
 Terminal=false

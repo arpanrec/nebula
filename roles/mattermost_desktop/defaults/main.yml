@@ -1,6 +1,6 @@
 ---
-rv_mattermost_desktop_user_tmp_dir: "{{ ansible_facts.user_dir }}/.tmp/mattermost_desktop"
+mattermost_desktop_rv_user_tmp_dir: "{{ ansible_facts.user_dir }}/.tmp/mattermost_desktop"
 
 # pv_ua_mm_release_version: "v5.1.0"
-rv_mattermost_desktop_install_path: "{{ ansible_facts.user_dir }}/.local/share/mattermost-desktop"
-rv_mattermost_desktop_xdg_icon_path: "{{ ansible_facts.user_dir }}/.local/share/applications/mattermost-desktop-userapps.desktop"
+mattermost_desktop_rv_install_path: "{{ ansible_facts.user_dir }}/.local/share/mattermost-desktop"
+mattermost_desktop_rv_xdg_icon_path: "{{ ansible_facts.user_dir }}/.local/share/applications/mattermost-desktop-userapps.desktop"

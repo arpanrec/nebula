@@ -8,19 +8,19 @@ Install Go Language in user space
 
 ```yaml
 options:
-  rv_golang_install_path:
+  go_rv_install_path:
     description: Install path for Go.
     required: false
     type: str
     default: "{{ ansible_facts.user_dir }}/.local/share/go"
-  rv_golang_version:
+  go_rv_version:
     description: 
       - Exact release version of go language.
       - Default is, latest release version from [golang](https://golang.org/VERSION?m=text)
       - Example Format `1.20.5`
     required: false
     type: str
-  rv_golang_tmp_dir:
+  go_rv_tmp_dir:
     description: Temporary cache directory for install.
     required: false
     type: str

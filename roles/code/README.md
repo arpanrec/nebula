@@ -1,39 +1,39 @@
 # Ansible Role: Microsoft Visual Studio Code (arpanrec.utilities.code)
 
-Install vscode, and extensions Also creates a soft link to the `code` executable in `{{ rv_code_bin_dir }}`
+Install vscode, and extensions Also creates a soft link to the `code` executable in `{{ code_rv_bin_dir }}`
 
 ## Variables
 
 ```yaml
 options:
-  rv_code_tmp_dir:
+  code_rv_tmp_dir:
     description: Tarball download location.
     required: false
     type: str
     default: "{{ ansible_facts.user_dir }}/.tmp/code"
-  rv_code_bin_dir:
+  code_rv_bin_dir:
     description:
       - Code executable directory,.
       - This path expected to be in ${PATH}.
     required: false
     type: str
     default: "{{ ansible_facts.user_dir }}/.local/bin"
-  rv_code_install_path:
+  code_rv_install_path:
     description: Install Path.
     required: false
     type: str
     default: "{{ ansible_facts.user_dir }}/.local/share/vscode"
-  rv_code_xdg_icon_dir:
+  code_rv_xdg_icon_dir:
     description: XDG icon directory.
     required: false
     type: str
     default: "{{ ansible_facts.user_dir }}/.local/share/applications"
-  rv_code_version:
+  code_rv_version:
     description: Version of [Microsoft Visual Studio Code](https://code.visualstudio.com/updates).
     required: false
     type: str
     default: Dynamically find the [latest tag_name](https://api.github.com/repos/microsoft/vscode/releases/latest), like `1.64.2`.
-  rv_code_ext_to_be_installed:
+  code_rv_ext_to_be_installed:
     description: List of VSCode extension to be installed.
     required: false
     type: list[str]
