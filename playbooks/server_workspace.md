@@ -9,7 +9,6 @@ Extra variables will be applied to the original role.
 ## Tags
 
 - [Dot Files](../roles/dotfiles/README.md) -> dotfiles
-- [util_scripts](../roles/util_scripts/README.md) -> util_scripts
 - [Bitwarden Desktop](../roles/bitwarden_desktop/README.md) -> bitwarden_desktop [Disable By Default]
 - [Bitwarden CLI](../roles/bw/README.md) -> bw
 - [Mattermost Desktop](../roles/mattermost_desktop/README.md) -> mattermost_desktop [Disable By Default]

@@ -1,7 +1,0 @@
----
-- name: Scripts | Copy Resources
-  ansible.builtin.copy:
-    src: "{{ rv_util_scripts_tmp_git_clone_dir }}/bin/"
-    dest: "{{ rv_util_scripts_bin_dir }}/"
-    remote_src: true
-    mode: "0700"

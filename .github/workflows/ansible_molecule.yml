@@ -117,27 +117,6 @@ jobs:
         run: |+
           molecule test -s role.code.default
 
-  molecule_test_role_util_scripts:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3.5.3
-
-      - name: Setup Python
-        uses: actions/setup-python@v4.7.0
-        with:
-          python-version: "3.11"
-          cache: 'pip'
-
-      - name: Install dependencies
-        run: |+
-          python -m pip install --upgrade pip wheel setuptools
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-      - name: Run Molecule Test
-        run: |+
-          molecule test -s role.util_scripts.default
-
   molecule_test_role_java:
     runs-on: ubuntu-latest
     steps:
@@ -438,7 +417,6 @@ jobs:
       - molecule_test_role_user_add
       - molecule_test_role_dotfiles
       - molecule_test_role_code
-      - molecule_test_role_util_scripts
       - molecule_test_role_java
       - molecule_test_role_themes
       - molecule_test_role_go

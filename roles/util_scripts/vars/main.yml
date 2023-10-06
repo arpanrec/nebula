@@ -1,4 +1,0 @@
----
-rv_util_scripts_tmp_dir: "{{ ansible_facts.user_dir }}/.tmp/util_scripts"
-rv_util_scripts_bin_dir: "{{ ansible_facts.user_dir }}/.local/bin"
-rv_util_scripts_tmp_git_clone_dir: "{{ rv_util_scripts_tmp_dir }}/arpanrec-util-scripts-git"

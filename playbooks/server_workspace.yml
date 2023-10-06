@@ -14,16 +14,6 @@
       tags:
         - dotfiles
 
-    - name: USERAPPS | Util Scripts
-      ansible.builtin.include_role:
-        name: arpanrec.utilities.util_scripts
-      args:
-        apply:
-          tags:
-            - scripts
-      tags:
-        - scripts
-
     - name: USERAPPS | Install Bitwarden
       ansible.builtin.include_role:
         name: arpanrec.utilities.bitwarden_desktop
