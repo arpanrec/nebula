@@ -58,12 +58,12 @@ EXAMPLES = r"""
 - name: Trigger pipeline with private token
   gitlab_trigger_pipeline:
     private_token: xxxxxxxxxxx
-    project_id: arpanrecme/test
+    project_id: arpanrec/test
 
 - name: Trigger pipeline with ref
   gitlab_trigger_pipeline:
     token: xxxxxxxxxxx
-    project_id: arpanrecme/test
+    project_id: arpanrec/test
     ref: feature/something
 """
 

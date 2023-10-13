@@ -1,11 +1,11 @@
 # Ansible Role: dotfiles (arpanrec.utilities.dotfiles)
 
-Track your dotfiles from [GitHub](https://github.com/arpanrecme/dotfiles). You can track these files with below command. (Follow the git commands for reference)
+Track your dotfiles from [GitHub](https://github.com/arpanrec/dotfiles). You can track these files with below command. (Follow the git commands for reference)
 
 ```shell
 config pull # To pull the changes
 config add <filepath> # Track new files/Changes
-config commit -m"New Config added/Changed" # Track new files
+config commit -m "New Config added/Changed" # Track new files
 config push # Push to remote
 ```
 
