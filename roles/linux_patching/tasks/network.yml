@@ -61,6 +61,7 @@
     state: present
     reload: true
   register: linux_patching_rv_tmp_ipvsix_disable_sysctl
+  when: false
   failed_when: >
     linux_patching_rv_tmp_ipvsix_disable_sysctl.failed
     and
@@ -82,6 +83,7 @@
     mode: "0644"
 
 - name: Linux Patching | Network | Disable IPv6 via modeprobe
+  when: false
   ansible.builtin.lineinfile:
     path: /etc/modprobe.d/70-disable-ipv6.conf
     line: "options ipv6 disable=1"
@@ -91,6 +93,7 @@
     mode: "0644"
 
 - name: Linux Patching | Network | Disable ufw IPv6
+  when: false
   ansible.builtin.lineinfile:
     path: /etc/default/ufw
     regexp: "^IPV6="
