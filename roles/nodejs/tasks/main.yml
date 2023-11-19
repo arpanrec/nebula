@@ -2,12 +2,6 @@
 - name: NodeJS | Prerequisites
   ansible.builtin.import_tasks: prerequisites.yml
 
-- name: NodeJS | Create install directory
-  ansible.builtin.file:
-    path: "{{ nodejs_rv_install_path }}"
-    state: directory
-    mode: "0700"
-
 - name: NodeJS | Get downloaded file stat
   ansible.builtin.stat:
     path: "{{ nodejs_rv_tarball_download_path }}"
@@ -29,6 +23,12 @@
         mode: "0700"
         timeout: 300
       timeout: 300
+
+    - name: NodeJS | New Download | Remove old install directory
+      ansible.builtin.file:
+        path: "{{ nodejs_rv_install_path }}"
+        state: absent
+
   rescue:
     - name: NodeJS | New Download | Fail | Cleanup
       ansible.builtin.file:
@@ -38,6 +38,12 @@
     - name: NodeJS | New Download | Fail | Fail
       ansible.builtin.fail:
         msg: Something went wrong, check the errors above
+
+- name: NodeJS | Create install directory
+  ansible.builtin.file:
+    path: "{{ nodejs_rv_install_path }}"
+    state: directory
+    mode: "0700"
 
 - name: NodeJS | New Download | Unarchive the tarball
   ansible.builtin.unarchive:

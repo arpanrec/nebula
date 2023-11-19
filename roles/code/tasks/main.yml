@@ -39,7 +39,6 @@
     - "{{ code_rv_tmp_dir }}"
     - "{{ code_rv_bin_dir }}"
     - "{{ code_rv_xdg_icon_dir }}"
-    - "{{ code_rv_install_path }}"
 
 - name: Visual Studio Code | Install
   when: not pv_ua_code_tmp_downloaded_file_stat.stat.exists
@@ -48,6 +47,17 @@
       ansible.builtin.get_url:
         url: "{{ code_rv_download_url_map[ansible_facts.architecture] }}"
         dest: "{{ code_rv_tarball_download_path }}"
+        mode: "0700"
+
+    - name: Visual Studio Code | Install | Remove old install
+      ansible.builtin.file:
+        path: "{{ code_rv_install_path }}"
+        state: absent
+
+    - name: Visual Studio Code | Install | Recreate install directory
+      ansible.builtin.file:
+        path: "{{ code_rv_install_path }}"
+        state: directory
         mode: "0700"
 
     - name: Visual Studio Code | Install | Unarchive the tarball
