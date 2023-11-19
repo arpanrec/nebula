@@ -43,7 +43,7 @@
       ansible.builtin.get_url:
         url: "{{ bw_bws_download_url }}"
         dest: "{{ bw_bws_tmp_zip_download_path }}"
-        mode: 0755
+        mode: "0700"
 
     - name: Bitwarden CLI | BWS SDK | New Install | Remove old directory
       ansible.builtin.file:
@@ -63,11 +63,11 @@
   ansible.builtin.file:
     path: "{{ bw_bws_bin_dir }}"
     state: directory
-    mode: 0755
+    mode: "0700"
 
 - name: Bitwarden CLI | BWS SDK | New Install | Copy
   ansible.builtin.copy:
     src: "{{ bw_bws_tmp_dir }}/bws"
     dest: "{{ bw_bws_bin_dir }}/bws"
-    mode: 0755
+    mode: "0700"
     remote_src: true

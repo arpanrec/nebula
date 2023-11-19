@@ -6,11 +6,5 @@ module.exports = {
     {
       preset: "angular",
     },
-    [
-      "@semantic-release/exec",
-      {
-        prepareCmd: "sed -i \"s\^version.*\version: ${nextRelease.version}\g\" galaxy.yml",
-      },
-    ],
   ],
 };

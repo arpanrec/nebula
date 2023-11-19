@@ -4,7 +4,7 @@ name: utilities
 version: 1.0.0
 readme: README.md
 authors:
-  - "Arpan Mandal <me@arpanrec.com>"
+  - "Arpan Mandal <arpan.rec@gmail.com>"
 description: common ansible resources
 repository: https://github.com/arpanrec/ansible_collection_utilities.git
 license_file: COPYING
