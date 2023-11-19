@@ -54,6 +54,11 @@ options:
       - Example format `1.5.31`
     required: false
     type: str
+  java_rv_jdk_graalvm_install_path:
+    description: Install Path for [GraalVM](https://www.graalvm.org/).
+    required: false
+    type: str
+    default: "{{ ansible_facts.user_dir }}/.local/share/graalvm"
 ```
 
 ## Example Playbook Oracle Java

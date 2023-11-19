@@ -5,8 +5,9 @@
   become: false
   tasks:
     - name: Bitwarden CLI | Molecule | Verify | Import Roles for variables
-      ansible.builtin.include_vars:
-        file: "../../roles/bw/defaults/main.yml"
+      ansible.builtin.import_role:
+        name: arpanrec.utilities.bw
+        tasks_from: prerequisites
 
     - name: Bitwarden CLI | Molecule | Verify | Get bw version from shell
       ansible.builtin.command: bw --version
@@ -24,3 +25,35 @@
         that: bw_cli_rv_tmp_version_shell_result.stdout ==  bw_cli_rv_version
         success_msg: BW Version {{ bw_cli_rv_version }} is installed
         fail_msg: BW Version {{ bw_cli_rv_version }} is not installed, Shell result {{ bw_cli_rv_tmp_version_shell_result.stdout }}
+
+    - name: Bitwarden CLI | BWS SDK | Molecule | Get Dynamic Version
+      when: bw_bws_version_tag is not defined
+      block:
+        - name: Bitwarden CLI | BWS SDK | Molecule | Get Latest Release from github
+          ansible.builtin.uri:
+            url: "https://api.github.com/repos/bitwarden/sdk/releases/latest"
+            return_content: true
+            headers:
+              Accept: "application/vnd.github.v3+json"
+          register: bw_bws_version_for_github
+
+        - name: Bitwarden CLI | BWS SDK | Molecule | Set Dynamic Version
+          ansible.builtin.set_fact:
+            bw_bws_version_tag: "{{ bw_bws_version_for_github.json.tag_name[5:] }}"
+
+    - name: Bitwarden CLI | BWS SDK | Molecule | Verify | Get bw version from shell
+      ansible.builtin.command: bws --version
+      environment:
+        PATH: "{{ bw_bws_bin_dir }}:{{ ansible_env.PATH }}"
+      register: bw_bws_cli_rv_tmp_version_shell_result
+      changed_when: false
+
+    - name: Bitwarden CLI | BWS SDK | Molecule | Verify | bw version from shell result
+      ansible.builtin.debug:
+        var: bw_bws_cli_rv_tmp_version_shell_result
+
+    - name: Bitwarden CLI | BWS SDK | Molecule | Verify | Fail if bw version is not present
+      ansible.builtin.assert:
+        that: bw_bws_cli_rv_tmp_version_shell_result.stdout is match("bws {{ bw_bws_version_tag }}")
+        success_msg: BWS Version {{ bw_bws_version_tag }} is installed
+        fail_msg: BWS Version {{ bw_bws_version_tag }} is not installed, Shell result {{ bw_bws_cli_rv_tmp_version_shell_result.stdout }}

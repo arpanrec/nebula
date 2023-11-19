@@ -1,0 +1,27 @@
+---
+- name: Bitwarden CLI | Prerequisites | Fail if Root User
+  ansible.builtin.command: whoami
+  register: rl_sw_current_shelluser_shell_result
+  failed_when: rl_sw_current_shelluser_shell_result.stdout == "root"
+  changed_when: false
+
+- name: Bitwarden CLI | Prerequisites | Packages are present
+  ansible.builtin.shell: "command -v {{ item }} >/dev/null 2>&1"
+  changed_when: false
+  with_items:
+    - curl
+    - wget
+    - zip
+    - tar
+    - unzip
+
+- name: Bitwarden CLI | Prerequisites | Gather Facts
+  ansible.builtin.setup:
+
+- name: Bitwarden CLI | Prerequisites | Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0700"
+  with_items:
+    - "{{ bw_bws_tmp_dir }}"

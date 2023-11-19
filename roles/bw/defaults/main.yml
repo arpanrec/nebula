@@ -1,3 +1,7 @@
 ---
-bw_cli_rv_version: 2023.3.0
+bw_cli_rv_version: 2023.10.0
 bw_cli_rv_node_dependency_bin_dir: "{{ ansible_facts.user_dir }}/.local/share/node/bin"
+
+# bw_bws_version_tag: 0.3.1
+bw_bws_bin_dir: "{{ ansible_facts.user_dir }}/.local/bin"
+bw_bws_tmp_dir: "{{ ansible_facts.user_dir }}/.tmp/bw"

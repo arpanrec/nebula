@@ -1,4 +1,7 @@
 ---
+- name: Bitwarden CLI | Prerequisites
+  ansible.builtin.import_tasks: prerequisites.yml
+
 - name: Bitwarden CLI | Install NodeJS
   ansible.builtin.import_role:
     name: arpanrec.utilities.nodejs
@@ -12,3 +15,59 @@
     executable: "{{ bw_cli_rv_node_dependency_bin_dir }}/npm"
   environment:
     PATH: "{{ bw_cli_rv_node_dependency_bin_dir }}:{{ ansible_env.PATH }}"
+
+- name: Bitwarden CLI | BWS SDK | Get Dynamic Version
+  when: bw_bws_version_tag is not defined
+  block:
+    - name: Bitwarden CLI | BWS SDK | Get Latest Release from github
+      ansible.builtin.uri:
+        url: "https://api.github.com/repos/bitwarden/sdk/releases/latest"
+        return_content: true
+        headers:
+          Accept: "application/vnd.github.v3+json"
+      register: bw_bws_version_for_github
+
+    - name: Bitwarden CLI | BWS SDK | Set Dynamic Version
+      ansible.builtin.set_fact:
+        bw_bws_version_tag: "{{ bw_bws_version_for_github.json.tag_name[5:] }}"
+
+- name: Bitwarden CLI | BWS SDK | Get downloaded file stat
+  ansible.builtin.stat:
+    path: "{{ bw_bws_tmp_zip_download_path }}"
+  register: bw_bws_tmp_zip_file_stat
+
+- name: Bitwarden CLI | BWS SDK | New Install
+  when: not bw_bws_tmp_zip_file_stat.stat.exists
+  block:
+    - name: Bitwarden CLI | BWS SDK | New Install | Download
+      ansible.builtin.get_url:
+        url: "{{ bw_bws_download_url }}"
+        dest: "{{ bw_bws_tmp_zip_download_path }}"
+        mode: 0755
+
+    - name: Bitwarden CLI | BWS SDK | New Install | Remove old directory
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ bw_bws_bin_dir }}/bws"
+        - "{{ bw_bws_tmp_dir }}/bws"
+
+- name: Bitwarden CLI | BWS SDK | New Install | Extract
+  ansible.builtin.unarchive:
+    src: "{{ bw_bws_tmp_zip_download_path }}"
+    dest: "{{ bw_bws_tmp_dir }}"
+    remote_src: true
+
+- name: Bitwarden CLI | BWS SDK | New Install | bw_bws_bin_dir | Create
+  ansible.builtin.file:
+    path: "{{ bw_bws_bin_dir }}"
+    state: directory
+    mode: 0755
+
+- name: Bitwarden CLI | BWS SDK | New Install | Copy
+  ansible.builtin.copy:
+    src: "{{ bw_bws_tmp_dir }}/bws"
+    dest: "{{ bw_bws_bin_dir }}/bws"
+    mode: 0755
+    remote_src: true
