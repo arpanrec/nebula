@@ -3,23 +3,23 @@ collections:
   - name: community.general
     type: git
     source: https://github.com/ansible-collections/community.general.git
-    version: 6.3.0
+    version: 8.0.2
   - name: community.crypto
     type: git
     source: https://github.com/ansible-collections/community.crypto.git
-    version: 2.11.0
+    version: 2.15.1
   - name: amazon.aws
     type: git
     source: https://github.com/ansible-collections/amazon.aws.git
-    version: 5.2.0
+    version: 7.0.0
   - name: community.docker
     type: git
     source: https://github.com/ansible-collections/community.docker.git
-    version: 3.4.1
+    version: 3.4.11
   - name: ansible.posix
     type: git
     source: https://github.com/ansible-collections/ansible.posix.git
-    version: 1.5.1
+    version: 1.5.2
   - name: kewlfft.aur
     type: git
     source: https://github.com/kewlfft/ansible-aur.git
@@ -28,4 +28,4 @@ roles:
   - name: geerlingguy.docker
     scm: git
     src: https://github.com/geerlingguy/ansible-role-docker.git
-    version: 6.1.0
+    version: 7.0.2

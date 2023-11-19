@@ -5,7 +5,9 @@
 from __future__ import absolute_import, division, print_function
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.arpanrec.utilities.plugins.module_utils.hashicorp_tfe_core import crud
+from ansible_collections.arpanrec.utilities.plugins.module_utils.hashicorp_tfe_core import (
+    crud,
+)
 
 __metaclass__ = type
 
@@ -84,39 +86,39 @@ workspace:
 
 
 def run_module():
-  # define available arguments/parameters a user can pass to the module
-  module_args = dict(
-      hostname=dict(required=False, default="app.terraform.io"),
-      token=dict(type="str", required=True, no_log=True),
-      organization=dict(type="str", required=True),
-      organization_attributes=dict(type="dict", required=False),
-      workspace=dict(type="str", required=True),
-      workspace_attributes=dict(type="dict", required=False),
-  )
+    # define available arguments/parameters a user can pass to the module
+    module_args = dict(
+        hostname=dict(required=False, default="app.terraform.io"),
+        token=dict(type="str", required=True, no_log=True),
+        organization=dict(type="str", required=True),
+        organization_attributes=dict(type="dict", required=False),
+        workspace=dict(type="str", required=True),
+        workspace_attributes=dict(type="dict", required=False),
+    )
 
-  module = AnsibleModule(
-      argument_spec=module_args,
-      supports_check_mode=False,
-  )
+    module = AnsibleModule(
+        argument_spec=module_args,
+        supports_check_mode=False,
+    )
 
-  tfe_response = crud(
-      hostname=module.params["hostname"],
-      token=module.params["token"],
-      organization=module.params["organization"],
-      organization_attributes=module.params["organization_attributes"],
-      workspace=module.params["workspace"],
-      workspace_attributes=module.params["workspace_attributes"],
-  )
+    tfe_response = crud(
+        hostname=module.params["hostname"],
+        token=module.params["token"],
+        organization=module.params["organization"],
+        organization_attributes=module.params["organization_attributes"],
+        workspace=module.params["workspace"],
+        workspace_attributes=module.params["workspace_attributes"],
+    )
 
-  if "error" in tfe_response.keys():
-    return module.fail_json(msg=tfe_response["error"], **tfe_response)
+    if "error" in tfe_response.keys():
+        return module.fail_json(msg=tfe_response["error"], **tfe_response)
 
-  module.exit_json(**tfe_response)
+    module.exit_json(**tfe_response)
 
 
 def main():
-  run_module()
+    run_module()
 
 
 if __name__ == "__main__":
-  main()
+    main()

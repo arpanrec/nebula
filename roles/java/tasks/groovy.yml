@@ -1,10 +1,4 @@
 ---
-- name: Oracle JDK | Apache Groovy | Create install directory
-  ansible.builtin.file:
-    path: "{{ java_rv_jdk_groovy_tmp_unzip_path }}"
-    state: directory
-    mode: "0700"
-
 - name: Oracle JDK | Apache Groovy | Get downloaded file stat
   ansible.builtin.stat:
     path: "{{ java_rv_jdk_groovy_tarball_download_path }}"
@@ -24,11 +18,22 @@
         path: "{{ java_rv_jdk_groovy_tarball_download_path }}"
         state: absent
 
+    - name: Oracle JDK | Apache Groovy | Remove temporary unzip directory
+      ansible.builtin.file:
+        path: "{{ java_rv_jdk_groovy_tmp_unzip_path }}/groovy-{{ java_rv_jdk_groovy_version }}"
+        state: absent
+
     - name: Oracle JDK | Apache Groovy | Fail
       ansible.builtin.fail:
         msg: |+
           Failed to download {{ java_rv_jdk_groovy_download_url }} to {{ java_rv_jdk_groovy_tarball_download_path }}
           Check the errors above and try again.
+
+- name: Oracle JDK | Apache Groovy | Create temporary unzip directory
+  ansible.builtin.file:
+    path: "{{ java_rv_jdk_groovy_tmp_unzip_path }}"
+    state: directory
+    mode: "0700"
 
 - name: Oracle JDK | Apache Groovy | Unarchive the zip
   ansible.builtin.unarchive:

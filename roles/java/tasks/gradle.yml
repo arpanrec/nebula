@@ -1,10 +1,4 @@
 ---
-- name: Oracle JDK | Gradle | Create install directory
-  ansible.builtin.file:
-    path: "{{ java_rv_jdk_gradle_tmp_unzip_path }}"
-    state: directory
-    mode: "0700"
-
 - name: Oracle JDK | Gradle | Get Dynamic Version
   when: java_rv_jdk_gradle_version is not defined
   block:
@@ -33,6 +27,12 @@
         url: "{{ java_rv_jdk_gradle_download_url }}"
         dest: "{{ java_rv_jdk_gradle_tarball_download_path }}"
         mode: "0700"
+
+    - name: Oracle JDK | Gradle | Remove old temporary unzip directory if exists
+      ansible.builtin.file:
+        path: "{{ java_rv_jdk_gradle_tmp_unzip_path }}/gradle-{{ java_rv_jdk_gradle_version }}"
+        state: absent
+
   rescue:
     - name: Oracle JDK | Gradle | Remove tarball
       ansible.builtin.file:
@@ -44,6 +44,12 @@
         msg: |+
           Failed to download {{ java_rv_jdk_gradle_download_url }}
           Check the errors above.
+
+- name: Oracle JDK | Gradle | Create temporary unzip directory
+  ansible.builtin.file:
+    path: "{{ java_rv_jdk_gradle_tmp_unzip_path }}"
+    state: directory
+    mode: "0700"
 
 - name: Oracle JDK | Gradle | Unarchive the zip
   ansible.builtin.unarchive:

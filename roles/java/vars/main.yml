@@ -1,8 +1,16 @@
 ---
 java_rv_jdk_download_url_map:
-  17:
-    x86_64: https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz
-    aarch64: https://download.oracle.com/java/17/archive/jdk-17.0.4_linux-aarch64_bin.tar.gz
+  jdk:
+    17:
+      x86_64: https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz
+      aarch64: https://download.oracle.com/java/17/archive/jdk-17.0.4_linux-aarch64_bin.tar.gz
+  graalvm:
+    21:
+      x86_64: https://download.oracle.com/graalvm/21/latest/graalvm-jdk-21_linux-x64_bin.tar.gz
+      aarch64: https://download.oracle.com/graalvm/21/latest/graalvm-jdk-21_linux-aarch64_bin.tar.gz
+    17:
+      x86_64: https://download.oracle.com/graalvm/17/latest/graalvm-jdk-17_linux-x64_bin.tar.gz
+      aarch64: https://download.oracle.com/graalvm/17/latest/graalvm-jdk-17_linux-aarch64_bin.tar.gz
 
 java_rv_jdk_tarball_download_path: "{{ java_rv_jdk_tmp_dir }}/jdk-{{ java_rv_jdk_version }}_linux-{{ ansible_facts.architecture }}_bin.tar.gz"
 
@@ -19,3 +27,5 @@ java_rv_jdk_groovy_tarball_download_path: "{{ java_rv_jdk_tmp_dir }}/apache-groo
 
 java_rv_jdk_kotlinc_download_url: "https://github.com/JetBrains/kotlin/releases/download/v{{ java_rv_jdk_kotlinc_version }}/kotlin-compiler-{{ java_rv_jdk_kotlinc_version }}.zip"
 java_rv_jdk_kotlinc_tarball_download_path: "{{ java_rv_jdk_tmp_dir }}/kotlin-compiler-{{ java_rv_jdk_kotlinc_version }}.zip"
+
+java_rv_jdk_graalvm_tarball_download_path: "{{ java_rv_jdk_tmp_dir }}/graalvm-jdk-{{ java_rv_jdk_version }}_linux-{{ ansible_facts.architecture }}_bin.tar.gz"

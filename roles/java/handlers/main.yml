@@ -4,3 +4,10 @@
 
 - name: Oracle JDK | Apache Groovy | New Install
   ansible.builtin.include_tasks: groovy_new_install.yml
+
+- name: Oracle JDK | GraalVM | Newly Downloaded | Unarchive the tarball
+  ansible.builtin.unarchive:
+    src: "{{ java_rv_jdk_graalvm_tarball_download_path }}"
+    dest: "{{ java_rv_jdk_graalvm_install_path }}"
+    extra_opts: [--strip-components=1]
+    remote_src: true

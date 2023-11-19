@@ -16,12 +16,13 @@ DOCUMENTATION = r"""
 ---
 module: get_bitwarden_client_latest_github_release
 """
+
+
 def run_module(which="desktop"):
     """
     Get the latest bitwarden client release version from github
     """
-    module_args = dict(
-    )
+    module_args = dict()
 
     tag_version = None
     url = "https://api.github.com/repos/bitwarden/clients/releases"
@@ -41,7 +42,9 @@ def run_module(which="desktop"):
         params["page"] = PAGE_NUM
         response = requests.get(url, headers=headers, params=params, timeout=10)
         if response.status_code != 200:
-            raise ValueError(f"Error fetching releases: {response.status_code}, {response.text}")
+            raise ValueError(
+                f"Error fetching releases: {response.status_code}, {response.text}"
+            )
         response_data = response.json()
         if len(response_data) == 0:
             break
@@ -58,27 +61,21 @@ def run_module(which="desktop"):
     if not TAG_FOUND:
         raise ValueError(f"No tag found for f{which}")
 
-    result = dict(
-        changed=False,
-        original_message='',
-        message=''
-    )
+    result = dict(changed=False, original_message="", message="")
 
-    module = AnsibleModule(
-        argument_spec=module_args,
-        supports_check_mode=True
-    )
+    module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
 
-    result['msg'] = tag_version
+    result["msg"] = tag_version
 
     module.exit_json(**result)
 
+
 def main():
-  """
-  Python Main Module
-  """
-  run_module()
+    """
+    Python Main Module
+    """
+    run_module()
 
 
 if __name__ == "__main__":
-  main()
+    main()

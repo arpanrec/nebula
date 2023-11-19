@@ -1,10 +1,4 @@
 ---
-- name: Oracle JDK | Apache Maven | Create install directory
-  ansible.builtin.file:
-    path: "{{ java_rv_jdk_mvn_install_path }}"
-    state: directory
-    mode: "0700"
-
 - name: Oracle JDK | Apache Maven | Get Dynamic Version
   when: java_rv_jdk_mvn_version is not defined
   block:
@@ -33,6 +27,12 @@
         url: "{{ java_rv_jdk_mvn_download_url }}"
         dest: "{{ java_rv_jdk_mvn_tarball_download_path }}"
         mode: "0700"
+
+    - name: Oracle JDK | Apache Maven | Newly Downloaded | Remove old install directory
+      ansible.builtin.file:
+        path: "{{ java_rv_jdk_mvn_install_path }}"
+        state: absent
+
   rescue:
     - name: Oracle JDK | Apache Maven | Newly Downloaded | Remove tarball
       ansible.builtin.file:
@@ -44,6 +44,12 @@
         msg: |+
           "Failed to download {{ java_rv_jdk_mvn_download_url }} to {{ java_rv_jdk_mvn_tarball_download_path }}"
           Check the error above for more details
+
+- name: Oracle JDK | Apache Maven | Create install directory
+  ansible.builtin.file:
+    path: "{{ java_rv_jdk_mvn_install_path }}"
+    state: directory
+    mode: "0700"
 
 - name: Oracle JDK | Apache Maven | Newly Downloaded | Unarchive the tarball
   ansible.builtin.unarchive:

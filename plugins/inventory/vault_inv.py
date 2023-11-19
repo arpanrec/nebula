@@ -66,56 +66,55 @@ host: http://localhost:8200
 
 
 class VaultInventoryModule(BaseInventoryPlugin):
+    NAME = "vault_inv"
 
-  NAME = "vault_inv"
+    __inventory_config = {}
 
-  __inventory_config = {}
+    def verify_file(self, path):
+        """return true/false if this is possibly a valid file for this plugin to consume"""
+        valid = False
+        if super(VaultInventoryModule, self).verify_file(path):
+            with open(path, encoding="utf-8") as inventory_file_stream:
+                self.__inventory_config = yaml.load(
+                    inventory_file_stream, Loader=SafeLoader
+                )
+                self.display.vvv("Ansible Inventory Loaded from: " + path)
+                self.display.vvvv(
+                    "Ansible Inventory Information: " + self.__inventory_config
+                )
+                valid = True
+        return valid
 
-  def verify_file(self, path):
-    """return true/false if this is possibly a valid file for this plugin to consume"""
-    valid = False
-    if super(VaultInventoryModule, self).verify_file(path):
-      with open(path, encoding="utf-8") as inventory_file_stream:
-        self.__inventory_config = yaml.load(
-            inventory_file_stream, Loader=SafeLoader
+    def parse(self, inventory, loader, path, cache=True):
+        super(VaultInventoryModule, self).parse(inventory, loader, path, cache)
+        self.display.vvvv("Adding Localhost")
+        self.inventory.add_host("localhost")
+        self.inventory.set_variable("localhost", "ansible_connection", "local")
+        self.inventory.set_variable(
+            "localhost", "ansible_python_interpreter", "/usr/bin/env python3"
         )
-        self.display.vvv("Ansible Inventory Loaded from: " + path)
-        self.display.vvvv(
-            "Ansible Inventory Information: " + self.__inventory_config
+
+        self.display.vvvv("Parsing Vault inventory : " + path)
+        self.inventory = inventory
+        self._vars = load_extra_vars(loader)
+
+    @staticmethod
+    def get_from_vault(
+        hostname: str = "http://localhost:8200",
+        mount_point: str = "secret",
+        path: str = "/",
+        token: str = None,
+        verify: bool = False,
+        cert: tuple = None,
+    ) -> None:
+        vault_client = hvac.Client(
+            hostname,
+            token=os.environ.get("VAULT_TOKEN", token),
+            verify=verify,
+            cert=cert,
         )
-        valid = True
-    return valid
-
-  def parse(self, inventory, loader, path, cache=True):
-    super(VaultInventoryModule, self).parse(inventory, loader, path, cache)
-    self.display.vvvv("Adding Localhost")
-    self.inventory.add_host("localhost")
-    self.inventory.set_variable("localhost", "ansible_connection", "local")
-    self.inventory.set_variable(
-        "localhost", "ansible_python_interpreter", "/usr/bin/env python3"
-    )
-
-    self.display.vvvv("Parsing Vault inventory : " + path)
-    self.inventory = inventory
-    self._vars = load_extra_vars(loader)
-
-  @staticmethod
-  def get_from_vault(
-      hostname: str = "http://localhost:8200",
-      mount_point: str = "secret",
-      path: str = "/",
-      token: str = None,
-      verify: bool = False,
-      cert: tuple = None,
-  ) -> None:
-    vault_client = hvac.Client(
-        hostname,
-        token=os.environ.get("VAULT_TOKEN", token),
-        verify=verify,
-        cert=cert,
-    )
-    print(vault_client.is_authenticated())
-    secret_version_response = vault_client.secrets.kv.v2.read_secret_version(
-        path=path, mount_point=mount_point
-    )
-    print(secret_version_response)
+        print(vault_client.is_authenticated())
+        secret_version_response = vault_client.secrets.kv.v2.read_secret_version(
+            path=path, mount_point=mount_point
+        )
+        print(secret_version_response)

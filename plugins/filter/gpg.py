@@ -4,7 +4,7 @@ import tempfile
 import gnupg
 from pathlib import Path
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 filter_name:
   - description: A brief description of what the filter does.
   - parameters:
@@ -18,18 +18,19 @@ filter_name:
     - data: The data to encrypt or decrypt. Required.
     - recv_keys: Whether to receive the key from the key server. Default is False.
   - return: The result of the encryption or decryption operation.
-'''
+"""
+
 
 def d_gpg_ops(
-        gnupg_home: str = None,
-        key_server: str = 'hkps://keys.openpgp.org',
-        fingerprint: str = None,
-        key_path: str = None,
-        key_contents: str = None,
-        passphrase: str = None,
-        mode: str = None,
-        data: str = None,
-        recv_keys: bool = False,
+    gnupg_home: str = None,
+    key_server: str = "hkps://keys.openpgp.org",
+    fingerprint: str = None,
+    key_path: str = None,
+    key_contents: str = None,
+    passphrase: str = None,
+    mode: str = None,
+    data: str = None,
+    recv_keys: bool = False,
 ) -> str:
     """
     __gpg_ops:
@@ -47,38 +48,40 @@ def d_gpg_ops(
     - return: The result of the encryption or decryption operation.
     """
     if data is None or len(data) == 0:
-        raise Exception('data is required')
+        raise Exception("data is required")
 
     if key_contents and key_path:
-        raise Exception('key_contents and key_path are mutually exclusive')
+        raise Exception("key_contents and key_path are mutually exclusive")
 
     if recv_keys and not fingerprint:
-        raise Exception('recv_keys is True but fingerprint is None')
+        raise Exception("recv_keys is True but fingerprint is None")
 
-    if mode not in ['encrypt', 'decrypt']:
-        raise Exception('mode must be either encrypt or decrypt')
+    if mode not in ["encrypt", "decrypt"]:
+        raise Exception("mode must be either encrypt or decrypt")
 
-    if mode == 'decrypt' and recv_keys:
-        raise Exception('mode is decrypt but recv_keys is True')
+    if mode == "decrypt" and recv_keys:
+        raise Exception("mode is decrypt but recv_keys is True")
 
     if not gnupg_home:
-        gnupg_env_home = os.getenv('GNUPGHOME', None)
+        gnupg_env_home = os.getenv("GNUPGHOME", None)
         if gnupg_env_home:
             gnupg_home = gnupg_env_home
         else:
-            gnupg_home = Path.joinpath(Path.home(), '.gnupg')
-    elif gnupg_home.lower() == 'temp':
-        with tempfile.TemporaryDirectory(suffix=None, prefix=None, dir=None, ignore_cleanup_errors=False) as temporary_directory:
+            gnupg_home = Path.joinpath(Path.home(), ".gnupg")
+    elif gnupg_home.lower() == "temp":
+        with tempfile.TemporaryDirectory(
+            suffix=None, prefix=None, dir=None, ignore_cleanup_errors=False
+        ) as temporary_directory:
             gnupg_home = temporary_directory
     else:
         pass
     if not os.path.exists(gnupg_home):
         os.makedirs(gnupg_home, exist_ok=True)
     elif os.path.exists(gnupg_home) and os.path.isfile(gnupg_home):
-        raise Exception('gnupg_home is a file, not a directory')
+        raise Exception("gnupg_home is a file, not a directory")
 
     gpg = gnupg.GPG(gnupghome=gnupg_home)
-    gpg.encoding = 'utf-8'
+    gpg.encoding = "utf-8"
 
     if recv_keys and fingerprint:
         gpg.recv_keys(key_server, fingerprint)
@@ -88,85 +91,88 @@ def d_gpg_ops(
     if key_contents:
         gpg.import_keys(key_contents, passphrase=passphrase)
 
-    if mode == 'encrypt':
+    if mode == "encrypt":
         keys_list = gpg.list_keys()
-    elif mode == 'decrypt':
+    elif mode == "decrypt":
         keys_list = gpg.list_keys(True)
     else:
-        raise Exception('mode must be either encrypt or decrypt')
+        raise Exception("mode must be either encrypt or decrypt")
 
     if len(keys_list) == 0:
-        raise Exception('no keys found')
+        raise Exception("no keys found")
     elif len(keys_list) > 1 and not fingerprint:
-        raise Exception('multiple keys found, please specify a fingerprint')
+        raise Exception("multiple keys found, please specify a fingerprint")
     else:
         pass
 
     if not fingerprint:
-        fingerprint = keys_list[0]['fingerprint']
+        fingerprint = keys_list[0]["fingerprint"]
 
-    gpg.trust_keys(fingerprints=fingerprint, trustlevel='TRUST_ULTIMATE')
+    gpg.trust_keys(fingerprints=fingerprint, trustlevel="TRUST_ULTIMATE")
 
-
-
-    if mode == 'encrypt':
+    if mode == "encrypt":
         ascii_data = gpg.encrypt(data=data, recipients=fingerprint)
 
-    if mode == 'decrypt':
+    if mode == "decrypt":
         ascii_data = gpg.decrypt(
             message=data,
             passphrase=passphrase,
-            extra_args=['--pinentry-mode', 'loopback', '--recipient', fingerprint]
-            )
+            extra_args=["--pinentry-mode", "loopback", "--recipient", fingerprint],
+        )
 
     final_result = str(ascii_data)
 
     if not ascii_data.ok or len(final_result) == 0:
-        raise Exception('decryption failed : ' + ascii_data.status)
+        raise Exception("decryption failed : " + ascii_data.status)
 
     return final_result
 
-def gpg_enc(data,
-            fingerprint=None,
-            gnupg_home='temp',
-            key_server='hkps://keys.openpgp.org',
-            key_path=None,
-            passphrase=None,
-            key_contents=None,
-            recv_keys=False):
-    return d_gpg_ops(fingerprint=fingerprint,
-              gnupg_home=gnupg_home,
-              key_server=key_server,
-              key_path=key_path,
-              passphrase=passphrase,
-              key_contents=key_contents,
-              mode='encrypt',
-              data=data,
-              recv_keys=recv_keys)
+
+def gpg_enc(
+    data,
+    fingerprint=None,
+    gnupg_home="temp",
+    key_server="hkps://keys.openpgp.org",
+    key_path=None,
+    passphrase=None,
+    key_contents=None,
+    recv_keys=False,
+):
+    return d_gpg_ops(
+        fingerprint=fingerprint,
+        gnupg_home=gnupg_home,
+        key_server=key_server,
+        key_path=key_path,
+        passphrase=passphrase,
+        key_contents=key_contents,
+        mode="encrypt",
+        data=data,
+        recv_keys=recv_keys,
+    )
 
 
-def gpg_dec(data,
-            fingerprint=None,
-            gnupg_home='temp',
-            key_server='hkps://keys.openpgp.org',
-            key_path=None,
-            passphrase=None,
-            key_contents=None):
-    return d_gpg_ops(fingerprint=fingerprint,
-              gnupg_home=gnupg_home,
-              key_server=key_server,
-              key_path=key_path,
-              passphrase=passphrase,
-              key_contents=key_contents,
-              mode='decrypt',
-              data=data,
-              recv_keys=False)
+def gpg_dec(
+    data,
+    fingerprint=None,
+    gnupg_home="temp",
+    key_server="hkps://keys.openpgp.org",
+    key_path=None,
+    passphrase=None,
+    key_contents=None,
+):
+    return d_gpg_ops(
+        fingerprint=fingerprint,
+        gnupg_home=gnupg_home,
+        key_server=key_server,
+        key_path=key_path,
+        passphrase=passphrase,
+        key_contents=key_contents,
+        mode="decrypt",
+        data=data,
+        recv_keys=False,
+    )
 
 
 class FilterModule(object):
-
     def filters(self):
-        return {
-            'gpg_enc': gpg_enc,
-            'gpg_dec': gpg_dec
-        }
+        return {"gpg_enc": gpg_enc, "gpg_dec": gpg_dec}

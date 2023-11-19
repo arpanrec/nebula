@@ -1,0 +1,42 @@
+---
+- name: Oracle JDK | GraalVM | Get downloaded file stat
+  ansible.builtin.stat:
+    path: "{{ java_rv_jdk_graalvm_tarball_download_path }}"
+  register: pv_ua_jdk_graalvm_downloaded_file_stat
+
+- name: Oracle JDK | GraalVM | Newly Downloaded
+  when: not pv_ua_jdk_graalvm_downloaded_file_stat.stat.exists
+  block:
+    - name: Oracle JDK | GraalVM | Newly Downloaded | Download tarball
+      ansible.builtin.get_url:
+        url: "{{ java_rv_jdk_download_url_map['graalvm'][java_rv_jdk_version][ansible_facts.architecture] }}"
+        dest: "{{ java_rv_jdk_graalvm_tarball_download_path }}"
+        mode: "0700"
+        timeout: 300
+      timeout: 300
+      notify:
+        - Oracle JDK | GraalVM | Newly Downloaded | Unarchive the tarball
+
+    - name: Oracle JDK | GraalVM | Newly Downloaded | Remove Old Install Directory
+      ansible.builtin.file:
+        path: "{{ java_rv_jdk_graalvm_install_path }}"
+        state: absent
+
+  rescue:
+    - name: Oracle JDK | GraalVM | Newly Downloaded | Delete Downloaded tarball
+      ansible.builtin.file:
+        path: "{{ java_rv_jdk_graalvm_tarball_download_path }}"
+        state: absent
+
+    - name: Oracle JDK | GraalVM | Newly Downloaded | Delete Install Directory
+      ansible.builtin.fail:
+        msg: "Failed to download GraalVM JDK tarball. Check the above errors."
+
+- name: Oracle JDK | GraalVM | Create install directory
+  ansible.builtin.file:
+    path: "{{ java_rv_jdk_graalvm_install_path }}"
+    state: directory
+    mode: "0700"
+
+- name: Oracle JDK | GraalVM | flush handlers
+  ansible.builtin.meta: flush_handlers

@@ -28,6 +28,11 @@
         dest: "{{ java_rv_jdk_kotlinc_tarball_download_path }}"
         mode: "0700"
 
+    - name: Oracle JDK | Kotlin Compiler | New Install | Install directory
+      ansible.builtin.file:
+        path: "{{ java_rv_jdk_kotlinc_install_path }}"
+        state: absent
+
   rescue:
     - name: Oracle JDK | Kotlin Compiler | New Install | Remove tarball
       ansible.builtin.file:

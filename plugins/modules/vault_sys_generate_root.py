@@ -62,11 +62,11 @@ EXAMPLES = r"""
 - name: recreate root token
   arpanrec.utilities.vault_sys_generate_root:
     unseal_keys:
-        [
+      [
         "xxxxx",
         "yyyyy",
         "zzzzz",
-        ]
+      ]
     vault_addr: https://vault.com:8200
     vault_client_cert: "vault_client_auth.crt"
     vault_client_key: "vault_client_auth.key"
@@ -99,103 +99,102 @@ def root_gen(
     cancel_root_generation: bool = False,
     calculate_new_root: bool = False,
 ):
+    result = {}
 
-  result = {}
+    vault_client_config = dict(url=vault_addr)
+    if vault_capath:
+        vault_client_config["verify"] = vault_capath
+    if vault_client_cert:
+        vault_client_config["cert"] = (vault_client_cert, vault_client_key)
 
-  vault_client_config = dict(url=vault_addr)
-  if vault_capath:
-    vault_client_config["verify"] = vault_capath
-  if vault_client_cert:
-    vault_client_config["cert"] = (vault_client_cert, vault_client_key)
+    vault_client = Client(**vault_client_config)
 
-  vault_client = Client(**vault_client_config)
-
-  read_root_generation_progress_response = (
-      vault_client.sys.read_root_generation_progress()
-  )
-  required_num_of_unseal_keys = read_root_generation_progress_response["required"]
-  provided_num_of_unseal_keys = len(unseal_keys)
-  if provided_num_of_unseal_keys < required_num_of_unseal_keys:
-    return {
-        "error": f"Required unseal keys {required_num_of_unseal_keys}, but provided {provided_num_of_unseal_keys}",
-        "result": result,
-    }
-
-  if read_root_generation_progress_response["started"]:
-    if cancel_root_generation:
-      vault_client.sys.cancel_root_generation()
-      result["changed"] = True
-    else:
-      return {"error": "root generation already in progress", "result": result}
-
-  start_generate_root_response = vault_client.sys.start_root_token_generation()
-
-  result["changed"] = True
-  otp = start_generate_root_response["otp"]
-  nonce = start_generate_root_response["nonce"]
-  result["otp"] = otp
-  for unseal_key in unseal_keys:
-    generate_root_response = vault_client.sys.generate_root(
-        key=unseal_key,
-        nonce=nonce,
+    read_root_generation_progress_response = (
+        vault_client.sys.read_root_generation_progress()
     )
+    required_num_of_unseal_keys = read_root_generation_progress_response["required"]
+    provided_num_of_unseal_keys = len(unseal_keys)
+    if provided_num_of_unseal_keys < required_num_of_unseal_keys:
+        return {
+            "error": f"Required unseal keys {required_num_of_unseal_keys}, but provided {provided_num_of_unseal_keys}",
+            "result": result,
+        }
 
-    if generate_root_response["progress"] == generate_root_response["required"]:
-      break
+    if read_root_generation_progress_response["started"]:
+        if cancel_root_generation:
+            vault_client.sys.cancel_root_generation()
+            result["changed"] = True
+        else:
+            return {"error": "root generation already in progress", "result": result}
 
-  result["generate_root_response"] = generate_root_response
-  encoded_root_token = generate_root_response["encoded_root_token"]
+    start_generate_root_response = vault_client.sys.start_root_token_generation()
 
-  if not encoded_root_token:
-    return {"error": "Encoded root token not found", "result": result}
+    result["changed"] = True
+    otp = start_generate_root_response["otp"]
+    nonce = start_generate_root_response["nonce"]
+    result["otp"] = otp
+    for unseal_key in unseal_keys:
+        generate_root_response = vault_client.sys.generate_root(
+            key=unseal_key,
+            nonce=nonce,
+        )
 
-  result["encoded_root_token"] = encoded_root_token
+        if generate_root_response["progress"] == generate_root_response["required"]:
+            break
 
-  if calculate_new_root:
-    _root_token = base64.b64decode(bytearray(encoded_root_token, "ascii") + b"==")
-    _otp_bytes = bytearray(otp, "ascii")
-    _final_root_token_bytes = bytearray()
-    for i, j in zip(_root_token, _otp_bytes):
-      _final_root_token_bytes.append(i ^ j)
-    result["new_root"] = str(_final_root_token_bytes.decode("utf-8"))
-  return {"result": result}
+    result["generate_root_response"] = generate_root_response
+    encoded_root_token = generate_root_response["encoded_root_token"]
+
+    if not encoded_root_token:
+        return {"error": "Encoded root token not found", "result": result}
+
+    result["encoded_root_token"] = encoded_root_token
+
+    if calculate_new_root:
+        _root_token = base64.b64decode(bytearray(encoded_root_token, "ascii") + b"==")
+        _otp_bytes = bytearray(otp, "ascii")
+        _final_root_token_bytes = bytearray()
+        for i, j in zip(_root_token, _otp_bytes):
+            _final_root_token_bytes.append(i ^ j)
+        result["new_root"] = str(_final_root_token_bytes.decode("utf-8"))
+    return {"result": result}
 
 
 def run_module():
-  # define available arguments/parameters a user can pass to the module
-  module_args = dict(
-      unseal_keys=dict(type="list", elements="str", required=True, no_log=True),
-      vault_addr=dict(type="str", required=False, default="http://localhost:8200"),
-      vault_client_cert=dict(type="str", required=False),
-      vault_client_key=dict(type="str", required=False),
-      vault_capath=dict(type="str", required=False),
-      cancel_root_generation=dict(type="bool", required=False, default=False),
-      calculate_new_root=dict(type="bool", required=False, default=False),
-  )
-
-  module = AnsibleModule(argument_spec=module_args, supports_check_mode=False)
-
-  root_gen_result = root_gen(
-      unseal_keys=module.params["unseal_keys"],
-      vault_addr=module.params["vault_addr"],
-      vault_client_cert=module.params["vault_client_cert"],
-      vault_client_key=module.params["vault_client_key"],
-      vault_capath=module.params["vault_capath"],
-      cancel_root_generation=module.params["cancel_root_generation"],
-      calculate_new_root=module.params["calculate_new_root"],
-  )
-
-  if "error" in root_gen_result.keys():
-    return module.fail_json(
-        msg=root_gen_result["error"], **root_gen_result["result"]
+    # define available arguments/parameters a user can pass to the module
+    module_args = dict(
+        unseal_keys=dict(type="list", elements="str", required=True, no_log=True),
+        vault_addr=dict(type="str", required=False, default="http://localhost:8200"),
+        vault_client_cert=dict(type="str", required=False),
+        vault_client_key=dict(type="str", required=False),
+        vault_capath=dict(type="str", required=False),
+        cancel_root_generation=dict(type="bool", required=False, default=False),
+        calculate_new_root=dict(type="bool", required=False, default=False),
     )
 
-  module.exit_json(**root_gen_result["result"])
+    module = AnsibleModule(argument_spec=module_args, supports_check_mode=False)
+
+    root_gen_result = root_gen(
+        unseal_keys=module.params["unseal_keys"],
+        vault_addr=module.params["vault_addr"],
+        vault_client_cert=module.params["vault_client_cert"],
+        vault_client_key=module.params["vault_client_key"],
+        vault_capath=module.params["vault_capath"],
+        cancel_root_generation=module.params["cancel_root_generation"],
+        calculate_new_root=module.params["calculate_new_root"],
+    )
+
+    if "error" in root_gen_result.keys():
+        return module.fail_json(
+            msg=root_gen_result["error"], **root_gen_result["result"]
+        )
+
+    module.exit_json(**root_gen_result["result"])
 
 
 def main():
-  run_module()
+    run_module()
 
 
 if __name__ == "__main__":
-  main()
+    main()
