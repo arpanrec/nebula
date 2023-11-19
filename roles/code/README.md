@@ -52,6 +52,7 @@ options:
       - "ms-python.isort"
       - "ms-python.python"
       - "ms-python.vscode-pylance"
+      - "ms-python.black-formatter"
       - "ms-toolsai.jupyter"
       - "ms-toolsai.jupyter-keymap"
       - "ms-toolsai.jupyter-renderers"

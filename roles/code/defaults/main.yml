@@ -18,6 +18,7 @@ code_rv_ext_to_be_installed:
   - "ms-python.isort"
   - "ms-python.python"
   - "ms-python.vscode-pylance"
+  - "ms-python.black-formatter"
   - "ms-toolsai.jupyter"
   - "ms-toolsai.jupyter-keymap"
   - "ms-toolsai.jupyter-renderers"
