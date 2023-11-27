@@ -4,13 +4,13 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
-ansible==8.6.1
+ansible==9.0.1
     # via -r requirements.in
 ansible-compat==4.1.10
     # via
     #   ansible-lint
     #   molecule
-ansible-core==2.15.6
+ansible-core==2.16.0
     # via
     #   ansible
     #   ansible-compat
@@ -43,7 +43,7 @@ click==8.1.7
     #   molecule
 click-help-colors==0.9.4
     # via molecule
-cryptography==41.0.5
+cryptography==41.0.6
     # via
     #   -r requirements.in
     #   ansible-core
@@ -63,7 +63,7 @@ flake8==6.1.0
     # via -r requirements.in
 hvac==2.0.0
     # via -r requirements.in
-idna==3.4
+idna==3.6
     # via requests
 isort==5.12.0
     # via pylint
@@ -121,7 +121,7 @@ pycparser==2.21
     # via cffi
 pyflakes==3.1.0
     # via flake8
-pygments==2.17.1
+pygments==2.17.2
     # via rich
 pylint==3.0.2
     # via -r requirements.in
@@ -152,7 +152,7 @@ rich==13.7.0
     #   ansible-lint
     #   enrich
     #   molecule
-rpds-py==0.13.0
+rpds-py==0.13.1
     # via
     #   jsonschema
     #   referencing
