@@ -18,6 +18,7 @@ pip-compile --output-file=requirements.txt requirements.in
 python3.11 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+ansible-galaxy install -r requirements.yml --force
 ```
 
 ## Run Playbook

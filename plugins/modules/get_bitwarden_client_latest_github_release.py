@@ -1,7 +1,7 @@
-"""
-Ansible Module for adding github action secret
-"""
 #!/usr/bin/env python3
+"""
+Ansible Module for Searching the latest bitwarden client release version from github
+"""
 
 # Copyright: (c) 2022, Arpan Mandal <arpan.rec@gmail.com>
 # MIT (see LICENSE or https://en.wikipedia.org/wiki/MIT_License)
@@ -22,7 +22,7 @@ def run_module(which="desktop"):
     """
     Get the latest bitwarden client release version from github
     """
-    module_args = dict()
+    module_args = {}
 
     tag_version = None
     url = "https://api.github.com/repos/bitwarden/clients/releases"
@@ -35,11 +35,11 @@ def run_module(which="desktop"):
         "per_page": 50,
     }
 
-    PAGE_NUM = 0
-    TAG_FOUND = False
+    page_num = 0
+    is_tag_found = False
 
     while True:
-        params["page"] = PAGE_NUM
+        params["page"] = page_num
         response = requests.get(url, headers=headers, params=params, timeout=10)
         if response.status_code != 200:
             raise ValueError(
@@ -51,14 +51,14 @@ def run_module(which="desktop"):
         for release in response_data:
             tag_name = release["tag_name"]
             if tag_name.lower().startswith(f"{which}-"):
-                TAG_FOUND = True
+                is_tag_found = True
                 tag_version = tag_name.replace(f"{which}-", "", 1)
                 break
-        if TAG_FOUND:
+        if is_tag_found:
             break
-        PAGE_NUM += 1
-        print(f"Page {PAGE_NUM} processed")
-    if not TAG_FOUND:
+        page_num += 1
+        print(f"Page {page_num} processed")
+    if not is_tag_found:
         raise ValueError(f"No tag found for f{which}")
 
     result = dict(changed=False, original_message="", message="")
