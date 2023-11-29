@@ -1,8 +1,24 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+This module provides functionality for encryption and decryption using GnuPG.
+
+The main function, `gpg`, takes a set of parameters including the GnuPG home directory,
+key server, key fingerprint, key path, key contents, passphrase,
+mode of operation, data to be encrypted or decrypted, and a flag indicating whether to receive the key from the key server.
+
+The module also includes a `FilterModule` class that makes the `gpg` function available as a filter in Ansible playbooks.
+
+This module is part of the arpanrec.utilities collection.
+
+Author:
+    Arpan Mandal (arpan.rec@gmail.com)
+"""
+
 import os
 import tempfile
-import gnupg
 from pathlib import Path
+import gnupg
 
 DOCUMENTATION = """
 filter_name:
@@ -48,19 +64,19 @@ def d_gpg_ops(
     - return: The result of the encryption or decryption operation.
     """
     if data is None or len(data) == 0:
-        raise Exception("data is required")
+        raise ValueError("data is required")
 
     if key_contents and key_path:
-        raise Exception("key_contents and key_path are mutually exclusive")
+        raise ValueError("key_contents and key_path are mutually exclusive")
 
     if recv_keys and not fingerprint:
-        raise Exception("recv_keys is True but fingerprint is None")
+        raise ValueError("recv_keys is True but fingerprint is None")
 
     if mode not in ["encrypt", "decrypt"]:
-        raise Exception("mode must be either encrypt or decrypt")
+        raise ValueError("mode must be either encrypt or decrypt")
 
     if mode == "decrypt" and recv_keys:
-        raise Exception("mode is decrypt but recv_keys is True")
+        raise ValueError("mode is decrypt but recv_keys is True")
 
     if not gnupg_home:
         gnupg_env_home = os.getenv("GNUPGHOME", None)
@@ -69,16 +85,14 @@ def d_gpg_ops(
         else:
             gnupg_home = Path.joinpath(Path.home(), ".gnupg")
     elif gnupg_home.lower() == "temp":
-        with tempfile.TemporaryDirectory(
-            suffix=None, prefix=None, dir=None, ignore_cleanup_errors=False
-        ) as temporary_directory:
+        with tempfile.TemporaryDirectory(suffix=None, prefix=None, dir=None, ignore_cleanup_errors=False) as temporary_directory:
             gnupg_home = temporary_directory
     else:
         pass
     if not os.path.exists(gnupg_home):
         os.makedirs(gnupg_home, exist_ok=True)
     elif os.path.exists(gnupg_home) and os.path.isfile(gnupg_home):
-        raise Exception("gnupg_home is a file, not a directory")
+        raise ValueError("gnupg_home is a file, not a directory")
 
     gpg = gnupg.GPG(gnupghome=gnupg_home)
     gpg.encoding = "utf-8"
@@ -96,12 +110,12 @@ def d_gpg_ops(
     elif mode == "decrypt":
         keys_list = gpg.list_keys(True)
     else:
-        raise Exception("mode must be either encrypt or decrypt")
+        raise ValueError("mode must be either encrypt or decrypt")
 
     if len(keys_list) == 0:
-        raise Exception("no keys found")
+        raise ValueError("no keys found")
     elif len(keys_list) > 1 and not fingerprint:
-        raise Exception("multiple keys found, please specify a fingerprint")
+        raise ValueError("multiple keys found, please specify a fingerprint")
     else:
         pass
 
@@ -123,7 +137,7 @@ def d_gpg_ops(
     final_result = str(ascii_data)
 
     if not ascii_data.ok or len(final_result) == 0:
-        raise Exception("decryption failed : " + ascii_data.status)
+        raise ValueError("decryption failed : " + ascii_data.status)
 
     return final_result
 
@@ -138,6 +152,24 @@ def gpg_enc(
     key_contents=None,
     recv_keys=False,
 ):
+    """
+    Encrypts the provided data using GnuPG.
+
+    This function takes a set of parameters including the GnuPG home directory, key server, key fingerprint, key path, key contents, passphrase, and data to be encrypted.
+
+    Parameters:
+        gpg_home (str): The GnuPG home directory. Required.
+        key_server (str): The key server. Optional.
+        key_fingerprint (str): The key fingerprint. Required.
+        key_path (str): The key path. Optional.
+        key_contents (str): The key contents. Optional.
+        passphrase (str): The passphrase. Required.
+        data (str): The data to be encrypted. Required.
+
+    Returns:
+        str: The encrypted data.
+    """
+
     return d_gpg_ops(
         fingerprint=fingerprint,
         gnupg_home=gnupg_home,
@@ -160,6 +192,23 @@ def gpg_dec(
     passphrase=None,
     key_contents=None,
 ):
+    """
+    Decrypts the provided data using GnuPG.
+
+    This function takes a set of parameters including the GnuPG home directory, key server, key fingerprint, key path, key contents, passphrase, and data to be decrypted.
+
+    Parameters:
+        gpg_home (str): The GnuPG home directory. Required.
+        key_server (str): The key server. Optional.
+        key_fingerprint (str): The key fingerprint. Required.
+        key_path (str): The key path. Optional.
+        key_contents (str): The key contents. Optional.
+        passphrase (str): The passphrase. Required.
+        data (str): The data to be decrypted. Required.
+
+    Returns:
+        str: The decrypted data.
+    """
     return d_gpg_ops(
         fingerprint=fingerprint,
         gnupg_home=gnupg_home,
@@ -174,5 +223,23 @@ def gpg_dec(
 
 
 class FilterModule(object):
+    """
+    A filter plugin class for Ansible.
+
+    This class provides a filter named 'gpg_enc' and 'gpg_dec' that can be used in Ansible templates.
+    The filters take a set of parameters including the GnuPG home directory, key server, key fingerprint, key path, key contents, passphrase, and data to be encrypted or decrypted.
+
+    Methods:
+        filters: Returns a dictionary mapping the filter names ('gpg_enc', 'gpg_dec') to the filter functions.
+    """
+
     def filters(self):
+        """
+        Returns a dictionary mapping filter names to filter functions.
+
+        This function is used by Ansible to discover all of the filters in this plugin. The returned dictionary maps the name of each filter (as a string) to the function that implements the filter.
+
+        Returns:
+            dict: A dictionary where the keys are filter names and the values are the corresponding filter functions.
+        """
         return {"gpg_enc": gpg_enc, "gpg_dec": gpg_dec}
