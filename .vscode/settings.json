@@ -1,0 +1,18 @@
+{
+    "cSpell.words": [
+        "Arpan",
+        "arpanrec",
+        "bitwarden",
+        "capath",
+        "gnupghome",
+        "hvac",
+        "Mandal",
+        "nacl",
+        "pinentry",
+        "psychicoctowinner",
+        "testorg",
+        "trustlevel",
+        "venv"
+    ],
+    "ansible.python.interpreterPath": "/home/arpan/workspace/ansible_collection_utilities/.venv/bin/python3.11"
+}

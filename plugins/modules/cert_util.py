@@ -10,7 +10,7 @@ from __future__ import absolute_import, division, print_function
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible.module_utils.cert_util import private_key, x590_certificate
+from psychicoctowinner.cert_util import private_key, x590_certificate
 
 # pylint: disable=C0103
 __metaclass__ = type
