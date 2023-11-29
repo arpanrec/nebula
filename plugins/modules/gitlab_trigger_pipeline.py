@@ -1,4 +1,18 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+This module provides functionality for triggering a pipeline in GitLab.
+
+It uses the GitLab API to trigger a pipeline for a specific project. The module takes the GitLab instance URL, project ID,
+and access token as input.
+It also allows for the specification of a branch or tag for which to trigger the pipeline, as well as any variables to include in the pipeline.
+
+This module is part of the arpanrec.utilities collection.
+
+Author:
+    Arpan Mandal (arpan.rec@gmail.com)
+"""
 
 # Copyright: (c) 2022, Arpan Mandal <arpan.rec@gmail.com>
 # MIT (see LICENSE or https://en.wikipedia.org/wiki/MIT_License)
@@ -11,6 +25,7 @@ from ansible.errors import AnsibleError
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.common.text.converters import to_native
 
+# pylint: disable=C0103
 __metaclass__ = type
 
 
@@ -206,12 +221,16 @@ def run_module() -> None:
     except BaseException as ex:
         raise AnsibleError(f"Something when wrong {to_native(ex)}") from ex
 
-    if "error" in gitlab_pipe_response.keys():
+    if "error" in gitlab_pipe_response:
         module.fail_json(msg=gitlab_pipe_response["error"], **gitlab_pipe_response)
     module.exit_json(**gitlab_pipe_response)
 
 
 def main():
+    """
+    Main function for the module.
+    """
+
     run_module()
 
 

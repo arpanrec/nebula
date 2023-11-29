@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 """
 Ansible Module for adding github action secret
 """
@@ -13,6 +15,7 @@ import requests
 from ansible.module_utils.basic import AnsibleModule
 from nacl import encoding, public
 
+# pylint: disable=C0103
 __metaclass__ = type
 
 
@@ -139,6 +142,23 @@ def crud(
     state=None,
     visibility=None,
 ) -> dict:
+    """
+    Performs Create, Read, Update, and Delete (CRUD) operations.
+
+    This function is responsible for performing CRUD operations on GitHub Action Secrets based on the provided parameters.
+
+    Parameters:
+        api_ep (str): The endpoint of the GitHub API. Defaults to "https://api.github.com".
+        pat (str): The Personal Access Token (PAT) for the GitHub API. Required.
+        owner (str): The owner of the repository. Optional.
+        organization (str): The organization of the repository. Optional.
+        unencrypted_secret (str): The plain text action secret. Optional.
+        name (str): The name of the secret. Required.
+
+    Returns:
+        dict: A dictionary containing the results of the CRUD operation.
+    """
+
     result = {"changed": False, "updated": False, "created": False, "deleted": False}
     create_update_data = {}
     headers = {"Accept": "application/vnd.github+json", "Authorization": f"token {pat}"}
@@ -262,7 +282,7 @@ def run_module():
         visibility=module.params["visibility"],
     )
 
-    if "error" in github_update_response.keys():
+    if "error" in github_update_response:
         return module.fail_json(msg=github_update_response["error"], **github_update_response)
 
     module.exit_json(**github_update_response)

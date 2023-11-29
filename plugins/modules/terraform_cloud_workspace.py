@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 """
-Ansible Plugin Script
+This module provides functionality for creating and updating a Terraform Cloud workspace.
+
+It uses the HashiCorp Terraform Cloud API to interact with the Terraform Cloud system. The module takes a hostname, access token, organization name, workspace name, and optional organization and workspace attributes as input.
+
+The module is capable of creating a new workspace if it does not exist, or updating an existing workspace with new attributes.
+The updated or newly created workspace is not returned by the module, but is instead stored within the Terraform Cloud system.
+
+This module is part of the arpanrec.utilities collection.
+
+Author:
+    Arpan Mandal (arpan.rec@gmail.com)
 """
 
 # Copyright: (c) 2022, Arpan Mandal <arpan.rec@gmail.com>
@@ -12,6 +24,7 @@ from ansible_collections.arpanrec.utilities.plugins.module_utils.hashicorp_tfe_c
     crud,
 )
 
+# pylint: disable=C0103
 __metaclass__ = type
 
 
@@ -89,15 +102,31 @@ workspace:
 
 
 def run_module():
-    # define available arguments/parameters a user can pass to the module
-    module_args = dict(
-        hostname=dict(required=False, default="app.terraform.io"),
-        token=dict(type="str", required=True, no_log=True),
-        organization=dict(type="str", required=True),
-        organization_attributes=dict(type="dict", required=False),
-        workspace=dict(type="str", required=True),
-        workspace_attributes=dict(type="dict", required=False),
-    )
+    """
+    Executes the main functionality of the module.
+
+    This function is responsible for creating, updating, or deleting a Terraform Cloud workspace based on the provided parameters.
+
+    Parameters:
+        hostname (str): The hostname of the Terraform Cloud instance. Defaults to "app.terraform.io".
+        token (str): The access token for the Terraform Cloud instance. Required.
+        organization (str): The name of the organization in Terraform Cloud. Required.
+        organization_attributes (dict): The attributes for the organization in Terraform Cloud. Optional.
+        workspace (str): The name of the workspace in Terraform Cloud. Required.
+        workspace_attributes (dict): The attributes for the workspace in Terraform Cloud. Optional.
+
+    Returns:
+        dict: A dictionary containing the results of the module execution.
+    """
+
+    module_args = {
+        "hostname": {"required": False, "default": "app.terraform.io"},
+        "token": {"type": "str", "required": True, "no_log": True},
+        "organization": {"type": "str", "required": True},
+        "organization_attributes": {"type": "dict", "required": False},
+        "workspace": {"type": "str", "required": True},
+        "workspace_attributes": {"type": "dict", "required": False},
+    }
 
     module = AnsibleModule(
         argument_spec=module_args,
@@ -120,6 +149,10 @@ def run_module():
 
 
 def main():
+    """
+    Main function for the module.
+    """
+
     run_module()
 
 

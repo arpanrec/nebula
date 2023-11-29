@@ -136,7 +136,7 @@ def crud(
         resource_attributes=organization_attributes,
         result=result,
     )
-    if "error" in result_organization.keys():
+    if "error" in result_organization:
         return result_organization
     result_workspace = tfe_resource(
         resource_url=f"https://{hostname}/api/v2/organizations/{organization}/workspaces",

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 """
 Ansible Module for Searching the latest bitwarden client release version from github
 """
@@ -10,6 +12,7 @@ from __future__ import absolute_import, division, print_function
 import requests
 from ansible.module_utils.basic import AnsibleModule
 
+# pylint: disable=C0103
 __metaclass__ = type
 
 DOCUMENTATION = r"""

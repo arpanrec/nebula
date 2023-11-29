@@ -1,4 +1,19 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+This module provides functionality for generating a root token for HashiCorp Vault using unseal keys.
+
+It uses the HashiCorp Vault API Client (hvac) to interact with the Vault system. The module takes a list of unseal keys as input,
+which are used to generate a new root token. The new token is not returned by the module, but is instead stored securely within the Vault system.
+
+The module also provides options for specifying the Vault address, client certificate and key, and CA path. Additionally, it allows for the cancellation of the root generation process and the calculation of a new root.
+
+This module is part of the arpanrec.utilities collection.
+
+Author:
+    Arpan Mandal (arpan.rec@gmail.com)
+"""
 
 # Copyright: (c) 2022, Arpan Mandal <arpan.rec@gmail.com>
 # MIT (see LICENSE or https://en.wikipedia.org/wiki/MIT_License)
@@ -9,6 +24,7 @@ import base64
 from ansible.module_utils.basic import AnsibleModule
 from hvac import Client
 
+# pylint: disable=C0103
 __metaclass__ = type
 
 DOCUMENTATION = r"""
@@ -91,27 +107,38 @@ new_root:
 
 
 def root_gen(
-    unseal_keys=None,
+    unseal_keys: list,
     vault_addr=None,
     vault_client_cert=None,
     vault_client_key=None,
-    vault_capath=None,
+    vault_ca_path=None,
     cancel_root_generation: bool = False,
     calculate_new_root: bool = False,
 ):
+    """
+    Generates a new root token for the Vault system.
+
+    This function initiates the process of generating a new root token for the Vault system.
+    The new token is not returned by this function, but is instead stored securely within the Vault system.
+
+    Raises:
+        VaultError: If there is an issue with the Vault system that prevents the generation of a new root token.
+
+    Returns:
+        None
+    """
+
     result = {}
 
     vault_client_config = dict(url=vault_addr)
-    if vault_capath:
-        vault_client_config["verify"] = vault_capath
+    if vault_ca_path:
+        vault_client_config["verify"] = vault_ca_path
     if vault_client_cert:
         vault_client_config["cert"] = (vault_client_cert, vault_client_key)
 
     vault_client = Client(**vault_client_config)
 
-    read_root_generation_progress_response = (
-        vault_client.sys.read_root_generation_progress()
-    )
+    read_root_generation_progress_response = vault_client.sys.read_root_generation_progress()
     required_num_of_unseal_keys = read_root_generation_progress_response["required"]
     provided_num_of_unseal_keys = len(unseal_keys)
     if provided_num_of_unseal_keys < required_num_of_unseal_keys:
@@ -161,16 +188,35 @@ def root_gen(
 
 
 def run_module():
-    # define available arguments/parameters a user can pass to the module
-    module_args = dict(
-        unseal_keys=dict(type="list", elements="str", required=True, no_log=True),
-        vault_addr=dict(type="str", required=False, default="http://localhost:8200"),
-        vault_client_cert=dict(type="str", required=False),
-        vault_client_key=dict(type="str", required=False),
-        vault_capath=dict(type="str", required=False),
-        cancel_root_generation=dict(type="bool", required=False, default=False),
-        calculate_new_root=dict(type="bool", required=False, default=False),
-    )
+    """
+    Executes the main functionality of the module.
+
+    This function takes a set of parameters to configure the Vault system,
+    including unseal keys, Vault address, client certificate and key,
+    and options to cancel root generation and calculate a new root.
+
+    Parameters:
+        unseal_keys (list of str): The unseal keys for the Vault system. Required.
+        vault_addr (str): The address of the Vault system. Defaults to "http://localhost:8200".
+        vault_client_cert (str): The client certificate for the Vault system. Optional.
+        vault_client_key (str): The client key for the Vault system. Optional.
+        vault_capath (str): The CA path for the Vault system. Optional.
+        cancel_root_generation (bool): Whether to cancel the root generation process. Defaults to False.
+        calculate_new_root (bool): Whether to calculate a new root. Defaults to False.
+
+    Returns:
+        dict: A dictionary containing the results of the module execution.
+    """
+
+    module_args = {
+        "unseal_keys": {"type": "list", "elements": "str", "required": True, "no_log": True},
+        "vault_addr": {"type": "str", "required": False, "default": "http://localhost:8200"},
+        "vault_client_cert": {"type": "str", "required": False},
+        "vault_client_key": {"type": "str", "required": False},
+        "vault_capath": {"type": "str", "required": False},
+        "cancel_root_generation": {"type": "bool", "required": False, "default": False},
+        "calculate_new_root": {"type": "bool", "required": False, "default": False},
+    }
 
     module = AnsibleModule(argument_spec=module_args, supports_check_mode=False)
 
@@ -179,20 +225,22 @@ def run_module():
         vault_addr=module.params["vault_addr"],
         vault_client_cert=module.params["vault_client_cert"],
         vault_client_key=module.params["vault_client_key"],
-        vault_capath=module.params["vault_capath"],
+        vault_ca_path=module.params["vault_capath"],
         cancel_root_generation=module.params["cancel_root_generation"],
         calculate_new_root=module.params["calculate_new_root"],
     )
 
-    if "error" in root_gen_result.keys():
-        return module.fail_json(
-            msg=root_gen_result["error"], **root_gen_result["result"]
-        )
+    if "error" in root_gen_result:
+        return module.fail_json(msg=root_gen_result["error"], **root_gen_result["result"])
 
     module.exit_json(**root_gen_result["result"])
 
 
 def main():
+    """
+    Main function for the module.
+    """
+
     run_module()
 
 
