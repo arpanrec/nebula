@@ -114,10 +114,9 @@ def d_gpg_ops(
 
     if len(keys_list) == 0:
         raise ValueError("no keys found")
-    elif len(keys_list) > 1 and not fingerprint:
+
+    if len(keys_list) > 1 and not fingerprint:
         raise ValueError("multiple keys found, please specify a fingerprint")
-    else:
-        pass
 
     if not fingerprint:
         fingerprint = keys_list[0]["fingerprint"]
@@ -222,7 +221,7 @@ def gpg_dec(
     )
 
 
-class FilterModule(object):
+class FilterModule:
     """
     A filter plugin class for Ansible.
 

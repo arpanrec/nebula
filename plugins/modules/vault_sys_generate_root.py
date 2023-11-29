@@ -130,7 +130,7 @@ def root_gen(
 
     result = {}
 
-    vault_client_config = dict(url=vault_addr)
+    vault_client_config = {"url": vault_addr}
     if vault_ca_path:
         vault_client_config["verify"] = vault_ca_path
     if vault_client_cert:

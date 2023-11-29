@@ -44,9 +44,7 @@ def run_module(which="desktop"):
         params["page"] = page_num
         response = requests.get(url, headers=headers, params=params, timeout=10)
         if response.status_code != 200:
-            raise ValueError(
-                f"Error fetching releases: {response.status_code}, {response.text}"
-            )
+            raise ValueError(f"Error fetching releases: {response.status_code}, {response.text}")
         response_data = response.json()
         if len(response_data) == 0:
             break
@@ -63,7 +61,7 @@ def run_module(which="desktop"):
     if not is_tag_found:
         raise ValueError(f"No tag found for f{which}")
 
-    result = dict(changed=False, original_message="", message="")
+    result = {"changed": False, "original_message": "", "message": ""}
 
     module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
 

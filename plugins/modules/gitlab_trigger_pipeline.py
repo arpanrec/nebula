@@ -198,13 +198,13 @@ def run_module() -> None:
     """
     Ansible run module
     """
-    module_args = dict(
-        api_ep=dict(type="str", required=False, default="https://gitlab.com"),
-        private_token=dict(type="str", required=False, no_log=True),
-        token=dict(type="str", required=False, no_log=True),
-        project_id=dict(type="str", required=True),
-        ref=dict(type="str", required=False),
-    )
+    module_args = {
+        "api_ep": {"type": "str", "required": False, "default": "https://gitlab.com"},
+        "private_token": {"type": "str", "required": False, "no_log": True},
+        "token": {"type": "str", "required": False, "no_log": True},
+        "project_id": {"type": "str", "required": True},
+        "ref": {"type": "str", "required": False},
+    }
 
     module = AnsibleModule(argument_spec=module_args, supports_check_mode=False)
 

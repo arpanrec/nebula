@@ -241,17 +241,17 @@ def run_module():
     Ansible main module
     """
     # define available arguments/parameters a user can pass to the module
-    module_args = dict(
-        api_ep=dict(type="str", required=False, default="https://api.github.com"),
-        pat=dict(type="str", required=True, no_log=True),
-        owner=dict(type="str", required=False),
-        organization=dict(type="str", required=False),
-        unencrypted_secret=dict(type="str", required=False, no_log=True),
-        name=dict(type="str", required=True),
-        repository=dict(type="str", required=False),
-        state=dict(type="str", required=False, default="present", choices=["present", "absent"]),
-        visibility=dict(type="str", required=False, choices=["private", "all", "selected"]),
-    )
+    module_args = {
+        "api_ep": {"type": "str", "required": False, "default": "https://api.github.com"},
+        "pat": {"type": "str", "required": True, "no_log": True},
+        "owner": {"type": "str", "required": False},
+        "organization": {"type": "str", "required": False},
+        "unencrypted_secret": {"type": "str", "required": False, "no_log": True},
+        "name": {"type": "str", "required": True},
+        "repository": {"type": "str", "required": False},
+        "state": {"type": "str", "required": False, "default": "present", "choices": ["present", "absent"]},
+        "visibility": {"type": "str", "required": False, "choices": ["private", "all", "selected"]},
+    }
 
     module = AnsibleModule(
         argument_spec=module_args,
