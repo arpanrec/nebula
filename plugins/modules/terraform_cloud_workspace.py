@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+Ansible Plugin Script
+"""
 
 # Copyright: (c) 2022, Arpan Mandal <arpan.rec@gmail.com>
 # MIT (see LICENSE or https://en.wikipedia.org/wiki/MIT_License)
@@ -23,65 +26,65 @@ version_added: "1.0.0"
 description: Create Update terraform cloud workspace.
 
 options:
-    hostname:
-        description: Terraform Cloud Hostname.
-        required: false
-        type: str
-        default: app.terraform.io
-    token:
-        description: Terraform Cloud Access Token.
-        required: true
-        type: str
-    organization:
-        description: Name of terraform cloud organization
-        required: true
-        type: str
-    organization_attributes:
-        description:
-            - Attributes of terraform cloud organization
-            - Find the list of attributes: `https://developer.hashicorp.com/terraform/cloud-docs/api-docs/organizations\#update-an-organization`
-        required: false
-        type: dict
-    workspace:
-        description: Name of terraform workspace
-        required: true
-        type: str
-    workspace_attributes:
-        description:
-            - Attributes of terraform cloud organization
-            - Find the list of attributes: `https://developer.hashicorp.com/terraform/cloud-docs/api-docs/workspaces\#update-a-workspace`
-        required: false
-        type: bool
+  hostname:
+    description: Terraform Cloud Hostname.
+    required: false
+    type: str
+    default: app.terraform.io
+  token:
+    description: Terraform Cloud Access Token.
+    required: true
+    type: str
+  organization:
+    description: Name of terraform cloud organization
+    required: true
+    type: str
+  organization_attributes:
+    description:
+      - Attributes of terraform cloud organization
+      - Find the list of attributes: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/organizations\#update-an-organization
+    required: false
+    type: dict
+  workspace:
+    description: Name of terraform workspace
+    required: true
+    type: str
+  workspace_attributes:
+    description:
+      - Attributes of terraform cloud organization
+      - Find the list of attributes: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/workspaces\#update-a-workspace
+    required: false
+    type: bool
 author:
-    - Arpan Mandal (mailto:arpan.rec@gmail.com)
+  - Arpan Mandal (mailto:arpan.rec@gmail.com)
+
 """
 
 EXAMPLES = r"""
-# Prepare Terraform cloud
 - name: Prepare Terraform cloud
   arpanrec.utilities.terraform_cloud_workspace:
     token: "xxxxxxxxxxxxx"
     organization: testorg
     organization_attributes:
-        email: user@email.com
-        "collaborator-auth-policy": "two_factor_mandatory"
+      email: user@email.com
+      "collaborator-auth-policy": "two_factor_mandatory"
     workspace: "vault_client_auth"
     workspace_attributes:
-        "allow-destroy-plan": true
-        "auto-apply": true
-        "execution-mode": "local"
+      "allow-destroy-plan": true
+      "auto-apply": true
+      "execution-mode": "local"
 """
 
 RETURN = r"""
-These are examples of possible return values, and in general should use other names for return values.
 organization:
-    description: Details of terraform cloud organization.
-    type: dict
-    returned: always
+  description: Details of terraform cloud organization.
+  type: dict
+  returned: always
 workspace:
-    description: Details of terraform cloud workspace.
-    type: dict
-    returned: always
+  description: Details of terraform cloud workspace.
+  type: dict
+  returned: always
+
 """
 
 

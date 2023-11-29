@@ -1,6 +1,3 @@
-"""
-Ansible Plugin Script
-"""
 #!/usr/bin/env python3
 
 # Copyright: (c) 2022, Arpan Mandal <arpan.rec@gmail.com>
@@ -28,29 +25,30 @@ version_added: "1.0.0"
 description: Trigger Gitlab Pipeline.
 
 options:
-    api_ep:
-        description: Rest Api endpoint
-        required: false
-        type: str
-        default: "https://gitlab.com"
-    private_token:
-        description: Gitlab Private Token.
-        required: false
-        type: str
-    token:
-        description: The trigger token or CI/CD job token.
-        required: false
-        type: str
-    project_id:
-        description: The ID or URL-encoded path of the project owned by the authenticated user.
-    ref:
-        description:
-            - The branch or tag to run the pipeline on.
-            - Defaults to the default branch of repo
-        required: false
-        type: str
+  api_ep:
+    description: Rest Api endpoint
+    required: false
+    type: str
+    default: "https://gitlab.com"
+  private_token:
+    description: Gitlab Private Token.
+    required: false
+    type: str
+  token:
+    description: The trigger token or CI/CD job token.
+    required: false
+    type: str
+  project_id:
+    description: The ID or URL-encoded path of the project owned by the authenticated user.
+  ref:
+    description:
+      - The branch or tag to run the pipeline on.
+      - Defaults to the default branch of repo
+    required: false
+    type: str
 author:
-    - Arpan Mandal (mailto:arpan.rec@gmail.com)
+  - Arpan Mandal (mailto:arpan.rec@gmail.com)
+
 """
 
 
@@ -68,7 +66,6 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-These are examples of possible return values, and in general should use other names for return values.
 run_details:
     description: Newly created pipeline run details
     type: dict
@@ -98,9 +95,7 @@ def crud(
         return result
 
     if private_token and token and ref:
-        result[
-            "error"
-        ] = "private_token and token are mutually exclusive when ref is present"
+        result["error"] = "private_token and token are mutually exclusive when ref is present"
         return result
 
     if not project_id:
@@ -116,9 +111,7 @@ def crud(
     if not token:
         head = {"PRIVATE-TOKEN": private_token}
         trigger_url = f"{api_ep}/api/v4/projects/{project_id}/triggers"
-        list_of_trigger_token_response = requests.get(
-            trigger_url, timeout=30, headers=head
-        )
+        list_of_trigger_token_response = requests.get(trigger_url, timeout=30, headers=head)
         if list_of_trigger_token_response.status_code == 200:
             _if_token_exists = False
             for token_details in list_of_trigger_token_response.json():
@@ -130,9 +123,7 @@ def crud(
                 params = {
                     "description": _token_description,
                 }
-                new_trigger_token_response = requests.post(
-                    trigger_url, timeout=30, headers=head, params=params
-                )
+                new_trigger_token_response = requests.post(trigger_url, timeout=30, headers=head, params=params)
                 if new_trigger_token_response.status_code == 201:
                     result["changed"] = True
                     result["token_created"] = True
@@ -169,9 +160,7 @@ def crud(
 
     trigger_pipeline_url = f"{api_ep}/api/v4/projects/{project_id}/trigger/pipeline"
     params = {"ref": ref, "token": token}
-    trigger_pipeline_details_res = requests.post(
-        trigger_pipeline_url, params=params, timeout=30
-    )
+    trigger_pipeline_details_res = requests.post(trigger_pipeline_url, params=params, timeout=30)
     if trigger_pipeline_details_res.status_code == 201:
         result["run_details"] = trigger_pipeline_details_res.json()
         result["changed"] = True
