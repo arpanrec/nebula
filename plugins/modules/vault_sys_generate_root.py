@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
 """
 This module provides functionality for generating a root token for HashiCorp Vault using unseal keys.
 
 It uses the HashiCorp Vault API Client (hvac) to interact with the Vault system. The module takes a list of unseal keys as input,
 which are used to generate a new root token. The new token is not returned by the module, but is instead stored securely within the Vault system.
 
-The module also provides options for specifying the Vault address, client certificate and key, and CA path. Additionally, it allows for the cancellation of the root generation process and the calculation of a new root.
+The module also provides options for specifying the Vault address, client certificate and key, and CA path.
+Additionally, it allows for the cancellation of the root generation process and the calculation of a new root.
 
 This module is part of the arpanrec.utilities collection.
 

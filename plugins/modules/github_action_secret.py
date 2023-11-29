@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
 """
-Ansible Module for adding github action secret
+Ansible Module for adding github action secret.
 """
 
 # Copyright: (c) 2022, Arpan Mandal <arpan.rec@gmail.com>

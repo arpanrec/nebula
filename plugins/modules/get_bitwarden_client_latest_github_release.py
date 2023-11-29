@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
 """
-Ansible Module for Searching the latest bitwarden client release version from github
+Ansible Module for Searching the latest bitwarden client release version from github.
 """
 
 # Copyright: (c) 2022, Arpan Mandal <arpan.rec@gmail.com>
