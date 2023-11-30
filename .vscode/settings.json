@@ -9,7 +9,10 @@
         "Mandal",
         "nacl",
         "pinentry",
+        "PKINIT",
         "psychicoctowinner",
+        "SMARTCARD",
+        "suboptions",
         "testorg",
         "trustlevel",
         "venv"

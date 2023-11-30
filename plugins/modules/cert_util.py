@@ -271,7 +271,7 @@ options:
 EXAMPLES = r"""
 - name: Vault | Prepare
   arpanrec.utils.cert_util:
-    private_key_passphrase: abcafsafasfasfasfas
+    private_key_passphrase: password
     private_key_path: ca_private_key.pem
     certificate_path: ca_certificate.pem
     properties:
@@ -300,13 +300,13 @@ EXAMPLES = r"""
 
 - name: Vault | Prepare
   arpanrec.utils.cert_util:
-    private_key_passphrase: fasfasfasfasfsa
+    private_key_passphrase: password
     private_key_path: private_key.pem
     certificate_path: certificate.pem
     certificate_authority:
       private_key_path: ca_private_key.pem
       certificate_path: ca_certificate.pem
-      private_key_passphrase: abcafsafasfasfasfas
+      private_key_passphrase: password
     properties:
       SetAuthorityKeyIdentifier: true
       SetAuthorityKeyIdentifierCritical: true
