@@ -15,7 +15,7 @@ rm -rf .venv ~/.ansible* ~/.cache/ansible* ~/.cache/pip*
 ```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
-pip install pip-tools
+pip install pip-tools --upgrade --no-cache-dir
 rm -f requirements.txt
 pip-compile --output-file=requirements.txt requirements.in
 ```
