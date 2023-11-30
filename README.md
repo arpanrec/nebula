@@ -15,7 +15,7 @@ rm -rf .venv ~/.ansible* ~/.cache/ansible* ~/.cache/pip*
 ```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
-pip install pip-tools --upgrade --no-cache-dir
+pip install pip-tools --upgrade
 rm -f requirements.txt
 pip-compile --output-file=requirements.txt requirements.in
 ```
@@ -25,7 +25,7 @@ pip-compile --output-file=requirements.txt requirements.in
 ```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt --no-cache-dir
+pip install -r requirements.txt
 ansible-galaxy install -r requirements.yml --force
 ```
 

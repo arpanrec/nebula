@@ -6,14 +6,14 @@ Ansible Module for adding / updating / deleting init store
 from __future__ import absolute_import, division, print_function
 
 from ansible.module_utils.basic import AnsibleModule
-from psychicoctowinner.init_store import store
+from psychicoctowinner.seed_store import store
 
 # pylint: disable=C0103
 __metaclass__ = type
 
 DOCUMENTATION = r"""
 ---
-module: init_store
+module: seed_store
 short_description: Add / Update / Delete a variable in Init store bucket
 description:
   - Add / Update / Delete a variable in a Init store bucket
@@ -29,6 +29,9 @@ options:
     description: Name of the variable to be stored
     required: true
   value:
+    description: Value of the variable to be stored
+    required: false
+  value1:
     description: Value of the variable to be stored
     required: false
   mark_for_delete:
@@ -65,12 +68,12 @@ def run_module():
     try:
         changed = False
         value, is_success = store(
-            module.params["key"],
-            module.params["value"],
-            module.params["endpoint"],
-            module.params["credential"],
-            module.params["mark_for_delete"],
-            module.params["behavior_on_not_found"],
+            key=module.params["key"],
+            value=module.params["value"],
+            endpoint=module.params["endpoint"],
+            credential=module.params["credential"],
+            mark_for_delete=module.params["mark_for_delete"],
+            behavior_on_not_found=module.params["behavior_on_not_found"],
         )
 
         if module.params["value"] and is_success:

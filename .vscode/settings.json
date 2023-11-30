@@ -17,5 +17,5 @@
         "trustlevel",
         "venv"
     ],
-    "ansible.python.interpreterPath": "/home/arpan/workspace/ansible_collection_utilities/.venv/bin/python3.11"
+    "ansible.python.interpreterPath": "/home/arpan/workspace/ansible_collection_utilities/.venv/bin/python"
 }
