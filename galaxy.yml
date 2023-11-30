@@ -1,7 +1,7 @@
 ---
 namespace: arpanrec
 name: utilities
-version: 1.0.0
+version: 4.0.0
 readme: README.md
 authors:
   - "Arpan Mandal <arpan.rec@gmail.com>"
