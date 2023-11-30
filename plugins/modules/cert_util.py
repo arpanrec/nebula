@@ -10,7 +10,7 @@ from __future__ import absolute_import, division, print_function
 
 from ansible.module_utils.basic import AnsibleModule
 
-from psychicoctowinner.cert_util import private_key, x590_certificate
+from psychicoctowinner.cert_util import gen_private_key, gen_x590_certificate
 
 # pylint: disable=C0103
 __metaclass__ = type
@@ -413,14 +413,14 @@ def run_module():
         )
 
     try:
-        x, y, z, k = private_key(
+        x, y, z, k = gen_private_key(
             private_key_path=private_key_path,
             private_key_content=private_key_content,
             private_key_passphrase=private_key_passphrase,
             public_exponent=public_exponent,
             key_size=key_size,
         )
-        a, b, c, d = x590_certificate(
+        a, b, c, d = gen_x590_certificate(
             certificate_path=certificate_path,
             certificate_content=certificate_content,
             rsa_private_key=x,

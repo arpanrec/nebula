@@ -40,14 +40,18 @@ bracex==2.4
 certifi==2023.11.17
     # via
     #   minio
+    #   psychicoctowinner
     #   requests
 cffi==1.16.0
     # via
     #   argon2-cffi-bindings
     #   cryptography
+    #   psychicoctowinner
     #   pynacl
 charset-normalizer==3.3.2
-    # via requests
+    # via
+    #   psychicoctowinner
+    #   requests
 click==8.1.7
     # via
     #   black
@@ -59,6 +63,7 @@ cryptography==41.0.7
     # via
     #   -r requirements.in
     #   ansible-core
+    #   psychicoctowinner
     #   pyjwt
     #   pyopenssl
 deprecated==1.2.14
@@ -80,7 +85,9 @@ flake8==6.1.0
 hvac==2.0.0
     # via -r requirements.in
 idna==3.6
-    # via requests
+    # via
+    #   psychicoctowinner
+    #   requests
 isort==5.12.0
     # via pylint
 jinja2==3.1.2
@@ -144,7 +151,9 @@ psycopg2-binary==2.9.9
 pycodestyle==2.11.1
     # via flake8
 pycparser==2.21
-    # via cffi
+    # via
+    #   cffi
+    #   psychicoctowinner
 pycryptodome==3.19.0
     # via minio
 pyflakes==3.1.0
@@ -154,7 +163,9 @@ pygithub==2.1.1
 pygments==2.17.2
     # via rich
 pyjwt[crypto]==2.8.0
-    # via pygithub
+    # via
+    #   pygithub
+    #   pyjwt
 pylint==3.0.2
     # via -r requirements.in
 pynacl==1.5.0
@@ -189,6 +200,7 @@ requests==2.31.0
     #   docker
     #   hvac
     #   molecule-plugins
+    #   psychicoctowinner
     #   pygithub
     #   python-gitlab
     #   requests-toolbelt
@@ -226,6 +238,7 @@ urllib3==2.1.0
     #   -r requirements.in
     #   docker
     #   minio
+    #   psychicoctowinner
     #   pygithub
     #   requests
 wcmatch==8.5
