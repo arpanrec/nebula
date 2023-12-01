@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Ansible Module for adding / updating / deleting init store
 """

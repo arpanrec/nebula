@@ -4,20 +4,12 @@ Collection of ansible roles to bootstrap a new server.
 
 ## Prepare Dependencies
 
-## Just when you are paranoid
-
-```bash
-bash
-sudo rm -rf .venv ~/.ansible* ~/.cache/ansible* ~/.cache/pip*
-rm -rf .venv ~/.ansible* ~/.cache/ansible* ~/.cache/pip*
-```
-
 ```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
-pip install pip-tools --upgrade
+pip install pip pip-tools --upgrade
 rm -f requirements.txt
-pip-compile --output-file=requirements.txt requirements.in
+pip-compile --output-file=requirements.txt requirements.in --upgrade --no-header --no-annotate
 ```
 
 ## Install Dependencies

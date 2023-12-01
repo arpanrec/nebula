@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 This module provides functionality for generating a root token for HashiCorp Vault using unseal keys.
 

@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 """
 This module provides functionality for creating and updating a Terraform Cloud workspace.
 

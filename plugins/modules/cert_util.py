@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Ansible module to generate private key and certificate
 """
@@ -7,6 +5,8 @@ Ansible module to generate private key and certificate
 # Copyright: (c) 2022, Arpan Mandal <arpan.rec@gmail.com>
 # MIT (see LICENSE or https://en.wikipedia.org/wiki/MIT_License)
 from __future__ import absolute_import, division, print_function
+
+from typing import Optional
 
 from ansible.module_utils.basic import AnsibleModule
 
@@ -266,6 +266,16 @@ options:
         description: Content of certificate file
         required: false
         type: str
+  private_key_permission:
+    description: Private Key Permission
+    required: false
+    type: int
+    default: "0o600"
+  certificate_permission:
+    description: Certificate Permission
+    required: false
+    type: int
+    default: "0o644"
 """
 
 EXAMPLES = r"""
@@ -362,52 +372,60 @@ def run_module():
         "certificate_content": {"type": "str", "required": False, "default": None},
         "properties": {"type": "dict", "required": False, "default": {}},
         "certificate_authority": {"type": "dict", "required": False, "default": None},
+        "private_key_permission": {"type": "int", "required": False, "default": 0o600},
+        "certificate_permission": {"type": "int", "required": False, "default": 0o644},
     }
 
     module = AnsibleModule(module_args, supports_check_mode=False)
 
-    private_key_path = module.params["private_key_path"]
-    private_key_content = module.params["private_key_content"]
-    private_key_passphrase = module.params["private_key_passphrase"]
-    public_exponent = module.params["public_exponent"]
-    key_size = module.params["key_size"]
-    certificate_path = module.params["certificate_path"]
-    certificate_content = module.params["certificate_content"]
-    properties = module.params["properties"]
-    certificate_authority = module.params["certificate_authority"]
+    private_key_path: str = module.params["private_key_path"]
+    private_key_content: str = module.params["private_key_content"]
+    private_key_passphrase: str = module.params["private_key_passphrase"]
+    public_exponent: int = module.params["public_exponent"]
+    key_size: int = module.params["key_size"]
+    certificate_path: str = module.params["certificate_path"]
+    certificate_content: str = module.params["certificate_content"]
+    properties: dict = module.params["properties"]
+    certificate_authority: dict = module.params["certificate_authority"]
+    certificate_sign_authority: Optional[tuple] = None
+    private_key_file_mode: int = module.params["private_key_permission"]
+    certificate_file_mode: int = module.params["certificate_permission"]
 
     if certificate_authority:
-        ca_private_key_content = certificate_authority.get("private_key_content", None)
-        ca_certificate_content = certificate_authority.get("certificate_content", None)
-        cat_private_key_passphrase = certificate_authority.get("private_key_passphrase", None)
-        if certificate_authority.get("certificate_path") and certificate_authority.get("certificate_content"):
+        ca_private_key_content: str = certificate_authority.get("private_key_content", None)
+        ca_private_key_path: str = certificate_authority.get("private_key_path", None)
+        ca_certificate_content: str = certificate_authority.get("certificate_content", None)
+        ca_certificate_path: str = certificate_authority.get("certificate_path", None)
+        cat_private_key_passphrase: str = certificate_authority.get("private_key_passphrase", None)
+
+        if ca_certificate_content and ca_certificate_path:
             module.fail_json(msg="Cannot specify both certificate_path and certificate_content")
 
-        if not certificate_authority.get("certificate_path") and not certificate_authority.get("certificate_content"):
+        if not ca_certificate_content and not ca_certificate_path:
             module.fail_json(msg="Must specify either certificate_path or certificate_content")
 
-        if certificate_authority.get("private_key_path") and certificate_authority.get("private_key_content"):
+        if ca_private_key_content and ca_private_key_path:
             module.fail_json(msg="Cannot specify both private_key_path and private_key_content")
 
-        if not certificate_authority.get("private_key_path") and not certificate_authority.get("private_key_content"):
+        if not ca_private_key_content and not ca_private_key_path:
             module.fail_json(msg="Must specify either private_key_path or private_key_content")
 
-        if certificate_authority.get("private_key_path", None):
-            with open(certificate_authority["private_key_path"], "rb") as f:
+        if ca_private_key_path:
+            with open(ca_private_key_path, "r", encoding="utf-8") as f:
                 ca_private_key_content = f.read()
 
-        if certificate_authority.get("certificate_path", None):
-            with open(certificate_authority["certificate_path"], "rb") as f:
+        if ca_certificate_path:
+            with open(ca_certificate_path, "r", encoding="utf-8") as f:
                 ca_certificate_content = f.read()
 
         cat_private_key = serialization.load_pem_private_key(
-            ca_private_key_content,
+            ca_private_key_content.encode(encoding="utf-8", errors="strict"),
             password=cat_private_key_passphrase.encode() if cat_private_key_passphrase else None,
             backend=default_backend(),
         )
-        cat_certificate = x509.load_pem_x509_certificate(ca_certificate_content, backend=default_backend())
+        cat_certificate = x509.load_pem_x509_certificate(ca_certificate_content.encode(encoding="utf-8", errors="strict"), backend=default_backend())
 
-        certificate_authority = (
+        certificate_sign_authority: tuple = (
             cat_certificate,
             cat_private_key,
         )
@@ -419,13 +437,15 @@ def run_module():
             private_key_passphrase=private_key_passphrase,
             public_exponent=public_exponent,
             key_size=key_size,
+            private_key_file_mode=private_key_file_mode,
         )
         a, b, c, d = gen_x590_certificate(
             certificate_path=certificate_path,
             certificate_content=certificate_content,
             rsa_private_key=x,
             properties=properties,
-            certificate_authority=certificate_authority,
+            certificate_authority=certificate_sign_authority,
+            certificate_file_mode=certificate_file_mode,
         )
         module.exit_json(
             changed=z or c,
