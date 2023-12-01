@@ -81,7 +81,7 @@ def run_module():
         if module.params["mark_for_delete"] and is_success:
             changed = True
 
-        module.exit_json(**{"value": value, "is_success": is_success, "changed": changed})
+        module.exit_json(value=value, is_success=is_success, changed=changed)
     except Exception as e:
         module.fail_json(msg=str(e))
 

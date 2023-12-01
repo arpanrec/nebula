@@ -431,7 +431,7 @@ def run_module():
         )
 
     try:
-        x, y, z, k = gen_private_key(
+        gen_private_key_res = gen_private_key(
             private_key_path=private_key_path,
             private_key_content=private_key_content,
             private_key_passphrase=private_key_passphrase,
@@ -439,22 +439,22 @@ def run_module():
             key_size=key_size,
             private_key_file_mode=private_key_file_mode,
         )
-        a, b, c, d = gen_x590_certificate(
+        gen_x590_certificate_res = gen_x590_certificate(
             certificate_path=certificate_path,
             certificate_content=certificate_content,
-            rsa_private_key=x,
+            rsa_private_key=gen_private_key_res["private_key"],
             properties=properties,
             certificate_authority=certificate_sign_authority,
             certificate_file_mode=certificate_file_mode,
         )
         module.exit_json(
-            changed=z or c,
-            private_key=y,
-            certificate=b,
-            private_key_generated=z,
-            certificate_generated=c,
-            private_key_generated_reason=k,
-            certificate_generated_reason=d,
+            changed=gen_private_key_res["need_to_generate"] or gen_x590_certificate_res["need_to_generate"],
+            private_key=gen_private_key_res["private_key_content"],
+            certificate=gen_x590_certificate_res["certificate_full_chain"],
+            private_key_generated=gen_private_key_res["need_to_generate"],
+            certificate_generated=gen_x590_certificate_res["need_to_generate"],
+            private_key_generated_reason=gen_private_key_res.get("need_to_generate_reason", None),
+            certificate_generated_reason=gen_x590_certificate_res.get("need_to_generate_reason", None),
         )
     except Exception as e:
         module.fail_json(msg=str(e))
