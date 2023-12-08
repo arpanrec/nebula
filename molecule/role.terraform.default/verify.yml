@@ -35,6 +35,6 @@
 
     - name: Terraform | Molecule | Verify | Fail if terraform version is not present
       ansible.builtin.assert:
-        that: terraform_rv_version_shell_result.stdout_lines[0] == "Terraform v"+terraform_rv_version
+        that: terraform_rv_version_shell_result.stdout_lines[0] == "Terraform v" + terraform_rv_version
         success_msg: Terraform Version {{ terraform_rv_version }} is installed
         fail_msg: Terraform Version {{ terraform_rv_version }} is not installed, Shell result {{ terraform_rv_version_shell_result.stdout }}

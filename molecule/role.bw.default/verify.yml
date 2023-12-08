@@ -54,6 +54,6 @@
 
     - name: Bitwarden CLI | BWS SDK | Molecule | Verify | Fail if bw version is not present
       ansible.builtin.assert:
-        that: bw_bws_cli_rv_tmp_version_shell_result.stdout is match("bws "+bw_bws_version_tag)
+        that: bw_bws_cli_rv_tmp_version_shell_result.stdout is match("bws " + bw_bws_version_tag )
         success_msg: BWS Version {{ bw_bws_version_tag }} is installed
         fail_msg: BWS Version {{ bw_bws_version_tag }} is not installed, Shell result {{ bw_bws_cli_rv_tmp_version_shell_result.stdout }}

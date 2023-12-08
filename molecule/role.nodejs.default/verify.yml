@@ -21,6 +21,6 @@
 
     - name: NodeJS | Molecule | Verify | Fail if nodejs version is not present
       ansible.builtin.assert:
-        that: nodejs_rv_version_shell_result.stdout == "{{ nodejs_rv_version }}"
+        that: nodejs_rv_version_shell_result.stdout == nodejs_rv_version
         success_msg: NodeJS Version {{ nodejs_rv_version }} is installed
         fail_msg: NodeJS Version {{ nodejs_rv_version }} is not installed, Shell result {{ nodejs_rv_version_shell_result.stdout }}

@@ -21,7 +21,7 @@
 
     - name: Oracle JDK | Molecule | Verify | Fail if javac version is not present
       ansible.builtin.assert:
-        that: java_rv_jdk_tmp_version_shell_result.stdout is match("javac "+java_rv_jdk_version+".*")
+        that: java_rv_jdk_tmp_version_shell_result.stdout is match("javac " + java_rv_jdk_version | string + ".*")
         success_msg: Java Version {{ java_rv_jdk_version }} is installed
         fail_msg: Java Version {{ java_rv_jdk_version }} is not installed, Shell result {{ java_rv_jdk_tmp_version_shell_result.stdout }}
 
@@ -85,7 +85,7 @@
 
     - name: Oracle JDK | Gradle | Molecule | Verify | Fail if Gradle version is not present
       ansible.builtin.assert:
-        that: '"Gradle "+java_rv_jdk_gradle_version in java_rv_jdk_gradle_tmp_version_shell_result.stdout'
+        that: '"Gradle " + java_rv_jdk_gradle_version in java_rv_jdk_gradle_tmp_version_shell_result.stdout'
         success_msg: Gradle Version {{ java_rv_jdk_gradle_version }} is installed
         fail_msg: Gradle Version {{ java_rv_jdk_gradle_version }} is not installed, Shell result {{ java_rv_jdk_gradle_tmp_version_shell_result.stdout }}
 
@@ -102,7 +102,7 @@
 
     - name: Oracle JDK | Apache Groovy | Molecule | Verify | Fail if Apache Groovy version is not present
       ansible.builtin.assert:
-        that: '"Groovy Version: {{ java_rv_jdk_groovy_version }}" in java_rv_jdk_groovy_tmp_version_shell_result.stdout'
+        that: '"Groovy Version: " + java_rv_jdk_groovy_version in java_rv_jdk_groovy_tmp_version_shell_result.stdout'
         success_msg: Apache Groovy Version {{ java_rv_jdk_groovy_version }} is installed
         fail_msg: Apache Groovy Version {{ java_rv_jdk_groovy_version }} is not installed, Shell result {{ java_rv_jdk_groovy_tmp_version_shell_result.stdout }}
 
@@ -134,7 +134,7 @@
 
     - name: Oracle JDK | Kotlin | Kotlin Compiler | Molecule | Verify | Fail if Kotlin | Kotlin Compiler version is not present
       ansible.builtin.assert:
-        that: '"kotlinc-jvm "+java_rv_jdk_kotlinc_version in java_rv_jdk_kotlinc_tmp_version_shell_result.stderr'
+        that: '"kotlinc-jvm " + java_rv_jdk_kotlinc_version in java_rv_jdk_kotlinc_tmp_version_shell_result.stderr'
         success_msg: Kotlin | Kotlin Compiler Version {{ java_rv_jdk_kotlinc_version }} is installed
         fail_msg: Kotlin | Kotlin Compiler Version {{ java_rv_jdk_kotlinc_version }} is not installed, Shell result {{ java_rv_jdk_kotlinc_tmp_version_shell_result.stderr }}
 
@@ -151,6 +151,6 @@
 
     - name: Oracle JDK | GraalVM | Molecule | Verify | Fail if javac version is not present
       ansible.builtin.assert:
-        that: java_rv_jdk_graalvm_tmp_version_shell_result.stdout is match("native-image "+java_rv_jdk_version+".*")
+        that: java_rv_jdk_graalvm_tmp_version_shell_result.stdout is match("native-image " + java_rv_jdk_version | string + ".*")
         success_msg: GraalVM Version {{ java_rv_jdk_version }} is installed
         fail_msg: GraalVM Version {{ java_rv_jdk_version }} is not installed, Shell result {{ java_rv_jdk_tmp_version_shell_result.stdout }}
