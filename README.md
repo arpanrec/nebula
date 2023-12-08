@@ -1,4 +1,4 @@
-# Ansible Collection utilities (arpanrec.utilities)
+# Ansible Collection utilities (arpanrec.nebula)
 
 Collection of ansible roles to bootstrap a new server.
 

@@ -22,7 +22,7 @@ DOCUMENTATION = r"""
       required: true
       choices:
         - vault_inv
-        - arpanrec.utilities.vault_inv
+        - arpanrec.nebula.vault_inv
     hostname:
       description: The URL of the hashicorp vault.
       type: str
@@ -60,7 +60,7 @@ DOCUMENTATION = r"""
 
 EXAMPLES = """
 # inventory.yml
-plugin: arpanrec.utilities.vault_inv
+plugin: arpanrec.nebula.vault_inv
 host: http://localhost:8200
 """
 

@@ -7,4 +7,4 @@
   tasks:
     - name: Vault | Molecule | Converge | Include vault role
       ansible.builtin.import_role:
-        name: arpanrec.utilities.vault
+        name: arpanrec.nebula.vault

@@ -11,14 +11,14 @@
 - name: Bitwarden Desktop | Get Version
   when: bitwarden_desktop_rv_version is not defined
   block:
-  - name: Bitwarden Desktop | Get Version
-    arpanrec.utilities.get_bitwarden_client_latest_github_release:
-    register: bitwarden_desktop_rv_dynamic_release
-    delegate_to: localhost
+    - name: Bitwarden Desktop | Get Version
+      arpanrec.nebula.get_bitwarden_client_latest_github_release:
+      register: bitwarden_desktop_rv_dynamic_release
+      delegate_to: localhost
 
-  - name: Bitwarden Desktop | Set Version
-    ansible.builtin.set_fact:
-      bitwarden_desktop_rv_version: "{{ bitwarden_desktop_rv_dynamic_release.msg }}"
+    - name: Bitwarden Desktop | Set Version
+      ansible.builtin.set_fact:
+        bitwarden_desktop_rv_version: "{{ bitwarden_desktop_rv_dynamic_release.msg }}"
 
 - name: Bitwarden Desktop | Get archive info
   ansible.builtin.stat:

@@ -1,4 +1,4 @@
-# Ansible Role: Server Workspace (arpanrec.utilities.server_workspace)
+# Ansible Role: Server Workspace (arpanrec.nebula.server_workspace)
 
 ## Oracle Java
 
@@ -70,7 +70,7 @@ options:
   become: false
   any_errors_fatal: true
   roles:
-    - name: arpanrec.utilities.java
+    - name: arpanrec.nebula.java
 ```
 
 ## Testing Oracle Java

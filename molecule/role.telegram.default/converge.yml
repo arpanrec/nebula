@@ -5,4 +5,4 @@
   tasks:
     - name: Telegram Desktop | Molecule | Converge | Include Telegram Desktop
       ansible.builtin.import_role:
-        name: arpanrec.utilities.telegram
+        name: arpanrec.nebula.telegram

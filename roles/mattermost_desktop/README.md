@@ -1,4 +1,4 @@
-# Ansible Role: Mattermost Desktop (arpanrec.utilities.mattermost_desktop)
+# Ansible Role: Mattermost Desktop (arpanrec.nebula.mattermost_desktop)
 
 Install [Mattermost Desktop](https://github.com/mattermost/desktop/releases)
 
@@ -37,7 +37,7 @@ Install [Mattermost Desktop](https://github.com/mattermost/desktop/releases)
 ```yaml
 - name: Include bitwarden_desktop
   ansible.builtin.import_role:
-    name: arpanrec.utilities.mattermost_desktop
+    name: arpanrec.nebula.mattermost_desktop
 ```
 
 ## Testing Mattermost Desktop

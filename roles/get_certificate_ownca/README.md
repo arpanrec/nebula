@@ -1,4 +1,4 @@
-# Ansible Role: Get Certificate (arpanrec.utilities.get_certificate_ownca)
+# Ansible Role: Get Certificate (arpanrec.nebula.get_certificate_ownca)
 
 Get Server or Client certificate.
 
@@ -240,7 +240,7 @@ Get Server or Client certificate.
 ```yaml
 - name: Create Certificate
   ansible.builtin.import_role:
-    name: arpanrec.utilities.get_certificate_ownca
+    name: arpanrec.nebula.get_certificate_ownca
   vars:
     get_certificate_ownca_rv_private_key_path: ownca_private_key.pem
     get_certificate_ownca_rv_certificate_path: ownca_certificate_path.pem

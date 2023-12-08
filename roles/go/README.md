@@ -1,4 +1,4 @@
-# Ansible Role: GoLang (arpanrec.utilities.go)
+# Ansible Role: GoLang (arpanrec.nebula.go)
 
 ## Go Language
 
@@ -37,7 +37,7 @@ options:
   become: false
   any_errors_fatal: true
   roles:
-    - name: arpanrec.utilities.go
+    - name: arpanrec.nebula.go
 ```
 
 ## Testing Go Language

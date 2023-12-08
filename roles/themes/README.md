@@ -1,4 +1,4 @@
-# Ansible Role: User Themes (arpanrec.utilities.themes)
+# Ansible Role: User Themes (arpanrec.nebula.themes)
 
 ## Terminal Themes
 

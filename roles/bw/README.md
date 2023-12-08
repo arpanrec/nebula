@@ -1,4 +1,4 @@
-# Ansible Role: Bitwarden CLI (arpanrec.utilities.bw)
+# Ansible Role: Bitwarden CLI (arpanrec.nebula.bw)
 
 ## Bitwarden CLI
 
@@ -45,7 +45,7 @@ Variables:
 ```yaml
 - name: Include Bitwarden CLI
   ansible.builtin.import_role:
-    name: arpanrec.utilities.bw
+    name: arpanrec.nebula.bw
 ```
 
 ### Testing Bitwarden CLI

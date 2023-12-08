@@ -1,4 +1,4 @@
-# Ansible Role: Bitwarden Desktop (arpanrec.utilities.bitwarden_desktop)
+# Ansible Role: Bitwarden Desktop (arpanrec.nebula.bitwarden_desktop)
 
 Install bitwarden AppImage [Bitwarden Desktop](https://github.com/bitwarden/clients)
 
@@ -30,7 +30,7 @@ Install bitwarden AppImage [Bitwarden Desktop](https://github.com/bitwarden/clie
 ```yaml
 - name: Include bitwarden_desktop
   ansible.builtin.import_role:
-    name: arpanrec.utilities.bitwarden_desktop
+    name: arpanrec.nebula.bitwarden_desktop
 ```
 
 ## Testing Bitwarden Desktop

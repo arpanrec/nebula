@@ -5,7 +5,7 @@
   tasks:
     - name: SSHD Hardening | Molecule | Converge | Include arpanrec.ssh_hardening
       ansible.builtin.include_role:
-        name: arpanrec.utilities.ssh_hardening
+        name: arpanrec.nebula.ssh_hardening
       args:
         apply:
           become: true

@@ -1,4 +1,4 @@
-# Ansible Role: KDE (arpanrec.utilities.kde)
+# Ansible Role: KDE (arpanrec.nebula.kde)
 
 Install [konsave](https://github.com/Prayag2/konsave) and upload [sweet-kde](https://github.com/EliverLara/Sweet-kde), [KDE Nordic](https://github.com/EliverLara/Nordic-kde)
 
@@ -11,7 +11,7 @@ Install [konsave](https://github.com/Prayag2/konsave) and upload [sweet-kde](htt
 ```yaml
 - name: Include KDE
   ansible.builtin.import_role:
-    name: arpanrec.utilities.kde
+    name: arpanrec.nebula.kde
 ```
 
 ## Testing KDE Konsave Profiles

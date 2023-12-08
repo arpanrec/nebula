@@ -1,4 +1,4 @@
-# Ansible Role: Postman (arpanrec.utilities.postman)
+# Ansible Role: Postman (arpanrec.nebula.postman)
 
 Install [postman](https://www.postman.com/)
 
@@ -29,7 +29,7 @@ Install [postman](https://www.postman.com/)
 ```yaml
 - name: Include postman
   ansible.builtin.import_role:
-    name: arpanrec.utilities.postman
+    name: arpanrec.nebula.postman
 ```
 
 ### Testing postman

@@ -5,4 +5,4 @@
   tasks:
     - name: Gnome | Molecule | Converge | Include Gnome
       ansible.builtin.import_role:
-        name: arpanrec.utilities.gnome
+        name: arpanrec.nebula.gnome

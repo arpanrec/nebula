@@ -7,4 +7,4 @@
   tasks:
     - name: Oracle JDK | Molecule | Converge | Role
       ansible.builtin.import_role:
-        name: arpanrec.utilities.java
+        name: arpanrec.nebula.java

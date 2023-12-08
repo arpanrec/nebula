@@ -1,4 +1,4 @@
-# Ansible Role: Vault (arpanrec.utilities.vault)
+# Ansible Role: Vault (arpanrec.nebula.vault)
 
 ## Hashicorp Vault
 
@@ -33,7 +33,7 @@ Install Hashicorp Vault in user space
 ```yaml
 - name: Include Vault
   ansible.builtin.import_role:
-    name: arpanrec.utilities.vault
+    name: arpanrec.nebula.vault
 ```
 
 ### Testing Vault

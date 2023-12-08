@@ -1,4 +1,4 @@
-# Ansible Role: dotfiles (arpanrec.utilities.dotfiles)
+# Ansible Role: dotfiles (arpanrec.nebula.dotfiles)
 
 Track your dotfiles from [GitHub](https://github.com/arpanrec/dotfiles). You can track these files with below command. (Follow the git commands for reference)
 
@@ -45,5 +45,5 @@ options:
   become: false
   any_errors_fatal: true
   roles:
-    - name: arpanrec.utilities.dotfiles
+    - name: arpanrec.nebula.dotfiles
 ```
