@@ -44,6 +44,6 @@
 
     - name: Visual Studio Code | Molecule | Verify | Fail if code version is not present
       ansible.builtin.assert:
-        that: code_rv_tmp_version_shell_result.stdout_lines[0] is match("{{ code_rv_version }}.*")
+        that: code_rv_tmp_version_shell_result.stdout_lines[0] is match(code_rv_version + ".*")
         success_msg: Visual Studio Code {{ code_rv_version }} is installed
         fail_msg: Visual Studio Code {{ code_rv_version }} is not installed, Shell result {{ code_rv_tmp_version_shell_result.stdout }}
