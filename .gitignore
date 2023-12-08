@@ -160,3 +160,4 @@ cython_debug/
 .idea/
 arpanrec-nebula-*.tar.gz
 .vscode/*
+roles/geerlingguy.docker/*
