@@ -1,6 +1,6 @@
-ansible-core>=2.16.0
+ansible-core>=2.16.1
 ansible-lint>=6.22.1
-ansible>=9.0.1
+ansible>=9.1.0
 bcrypt>=4.0.1
 black>=23.11.0
 cryptography>=41.0.7
@@ -10,7 +10,6 @@ hvac>=2.0.0
 jmespath>=1.0.1
 minio>=7.1.17
 molecule-plugins>=23.5.0
-molecule-plugins[docker]>=23.5.0
 molecule>=6.0.2
 passlib>=1.7.4
 psycopg2-binary>=2.9.9
@@ -23,4 +22,3 @@ python-gitlab>=4.2.0
 python-gnupg>=0.5.1
 requests>=2.31.0
 urllib3>=2.1.0
-git+https://github.com/arpanrec/psychicoctowinner.git

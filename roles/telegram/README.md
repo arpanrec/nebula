@@ -1,4 +1,4 @@
-# Ansible Role: Telegram (arpanrec.utilities.telegram)
+# Ansible Role: Telegram (arpanrec.nebula.telegram)
 
 Install [Telegram Desktop](https://desktop.telegram.org/)
 
@@ -45,7 +45,7 @@ Install [Telegram Desktop](https://desktop.telegram.org/)
 ```yaml
 - name: Include Telegram Desktop
   ansible.builtin.import_role:
-    name: arpanrec.utilities.telegram
+    name: arpanrec.nebula.telegram
 ```
 
 ## Testing Telegram Desktop

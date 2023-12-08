@@ -6,7 +6,7 @@ It uses the HashiCorp Terraform Cloud API to interact with the Terraform Cloud s
 The module is capable of creating a new workspace if it does not exist, or updating an existing workspace with new attributes.
 The updated or newly created workspace is not returned by the module, but is instead stored within the Terraform Cloud system.
 
-This module is part of the arpanrec.utilities collection.
+This module is part of the arpanrec.nebula collection.
 
 Author:
     Arpan Mandal (arpan.rec@gmail.com)
@@ -17,7 +17,7 @@ Author:
 from __future__ import absolute_import, division, print_function
 
 from ansible.module_utils.basic import AnsibleModule
-from psychicoctowinner.hashicorp_tfe_core import crud
+from ansible.module_utils.basic.hashicorp_tfe_core import crud
 
 # pylint: disable=C0103
 __metaclass__ = type
@@ -25,7 +25,7 @@ __metaclass__ = type
 
 DOCUMENTATION = r"""
 ---
-module: arpanrec.utilities.terraform_cloud_workspace
+module: arpanrec.nebula.terraform_cloud_workspace
 
 short_description: Create Update terraform cloud workspace
 
@@ -70,7 +70,7 @@ author:
 
 EXAMPLES = r"""
 - name: Prepare Terraform cloud
-  arpanrec.utilities.terraform_cloud_workspace:
+  arpanrec.nebula.terraform_cloud_workspace:
     token: "xxxxxxxxxxxxx"
     organization: testorg
     organization_attributes:

@@ -69,7 +69,7 @@
         get_certificate_ownca_rv_getcert_to_be_created: "{{ (cerfromchain | trim) != (existingcert | trim) }}"
         get_certificate_ownca_rv_getcert_to_be_created_reason: "Leaf for cert chain and existing cert doesn't match"
       vars:
-        cerfromchain: "{{ (get_certificate_ownca_rv_getcert_tmp_certificate_chain_slurp.content | b64decode | arpanrec.utilities.split_certificates)[0] }}"
+        cerfromchain: "{{ (get_certificate_ownca_rv_getcert_tmp_certificate_chain_slurp.content | b64decode | arpanrec.nebula.split_certificates)[0] }}"
         existingcert: "{{ get_certificate_ownca_rv_getcert_certificate_content }}"
 
     - name: Get Certificate Ownca | Set Values | Certificate Chain | Set get_certificate_ownca_rv_getcert_certificate_content
@@ -78,4 +78,4 @@
         and
         ( not get_certificate_ownca_rv_getcert_to_be_created )
       ansible.builtin.set_fact:
-        get_certificate_ownca_rv_getcert_certificate_content: "{{ (get_certificate_ownca_rv_getcert_tmp_certificate_chain_slurp.content | b64decode | arpanrec.utilities.split_certificates)[0] }}"
+        get_certificate_ownca_rv_getcert_certificate_content: "{{ (get_certificate_ownca_rv_getcert_tmp_certificate_chain_slurp.content | b64decode | arpanrec.nebula.split_certificates)[0] }}"

@@ -7,4 +7,4 @@
   tasks:
     - name: Get Certificate Ownca | Molecule | Converge | Role
       ansible.builtin.import_role:
-        name: arpanrec.utilities.get_certificate_ownca
+        name: arpanrec.nebula.get_certificate_ownca

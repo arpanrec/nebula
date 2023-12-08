@@ -1,4 +1,4 @@
-# Ansible Role: Terraform (arpanrec.utilities.terraform)
+# Ansible Role: Terraform (arpanrec.nebula.terraform)
 
 ## Terraform
 
@@ -33,7 +33,7 @@ Install Terraform in user space
 ```yaml
 - name: Include Terraform
   ansible.builtin.import_role:
-    name: arpanrec.utilities.terraform
+    name: arpanrec.nebula.terraform
 ```
 
 ### Testing Terraform

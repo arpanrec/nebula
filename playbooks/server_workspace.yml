@@ -6,7 +6,7 @@
   tasks:
     - name: USERAPPS | Dotfiles
       ansible.builtin.include_role:
-        name: arpanrec.utilities.dotfiles
+        name: arpanrec.nebula.dotfiles
       args:
         apply:
           tags:
@@ -16,7 +16,7 @@
 
     - name: USERAPPS | Install Bitwarden
       ansible.builtin.include_role:
-        name: arpanrec.utilities.bitwarden_desktop
+        name: arpanrec.nebula.bitwarden_desktop
       args:
         apply:
           tags:
@@ -28,7 +28,7 @@
 
     - name: USERAPPS | Bitwarden CLI
       ansible.builtin.include_role:
-        name: arpanrec.utilities.bw
+        name: arpanrec.nebula.bw
       args:
         apply:
           tags:
@@ -38,7 +38,7 @@
 
     - name: USERAPPS | Mattermost
       ansible.builtin.include_role:
-        name: arpanrec.utilities.mattermost_desktop
+        name: arpanrec.nebula.mattermost_desktop
       args:
         apply:
           tags:
@@ -50,7 +50,7 @@
 
     - name: USERAPPS | Telegram
       ansible.builtin.include_role:
-        name: arpanrec.utilities.telegram
+        name: arpanrec.nebula.telegram
       args:
         apply:
           tags:
@@ -62,7 +62,7 @@
 
     - name: USERAPPS | NodeJS
       ansible.builtin.include_role:
-        name: arpanrec.utilities.nodejs
+        name: arpanrec.nebula.nodejs
       tags:
         - nodejs
       args:
@@ -72,7 +72,7 @@
 
     - name: USERAPPS | Postman
       ansible.builtin.include_role:
-        name: arpanrec.utilities.postman
+        name: arpanrec.nebula.postman
       tags:
         - postman
         - never
@@ -84,7 +84,7 @@
 
     - name: USERAPPS | Go Language
       ansible.builtin.include_role:
-        name: arpanrec.utilities.go
+        name: arpanrec.nebula.go
       tags:
         - go
       args:
@@ -94,7 +94,7 @@
 
     - name: USERAPPS | Oracle Java
       ansible.builtin.include_role:
-        name: arpanrec.utilities.java
+        name: arpanrec.nebula.java
       tags:
         - java
       args:
@@ -104,7 +104,7 @@
 
     - name: USERAPPS | Visual Studio Code
       ansible.builtin.include_role:
-        name: arpanrec.utilities.code
+        name: arpanrec.nebula.code
       tags:
         - code
         - never
@@ -116,7 +116,7 @@
 
     - name: USERAPPS | Themes
       ansible.builtin.include_role:
-        name: arpanrec.utilities.themes
+        name: arpanrec.nebula.themes
       tags:
         - themes
       args:
@@ -126,7 +126,7 @@
 
     - name: USERAPPS | KDE
       ansible.builtin.include_role:
-        name: arpanrec.utilities.kde
+        name: arpanrec.nebula.kde
       tags:
         - kde
       args:
@@ -136,7 +136,7 @@
 
     - name: USERAPPS | Gnome Setup
       ansible.builtin.include_role:
-        name: arpanrec.utilities.gnome
+        name: arpanrec.nebula.gnome
       tags:
         - gnome
         - never
@@ -148,7 +148,7 @@
 
     - name: USERAPPS | Terraform
       ansible.builtin.include_role:
-        name: arpanrec.utilities.terraform
+        name: arpanrec.nebula.terraform
       tags:
         - terraform
       args:
@@ -158,7 +158,7 @@
 
     - name: USERAPPS | Hashicorp Vault
       ansible.builtin.include_role:
-        name: arpanrec.utilities.vault
+        name: arpanrec.nebula.vault
       tags:
         - vault
       args:

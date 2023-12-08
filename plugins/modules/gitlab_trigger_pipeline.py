@@ -5,7 +5,7 @@ It uses the GitLab API to trigger a pipeline for a specific project. The module 
 and access token as input.
 It also allows for the specification of a branch or tag for which to trigger the pipeline, as well as any variables to include in the pipeline.
 
-This module is part of the arpanrec.utilities collection.
+This module is part of the arpanrec.nebula collection.
 
 Author:
     Arpan Mandal (arpan.rec@gmail.com)

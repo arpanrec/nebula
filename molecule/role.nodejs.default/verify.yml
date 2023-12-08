@@ -5,7 +5,7 @@
   tasks:
     - name: NodeJS | Molecule | Verify | Import Roles for variables
       ansible.builtin.import_role:
-        name: arpanrec.utilities.nodejs
+        name: arpanrec.nebula.nodejs
         tasks_from: prerequisites
 
     - name: NodeJS | Molecule | Verify | Get node version from shell

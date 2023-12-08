@@ -1,4 +1,4 @@
-# Ansible Role Linux Patching (arpanrec.utilities.linux_patching)
+# Ansible Role Linux Patching (arpanrec.nebula.linux_patching)
 
 Install all latest packages in Debian based systems. also Install basic utility tools for server.
 Set timezone, locale, and loopback ip in server
@@ -63,7 +63,7 @@ Set timezone, locale, and loopback ip in server
   become_method: su
   any_errors_fatal: true
   ansible.builtin.import_role:
-    name: arpanrec.utilities.linux_patching
+    name: arpanrec.nebula.linux_patching
 ```
 
 ## Testing

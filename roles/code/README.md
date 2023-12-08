@@ -1,4 +1,4 @@
-# Ansible Role: Microsoft Visual Studio Code (arpanrec.utilities.code)
+# Ansible Role: Microsoft Visual Studio Code (arpanrec.nebula.code)
 
 Install vscode, and extensions Also creates a soft link to the `code` executable in `{{ code_rv_bin_dir }}`
 
@@ -101,7 +101,7 @@ options:
   become: false
   any_errors_fatal: true
   roles:
-    - name: arpanrec.utilities.code
+    - name: arpanrec.nebula.code
 ```
 
 ## Testing Visual Studio Code

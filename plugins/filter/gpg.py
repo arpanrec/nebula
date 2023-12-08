@@ -7,7 +7,7 @@ mode of operation, data to be encrypted or decrypted, and a flag indicating whet
 
 The module also includes a `FilterModule` class that makes the `gpg` function available as a filter in Ansible playbooks.
 
-This module is part of the arpanrec.utilities collection.
+This module is part of the arpanrec.nebula collection.
 
 Author:
     Arpan Mandal (arpan.rec@gmail.com)

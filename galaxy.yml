@@ -6,7 +6,7 @@ readme: README.md
 authors:
   - "Arpan Mandal <arpan.rec@gmail.com>"
 description: common ansible resources
-repository: https://github.com/arpanrec/ansible_collection_utilities.git
+repository: https://github.com/arpanrec/Nebula.git
 license_file: COPYING
 # dependencies:
 #   "https://github.com/ansible-collections/community.general.git": "6.0.1"

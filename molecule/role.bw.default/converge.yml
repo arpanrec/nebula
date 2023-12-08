@@ -5,4 +5,4 @@
   tasks:
     - name: Bitwarden CLI | Molecule | Converge | Include Bitwarden CLI
       ansible.builtin.import_role:
-        name: arpanrec.utilities.bw
+        name: arpanrec.nebula.bw

@@ -1,4 +1,4 @@
-# Ansible Role: NodeJS (arpanrec.utilities.nodejs)
+# Ansible Role: NodeJS (arpanrec.nebula.nodejs)
 
 ## NodeJS
 
@@ -31,7 +31,7 @@ Install NodeJS in user space
 ```yaml
 - name: Include NodeJS
   ansible.builtin.import_role:
-    name: arpanrec.utilities.nodejs
+    name: arpanrec.nebula.nodejs
 ```
 
 ### Testing NodeJS

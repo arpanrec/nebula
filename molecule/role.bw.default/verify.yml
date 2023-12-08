@@ -6,7 +6,7 @@
   tasks:
     - name: Bitwarden CLI | Molecule | Verify | Import Roles for variables
       ansible.builtin.import_role:
-        name: arpanrec.utilities.bw
+        name: arpanrec.nebula.bw
         tasks_from: prerequisites
 
     - name: Bitwarden CLI | Molecule | Verify | Get bw version from shell

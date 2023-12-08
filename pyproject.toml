@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "nebula"
+version = "0.1.0"
+description = "common ansible resources"
+authors = ["arpanrec <me@arpanrec.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+ansible = "^9.1.0"
+bcrypt = "^4.1.1"
+cryptography = "^41.0.7"
+hvac = "^2.0.0"
+requests = "^2.31.0"
+python-gnupg = "^0.5.1"
+python-gitlab = "^4.2.0"
+python-dotenv = "^1.0.0"
+pynacl = "^1.5.0"
+pygithub = "^2.1.1"
+psycopg2-binary = "^2.9.9"
+passlib = "^1.7.4"
+jmespath = "^1.0.1"
+docker = "^6.1.3"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.11.0"
+pylint = "^3.0.2"
+flake8 = "^6.1.0"
+autopep8 = "^2.0.4"
+molecule-plugins = "^23.5.0"
+molecule = "^6.0.2"
+ansible-lint = { version = "^6.22.1", markers = "platform_system != 'Windows'" }
+
+
+[tool.poetry.group.optional.dependencies]
+minio = "^7.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

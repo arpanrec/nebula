@@ -7,4 +7,4 @@
   tasks:
     - name: NodeJS | Molecule | Converge | Include NodeJS role
       ansible.builtin.import_role:
-        name: arpanrec.utilities.nodejs
+        name: arpanrec.nebula.nodejs

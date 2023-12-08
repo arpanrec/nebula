@@ -7,7 +7,7 @@ which are used to generate a new root token. The new token is not returned by th
 The module also provides options for specifying the Vault address, client certificate and key, and CA path.
 Additionally, it allows for the cancellation of the root generation process and the calculation of a new root.
 
-This module is part of the arpanrec.utilities collection.
+This module is part of the arpanrec.nebula collection.
 
 Author:
     Arpan Mandal (arpan.rec@gmail.com)
@@ -27,7 +27,7 @@ __metaclass__ = type
 
 DOCUMENTATION = r"""
 ---
-module: arpanrec.utilities.vault_sys_generate_root
+module: arpanrec.nebula.vault_sys_generate_root
 
 short_description: Generate Root Token
 
@@ -74,7 +74,7 @@ author:
 EXAMPLES = r"""
 # Pass in a message
 - name: recreate root token
-  arpanrec.utilities.vault_sys_generate_root:
+  arpanrec.nebula.vault_sys_generate_root:
     unseal_keys:
       [
         "xxxxx",

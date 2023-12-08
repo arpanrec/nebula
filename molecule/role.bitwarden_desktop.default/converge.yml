@@ -5,4 +5,4 @@
   tasks:
     - name: Bitwarden Desktop | Molecule | Converge | Include Bitwarden Desktop
       ansible.builtin.import_role:
-        name: arpanrec.utilities.bitwarden_desktop
+        name: arpanrec.nebula.bitwarden_desktop

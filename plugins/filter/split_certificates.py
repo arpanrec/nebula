@@ -6,7 +6,7 @@ Each certificate in the list is a string that begins with "-----BEGIN CERTIFICAT
 
 The module also includes a `FilterModule` class that makes the `split_certificates` function available as a filter in Ansible playbooks.
 
-This module is part of the arpanrec.utilities collection.
+This module is part of the arpanrec.nebula collection.
 
 Author:
     Arpan Mandal (arpan.rec@gmail.com)

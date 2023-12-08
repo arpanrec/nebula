@@ -5,7 +5,7 @@
   tasks:
     - name: Oracle JDK | Molecule | Verify | Import Roles for variables
       ansible.builtin.import_role:
-        name: arpanrec.utilities.java
+        name: arpanrec.nebula.java
         tasks_from: prerequisites
 
     - name: Oracle JDK | Molecule | Verify | Get javac version from shell

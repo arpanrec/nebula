@@ -4,7 +4,7 @@
 
 - name: Bitwarden CLI | Install NodeJS
   ansible.builtin.import_role:
-    name: arpanrec.utilities.nodejs
+    name: arpanrec.nebula.nodejs
 
 - name: Bitwarden CLI | Install from npm
   community.general.npm:

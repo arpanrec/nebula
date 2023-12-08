@@ -1,4 +1,4 @@
-# Ansible Role: Gnome Desktop (arpanrec.utilities.gnome)
+# Ansible Role: Gnome Desktop (arpanrec.nebula.gnome)
 
 Install Gnome Extensions and setup
 
@@ -43,7 +43,7 @@ Install Gnome Extensions and setup
 ```yaml
 - name: Include Gnome
   ansible.builtin.import_role:
-    name: arpanrec.utilities.gnome
+    name: arpanrec.nebula.gnome
 ```
 
 ## Testing Gnome

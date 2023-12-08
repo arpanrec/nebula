@@ -1,4 +1,4 @@
-# Ansible Role User Add (arpanrec.utilities.user_add)
+# Ansible Role User Add (arpanrec.nebula.user_add)
 
 Create a user and add it to sudoers.d
 
@@ -72,7 +72,7 @@ Create a user and add it to sudoers.d
 ```yaml
 - name: Add application user
   import_role:
-    name: arpanrec.utilities.user_add
+    name: arpanrec.nebula.user_add
   vars:
     user_add_rv_username: "arpan"
     user_add_rv_ssh_access_public_key_content_list: ["ssh-rsa yc2E"]

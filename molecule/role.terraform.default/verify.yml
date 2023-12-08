@@ -5,7 +5,7 @@
   tasks:
     - name: Terraform | Molecule | Verify | Import Roles for variables
       ansible.builtin.import_role:
-        name: arpanrec.utilities.terraform
+        name: arpanrec.nebula.terraform
         tasks_from: prerequisites
 
     - name: Terraform | Molecule | Get Release
